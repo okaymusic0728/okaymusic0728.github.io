@@ -10,45 +10,68 @@ body {
   color: white;
   font-family: sans-serif;
   text-align: center;
-  padding: 40px;
+  padding: 30px;
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 42px;
+  margin-bottom: 10px;
 }
 
-.album {
-  background: #222;
-  padding: 20px;
-  border-radius: 15px;
-  margin: 30px auto;
+.subtitle {
+  color: #ccc;
+  margin-bottom: 40px;
+}
+
+.menu {
   max-width: 400px;
+  margin: auto;
 }
 
-button {
-  font-size: 18px;
-  padding: 10px 20px;
+.menu a {
+  display: block;
+  background: #222;
+  color: white;
+  text-decoration: none;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 15px;
+  font-size: 22px;
+}
+
+.menu a:hover {
+  background: #444;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <h1>My Music 🎵</h1>
 
-<p>
-僕だけの音楽ライブラリー<br>
-ChatGPTと一緒に作成中
-</p>
+<div class="subtitle">
+僕らの音たち
+</div>
 
-<div class="album">
+<div class="menu">
 
-<h2>Album 01</h2>
+<a href="artist.html">
+🎤 アーティスト
+</a>
 
-<p>オリジナル音源</p>
+<a href="album.html">
+💿 アルバム
+</a>
 
-<button>▶ 再生</button>
+<a href="playlist.html">
+🎧 プレイリスト
+</a>
+
+<a href="other.html">
+📁 その他
+</a>
 
 </div>
 
