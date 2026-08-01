@@ -13,7 +13,8 @@
 
 body {
 
-  background-image: linear-gradient(
+  background-image:
+  linear-gradient(
     rgba(0,0,0,0.55),
     rgba(0,0,0,0.55)
   ),
@@ -33,11 +34,8 @@ body {
 }
 
 
-
 h1 {
-
   font-size: 40px;
-
 }
 
 
@@ -45,7 +43,6 @@ h1 {
 .message {
 
   font-size: 18px;
-
   margin-bottom: 30px;
 
 }
@@ -123,12 +120,11 @@ h1 {
 }
 
 
-
 .result a {
 
-  color: white;
+  color:white;
 
-  text-decoration: none;
+  text-decoration:none;
 
 }
 
@@ -137,7 +133,6 @@ h1 {
 </style>
 
 </head>
-
 
 
 <body>
@@ -153,7 +148,6 @@ h1 {
 <p class="message">
 
 仲間と楽しむ<br>
-
 僕らの音楽コレクション
 
 </p>
@@ -163,10 +157,10 @@ h1 {
 
 <div class="search-box">
 
-<input 
+<input
 type="text"
 id="search"
-placeholder="曲名・アルバム名・アーティスト名で検索"
+placeholder="アーティスト・アルバム・曲名で検索"
 onkeyup="searchMusic()">
 
 </div>
@@ -178,14 +172,11 @@ onkeyup="searchMusic()">
 
 
 
-
 <div class="card">
-
 
 <h2>
 🎤 アーティスト
 </h2>
-
 
 <a href="superbeaver.html">
 
@@ -193,9 +184,7 @@ SUPER BEAVER
 
 </a>
 
-
 </div>
-
 
 
 
@@ -203,22 +192,51 @@ SUPER BEAVER
 
 <div class="card">
 
-
 <h2>
 💿 アルバム
 </h2>
 
-
 <a href="kouhukukidou.html">
 
 幸福軌道<br>
-
 【初回生産限定盤】
 
 </a>
 
+</div>
+
+
+
+
+
+<div class="card">
+
+<h2>
+📀 DVD・映像
+</h2>
+
+<p>
+準備中
+</p>
 
 </div>
+
+
+
+
+
+<div class="card">
+
+<h2>
+⭐ お気に入り
+</h2>
+
+<p>
+準備中
+</p>
+
+</div>
+
 
 
 
@@ -230,12 +248,15 @@ SUPER BEAVER
 
 const musicData = [
 
+
 {
+
 keyword:[
+
 "super beaver",
 "superbeaver",
+
 "幸福軌道",
-"こうふくきどう",
 "初回生産限定盤",
 
 "幸福軌道",
@@ -252,20 +273,28 @@ keyword:[
 "風",
 "アカネボシ",
 "secret track"
+
 ],
+
 
 title:
 "💿 幸福軌道【初回生産限定盤】",
 
+
 artist:
 "🎤 SUPER BEAVER",
+
 
 link:
 "kouhukukidou.html"
 
+
 }
 
+
 ];
+
+
 
 
 
@@ -299,7 +328,7 @@ return;
 
 
 
-let found = false;
+let found=false;
 
 
 
@@ -324,11 +353,8 @@ result.innerHTML +=
 
 `
 <a href="${item.link}">
-
 ${item.title}<br>
-
 ${item.artist}
-
 </a>
 `;
 
@@ -340,23 +366,21 @@ found=true;
 }
 
 
-
 });
 
 
 
 if(!found){
 
-
 result.innerHTML="見つかりませんでした";
 
 result.style.display="block";
 
-
 }
 
 
 }
+
 
 
 </script>
