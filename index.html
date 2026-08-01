@@ -34,6 +34,7 @@ body {
 }
 
 
+
 h1 {
   font-size: 40px;
 }
@@ -43,6 +44,7 @@ h1 {
 .message {
 
   font-size: 18px;
+
   margin-bottom: 30px;
 
 }
@@ -75,7 +77,7 @@ h1 {
 
 
 
-.card {
+.menu {
 
   background: rgba(20,20,20,0.85);
 
@@ -91,7 +93,7 @@ h1 {
 
 
 
-.card a {
+.menu a {
 
   color: white;
 
@@ -103,9 +105,17 @@ h1 {
 
 
 
+.menu a:hover {
+
+  opacity: 0.7;
+
+}
+
+
+
 .result {
 
-  background: rgba(50,50,50,0.9);
+  background: rgba(40,40,40,0.9);
 
   padding: 15px;
 
@@ -120,6 +130,7 @@ h1 {
 }
 
 
+
 .result a {
 
   color:white;
@@ -129,10 +140,10 @@ h1 {
 }
 
 
-
 </style>
 
 </head>
+
 
 
 <body>
@@ -148,9 +159,11 @@ h1 {
 <p class="message">
 
 仲間と楽しむ<br>
+
 僕らの音楽コレクション
 
 </p>
+
 
 
 
@@ -159,9 +172,9 @@ h1 {
 
 <input
 type="text"
-id="search"
 placeholder="アーティスト・アルバム・曲名で検索"
-onkeyup="searchMusic()">
+onkeyup="searchMusic()"
+id="search">
 
 </div>
 
@@ -172,15 +185,14 @@ onkeyup="searchMusic()">
 
 
 
-<div class="card">
 
-<h2>
+
+
+<div class="menu">
+
+<a href="artist.html">
+
 🎤 アーティスト
-</h2>
-
-<a href="superbeaver.html">
-
-SUPER BEAVER
 
 </a>
 
@@ -190,16 +202,12 @@ SUPER BEAVER
 
 
 
-<div class="card">
 
-<h2>
+<div class="menu">
+
+<a href="album.html">
+
 💿 アルバム
-</h2>
-
-<a href="kouhukukidou.html">
-
-幸福軌道<br>
-【初回生産限定盤】
 
 </a>
 
@@ -209,15 +217,14 @@ SUPER BEAVER
 
 
 
-<div class="card">
 
-<h2>
+<div class="menu">
+
+<a href="dvd.html">
+
 📀 DVD・映像
-</h2>
 
-<p>
-準備中
-</p>
+</a>
 
 </div>
 
@@ -225,15 +232,14 @@ SUPER BEAVER
 
 
 
-<div class="card">
 
-<h2>
+<div class="menu">
+
+<a href="favorite.html">
+
 ⭐ お気に入り
-</h2>
 
-<p>
-準備中
-</p>
+</a>
 
 </div>
 
@@ -248,7 +254,6 @@ SUPER BEAVER
 
 const musicData = [
 
-
 {
 
 keyword:[
@@ -257,43 +262,50 @@ keyword:[
 "superbeaver",
 
 "幸福軌道",
+
 "初回生産限定盤",
 
-"幸福軌道",
 "シアワセ",
+
 "二つの旅路",
+
 "地球軸",
+
 "電波",
+
 "未だ見ぬ明日へ",
+
 "ドクターペッパー",
+
 "種の話",
+
 "深呼吸",
+
 "さよならも、ありがとう",
+
 "日常サイクル",
+
 "風",
+
 "アカネボシ",
+
 "secret track"
 
 ],
 
 
 title:
-"💿 幸福軌道【初回生産限定盤】",
-
+"幸福軌道【初回生産限定盤】",
 
 artist:
-"🎤 SUPER BEAVER",
-
+"SUPER BEAVER",
 
 link:
 "kouhukukidou.html"
 
-
 }
 
-
 ];
-
 
 
 
@@ -303,7 +315,8 @@ function searchMusic(){
 
 
 let input =
-document.getElementById("search")
+document
+.getElementById("search")
 .value
 .toLowerCase();
 
@@ -314,11 +327,11 @@ document.getElementById("result");
 
 
 
-result.innerHTML = "";
+result.innerHTML="";
 
 
 
-if(input === ""){
+if(input===""){
 
 result.style.display="none";
 
@@ -338,9 +351,11 @@ musicData.forEach(function(item){
 let hit =
 item.keyword.some(function(word){
 
+
 return word
 .toLowerCase()
 .includes(input);
+
 
 });
 
@@ -352,10 +367,15 @@ if(hit){
 result.innerHTML +=
 
 `
+
 <a href="${item.link}">
-${item.title}<br>
-${item.artist}
+
+💿 ${item.title}<br>
+
+🎤 ${item.artist}
+
 </a>
+
 `;
 
 result.style.display="block";
@@ -372,9 +392,11 @@ found=true;
 
 if(!found){
 
+
 result.innerHTML="見つかりませんでした";
 
 result.style.display="block";
+
 
 }
 
