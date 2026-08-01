@@ -2,6 +2,7 @@
 <html lang="ja">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -45,11 +46,23 @@ h1 {
   text-align: left;
 }
 
-.home {
+.info {
+  background-color: #333;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.nav {
+  margin-bottom: 20px;
+}
+
+.nav a {
   color: white;
   text-decoration: none;
   display: inline-block;
-  margin-bottom: 20px;
+  margin: 5px 10px;
 }
 
 .artist {
@@ -64,7 +77,15 @@ h1 {
 
 <body>
 
-<a class="home" href="index.html">🏠 ホーム</a>
+
+<div class="nav">
+
+<a href="index.html">🏠 ホーム</a>
+
+<a href="javascript:history.back()">⬅ 戻る</a>
+
+</div>
+
 
 
 <h2 class="artist">🎤 SUPER BEAVER</h2>
@@ -76,13 +97,32 @@ h1 {
 </h1>
 
 
+
 <div class="album">
 
 
 <img class="album-jacket" src="superbeaver幸福軌道.jpg">
 
 
-<p>アルバム詳細</p>
+
+<div class="info">
+
+<h3>📀 アルバム情報</h3>
+
+<p>
+発売日：2009年11月25日
+</p>
+
+<p>
+形態：初回生産限定盤
+</p>
+
+<p>
+収録：CD + DVD
+</p>
+
+</div>
+
 
 
 <h2>💿 DISC 1（CD）</h2>
