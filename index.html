@@ -14,8 +14,8 @@
 body {
 
   background-image: linear-gradient(
-    rgba(0,0,0,0.6),
-    rgba(0,0,0,0.6)
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
   ),
   url("background.jpg");
 
@@ -28,7 +28,6 @@ body {
   text-align: center;
 
   padding: 30px;
-
   min-height: 100vh;
 
 }
@@ -53,22 +52,27 @@ h1 {
 
 
 
-.nav {
+.search-box {
 
-  margin-bottom: 20px;
+  margin: 30px auto;
 
 }
 
 
 
-.nav a {
+.search-box input {
 
-  color: white;
-  text-decoration: none;
+  width: 80%;
 
-  display: inline-block;
+  max-width: 350px;
 
-  margin: 5px 10px;
+  padding: 12px;
+
+  border-radius: 10px;
+
+  border: none;
+
+  font-size: 16px;
 
 }
 
@@ -102,8 +106,35 @@ h1 {
 
 
 
-</style>
+.result {
 
+  background: rgba(50,50,50,0.9);
+
+  padding: 15px;
+
+  margin: 10px auto;
+
+  border-radius: 10px;
+
+  max-width: 400px;
+
+  display: none;
+
+}
+
+
+
+.result a {
+
+  color: white;
+
+  text-decoration: none;
+
+}
+
+
+
+</style>
 
 </head>
 
@@ -113,21 +144,9 @@ h1 {
 
 
 
-<div class="nav">
-
-<a href="index.html">🏠 ホーム</a>
-
-<a href="javascript:history.back()">⬅ 戻る</a>
-
-</div>
-
-
-
-
 <h1>
 🎵 Okay Music
 </h1>
-
 
 
 
@@ -138,6 +157,23 @@ h1 {
 僕らの音楽コレクション
 
 </p>
+
+
+
+
+<div class="search-box">
+
+<input 
+type="text"
+id="search"
+placeholder="曲名・アルバム名・アーティスト名で検索"
+onkeyup="searchMusic()">
+
+</div>
+
+
+
+<div id="result" class="result"></div>
 
 
 
@@ -173,9 +209,13 @@ SUPER BEAVER
 </h2>
 
 
-<p>
-準備中
-</p>
+<a href="kouhukukidou.html">
+
+幸福軌道<br>
+
+【初回生産限定盤】
+
+</a>
 
 
 </div>
@@ -185,22 +225,141 @@ SUPER BEAVER
 
 
 
-<div class="card">
+<script>
 
 
-<h2>
-⭐ お気に入り
-</h2>
+const musicData = [
+
+{
+keyword:[
+"super beaver",
+"superbeaver",
+"幸福軌道",
+"こうふくきどう",
+"初回生産限定盤",
+
+"幸福軌道",
+"シアワセ",
+"二つの旅路",
+"地球軸",
+"電波",
+"未だ見ぬ明日へ",
+"ドクターペッパー",
+"種の話",
+"深呼吸",
+"さよならも、ありがとう",
+"日常サイクル",
+"風",
+"アカネボシ",
+"secret track"
+],
+
+title:
+"💿 幸福軌道【初回生産限定盤】",
+
+artist:
+"🎤 SUPER BEAVER",
+
+link:
+"kouhukukidou.html"
+
+}
+
+];
 
 
-<p>
-準備中
-</p>
 
 
-</div>
+function searchMusic(){
 
 
+let input =
+document.getElementById("search")
+.value
+.toLowerCase();
+
+
+
+let result =
+document.getElementById("result");
+
+
+
+result.innerHTML = "";
+
+
+
+if(input === ""){
+
+result.style.display="none";
+
+return;
+
+}
+
+
+
+let found = false;
+
+
+
+musicData.forEach(function(item){
+
+
+let hit =
+item.keyword.some(function(word){
+
+return word
+.toLowerCase()
+.includes(input);
+
+});
+
+
+
+if(hit){
+
+
+result.innerHTML +=
+
+`
+<a href="${item.link}">
+
+${item.title}<br>
+
+${item.artist}
+
+</a>
+`;
+
+result.style.display="block";
+
+found=true;
+
+
+}
+
+
+
+});
+
+
+
+if(!found){
+
+
+result.innerHTML="見つかりませんでした";
+
+result.style.display="block";
+
+
+}
+
+
+}
+
+
+</script>
 
 
 
