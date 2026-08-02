@@ -119,3 +119,44 @@
   transform: scale(0.95);
 
 }
+/* Now Playing表示 */
+
+#now-title {
+
+  font-size: 20px;
+
+  font-weight: bold;
+
+  margin: 15px 0;
+
+  color: white;
+
+}
+
+
+/* コントロール部分 */
+
+.controls {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 15px;
+
+}
+
+
+/* 真ん中の再生ボタンを少し大きく */
+
+.controls button:nth-child(2) {
+
+  width: 65px;
+
+  height: 65px;
+
+  font-size: 28px;
+
+}
