@@ -62,12 +62,12 @@
 }
 .playing {
 
-  background-color: #1db954;
+  background-color: #8B0000;
 
   color: white;
 
   font-weight: bold;
 
-  box-shadow: 0 0 15px rgba(29,185,84,0.6);
+  box-shadow: 0 0 15px rgba(139,0,0,0.8);
 
 }
