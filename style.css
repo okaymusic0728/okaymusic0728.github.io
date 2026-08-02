@@ -1,1 +1,38 @@
+/* Okay MUSIC プレイヤー */
 
+#player {
+
+  width: 90%;
+
+  max-width: 400px;
+
+  margin-top: 20px;
+
+}
+
+
+/* 曲選択ボタン */
+
+.song {
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+}
+
+
+.song:hover {
+
+  background-color: #555;
+
+  transform: scale(1.03);
+
+}
+
+
+.song:active {
+
+  transform: scale(0.97);
+
+}
