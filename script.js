@@ -1,16 +1,65 @@
 const songs = [
+
   {
     title: "01. 希望",
     file: "01.mp3"
   },
+
   {
     title: "02. 涙の正体",
     file: "02.mp3"
   },
+
   {
     title: "03. 燦然",
     file: "03.mp3"
+  },
+
+  {
+    title: "04. クライマックス",
+    file: "04.mp3"
+  },
+
+  {
+    title: "05. 主人公",
+    file: "05.mp3"
+  },
+
+  {
+    title: "06. アプローズ",
+    file: "06.mp3"
+  },
+
+  {
+    title: "07. 健気",
+    file: "07.mp3"
+  },
+
+  {
+    title: "08. まなざし",
+    file: "08.mp3"
+  },
+
+  {
+    title: "09. 夏と跡形",
+    file: "09.mp3"
+  },
+
+  {
+    title: "10. 片想い",
+    file: "10.mp3"
+  },
+
+  {
+    title: "11. 生きがい",
+    file: "11.mp3"
+  },
+
+  {
+    title: "12. 告白",
+    file: "12.mp3"
   }
+
 ];
 
 
