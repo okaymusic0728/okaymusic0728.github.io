@@ -36,3 +36,27 @@
   transform: scale(0.97);
 
 }
+
+
+/* プレイヤー枠 */
+
+.player-box {
+
+  background-color: #222;
+
+  padding: 20px;
+
+  margin: 30px auto;
+
+  border-radius: 15px;
+
+  max-width: 400px;
+
+}
+
+
+#player {
+
+  width: 100%;
+
+}
