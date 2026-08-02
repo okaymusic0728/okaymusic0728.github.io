@@ -56,3 +56,47 @@ function(){
   }
 
 });
+// 前の曲
+
+function prevSong(){
+
+  if(currentSong > 0){
+
+    playSong(currentSong - 1);
+
+  }
+
+}
+
+
+// 再生・一時停止
+
+function togglePlay(){
+
+  const player = document.getElementById("player");
+
+
+  if(player.paused){
+
+    player.play();
+
+  }else{
+
+    player.pause();
+
+  }
+
+}
+
+
+// 次の曲
+
+function nextSong(){
+
+  if(currentSong < songs.length - 1){
+
+    playSong(currentSong + 1);
+
+  }
+
+}
