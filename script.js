@@ -23,11 +23,20 @@ function playSong(number) {
 
   currentSong = number;
 
-  player.src = songs[number].file;
+  // 前に光っていた曲を消す
+  document.querySelectorAll(".song").forEach(function(song){
+    song.classList.remove("playing");
+  });
 
+  // 今の曲を光らせる
+  document.getElementById("song" + number).classList.add("playing");
+
+  // 曲名表示
   document.getElementById("now-title").innerHTML =
-  songs[number].title;
+    songs[number].title;
 
+  // 再生
+  player.src = songs[number].file;
 
   player.play();
 
