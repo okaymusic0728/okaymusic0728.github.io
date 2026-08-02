@@ -78,8 +78,16 @@ function playSong(number) {
   });
 
   // 今の曲を光らせる
-  document.getElementById("song" + number).classList.add("playing");
 
+const songElement =
+document.getElementById("song" + number);
+
+
+if(songElement){
+
+  songElement.classList.add("playing");
+
+}
   // 曲名表示
   document.getElementById("now-title").innerHTML =
     songs[number].title;
