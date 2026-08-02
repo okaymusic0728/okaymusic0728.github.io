@@ -25,6 +25,10 @@ function playSong(number) {
 
   player.src = songs[number].file;
 
+  document.getElementById("now-title").innerHTML =
+  songs[number].title;
+
+
   player.play();
 
 }
