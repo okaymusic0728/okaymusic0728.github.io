@@ -60,3 +60,14 @@
   width: 100%;
 
 }
+.playing {
+
+  background-color: #1db954;
+
+  color: white;
+
+  font-weight: bold;
+
+  box-shadow: 0 0 15px rgba(29,185,84,0.6);
+
+}
