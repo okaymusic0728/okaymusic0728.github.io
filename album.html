@@ -18,12 +18,49 @@ h1 {
   font-size: 36px;
 }
 
+.album-list {
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+
+  max-width: 800px;
+
+  margin: 30px auto;
+
+}
+
+
 .album {
+
   background: #222;
-  padding: 20px;
-  margin: 20px auto;
+
+  padding: 15px;
+
   border-radius: 15px;
-  max-width: 350px;
+
+  transition: 0.2s;
+
+}
+
+
+.album:hover {
+
+  transform: translateY(-5px);
+
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+
+}
+
+
+.album img {
+
+  width: 100%;
+
+  border-radius: 10px;
+
 }
 
 .album img {
