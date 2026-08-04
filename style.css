@@ -62,13 +62,13 @@
 }
 .playing {
 
-  background-color: #8B0000;
+  background-color: #0B3D2E;
 
   color: white;
 
   font-weight: bold;
 
-  box-shadow: 0 0 15px rgba(139,0,0,0.8);
+  box-shadow: 0 0 15px rgba(11,61,46,0.8);
 
 }
 /* プレイヤーボタン */
