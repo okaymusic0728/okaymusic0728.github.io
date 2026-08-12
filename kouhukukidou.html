@@ -13,49 +13,25 @@
 <style>
 
 body {
+
   background-color: #111;
   color: white;
   font-family: sans-serif;
   text-align: center;
-  padding: 30px;
+  padding: 15px 0;
   padding-bottom: 80px;
+
 }
+
 
 h1 {
-  font-size: 36px;
+
+  font-size: 32px;
+
+  margin: 8px 0;
+
 }
 
-.album {
-  background: #222;
-  padding: 25px;
-  margin: 20px auto;
-  border-radius: 15px;
-  max-width: 400px;
-}
-
-.album-jacket {
-  width: 80%;
-  max-width: 400px;
-  border-radius: 10px;
-  margin: 20px auto;
-  display: block;
-}
-
-.song {
-  background-color: #333;
-  padding: 12px;
-  margin: 10px;
-  border-radius: 10px;
-  text-align: left;
-}
-
-.info {
-  background-color: #333;
-  padding: 15px;
-  margin: 20px 0;
-  border-radius: 10px;
-  text-align: left;
-}
 
 .nav {
 
@@ -81,6 +57,7 @@ h1 {
 
 }
 
+
 .nav-btn {
 
   color: #c0c0c0;
@@ -101,11 +78,13 @@ h1 {
 
 }
 
+
 .nav-btn i {
 
   font-size: 20px;
 
 }
+
 
 .nav-btn:hover {
 
@@ -113,16 +92,158 @@ h1 {
 
 }
 
+
 .nav-btn:active {
 
   transform: scale(0.95);
 
 }
 
-.artist {
-  font-size: 20px;
-  margin-bottom: 10px;
+
+.album {
+
+  background-color: #222;
+
+  padding: 15px;
+
+  margin: 20px auto;
+
+  border-radius: 15px;
+
+  width: 100%;
+
+  max-width: 450px;
+
+  box-sizing: border-box;
+
 }
+
+
+.album h1,
+.album h2,
+.album p {
+
+  margin: 3px 0;
+
+}
+
+
+.album-jacket {
+
+  width: calc(100% + 30px);
+
+  max-width: none;
+
+  margin-left: -15px;
+
+  border-radius: 10px;
+
+}
+
+
+.song {
+
+  background-color: #333;
+
+  padding: 8px 12px;
+
+  margin: 8px 0;
+
+  border-radius: 10px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  height: 55px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+}
+
+
+.song:hover {
+
+  background-color: #555;
+
+  transform: scale(1.03);
+
+}
+
+
+.song:active {
+
+  transform: scale(0.97);
+
+}
+
+
+.info {
+
+  background-color: #333;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  margin-top: 20px;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  text-align: left;
+
+}
+
+
+.subtitle {
+
+  font-size: 9px;
+
+  color: #bbb;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  margin-top: 1px;
+
+  display: block;
+
+  line-height: 1.1;
+
+}
+
+
+.player-box {
+
+  background-color: #222;
+
+  padding: 15px;
+
+  margin: 30px auto;
+
+  border-radius: 15px;
+
+  width: 100%;
+
+  max-width: 450px;
+
+  box-sizing: border-box;
+
+}
+
 
 </style>
 
