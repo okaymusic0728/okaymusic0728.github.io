@@ -324,8 +324,108 @@ onclick="playSong(0)">
 </div>
 
 
-<script src="script.js"></script>
+<script>
 
+const songs = [
+
+  {
+    title: "01. 喝采",
+    file: "kasai.mp3"
+  }
+
+];
+
+
+let currentSong = 0;
+
+
+function playSong(number) {
+
+  const player = document.getElementById("player");
+
+  currentSong = number;
+
+  document.querySelectorAll(".song").forEach(function(song){
+    song.classList.remove("playing");
+  });
+
+
+  const songElement =
+    document.getElementById("song" + number);
+
+
+  if(songElement){
+    songElement.classList.add("playing");
+  }
+
+
+  document.getElementById("now-title").innerHTML =
+    songs[number].title;
+
+
+  player.src = songs[number].file;
+
+  player.play();
+
+}
+
+
+document
+.getElementById("player")
+.addEventListener(
+"ended",
+function(){
+
+  if(currentSong < songs.length - 1){
+
+    playSong(currentSong + 1);
+
+  }
+
+});
+
+
+function prevSong(){
+
+  if(currentSong > 0){
+
+    playSong(currentSong - 1);
+
+  }
+
+}
+
+
+function togglePlay(){
+
+  const player =
+    document.getElementById("player");
+
+
+  if(player.paused){
+
+    player.play();
+
+  }else{
+
+    player.pause();
+
+  }
+
+}
+
+
+function nextSong(){
+
+  if(currentSong < songs.length - 1){
+
+    playSong(currentSong + 1);
+
+  }
+
+}
+
+</script>
 
 </body>
 
