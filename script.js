@@ -157,3 +157,162 @@ function nextSong(){
   }
 
 }
+
+/* =========================================
+   Okay Music 共通ページ機能
+   ・ページ遷移アニメーション
+   ・左上の戻るボタン
+   ========================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+  /* =======================================
+     ページ表示時
+     ======================================= */
+
+  document.body.classList.add("page-enter");
+
+
+  /* =======================================
+     ページ遷移用の暗幕を作る
+     ======================================= */
+
+  const transition =
+    document.createElement("div");
+
+  transition.id = "page-transition";
+
+  document.body.appendChild(transition);
+
+
+  /* =======================================
+     左上の戻るボタンを作る
+     ======================================= */
+
+  const backButton =
+    document.createElement("a");
+
+  backButton.id = "okay-back-button";
+
+  backButton.href = "#";
+
+  backButton.innerHTML = "←";
+
+  backButton.setAttribute(
+    "aria-label",
+    "前のページへ戻る"
+  );
+
+  document.body.appendChild(backButton);
+
+
+  /* =======================================
+     戻るボタン
+     ======================================= */
+
+  backButton.addEventListener(
+    "click",
+    function (event) {
+
+      event.preventDefault();
+
+
+      /* 履歴がある場合 */
+
+      if (window.history.length > 1) {
+
+        transition.classList.add("active");
+
+
+        setTimeout(function () {
+
+          window.history.back();
+
+        }, 220);
+
+
+      }
+
+      /* 履歴がない場合はHOMEへ */
+
+      else {
+
+        transition.classList.add("active");
+
+
+        setTimeout(function () {
+
+          window.location.href =
+            "index.html";
+
+        }, 220);
+
+      }
+
+    }
+  );
+
+
+  /* =======================================
+     ページ内リンクの遷移アニメーション
+     ======================================= */
+
+  document.querySelectorAll("a").forEach(
+    function (link) {
+
+      link.addEventListener(
+        "click",
+        function (event) {
+
+          const href =
+            link.getAttribute("href");
+
+
+          /* 通常のページリンクだけ対象 */
+
+          if (
+            !href ||
+            href === "#" ||
+            href.startsWith("#") ||
+            href.startsWith("http") ||
+            href.startsWith("mailto:") ||
+            href.startsWith("tel:")
+          ) {
+
+            return;
+
+          }
+
+
+          /* 同じページへのリンク */
+
+          if (
+            href ===
+            window.location.pathname.split("/").pop()
+          ) {
+
+            return;
+
+          }
+
+
+          event.preventDefault();
+
+
+          transition.classList.add("active");
+
+
+          setTimeout(function () {
+
+            window.location.href = href;
+
+          }, 220);
+
+        }
+      );
+
+    }
+  );
+
+});
