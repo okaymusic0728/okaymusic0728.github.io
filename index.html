@@ -342,6 +342,114 @@ id="search">
 
 <script>
 
+<script>
+
+
+let currentArtist = 0;
+
+
+const artistSlides =
+document.querySelectorAll(".artist-slide");
+
+
+const artistDots =
+document.querySelectorAll(".artist-dots span");
+
+
+function showArtist(index) {
+
+  if (index >= artistSlides.length) {
+    index = 0;
+  }
+
+  if (index < 0) {
+    index = artistSlides.length - 1;
+  }
+
+
+  artistSlides.forEach(function(slide) {
+    slide.classList.remove("active");
+  });
+
+
+  artistDots.forEach(function(dot) {
+    dot.classList.remove("active");
+  });
+
+
+  artistSlides[index].classList.add("active");
+
+  artistDots[index].classList.add("active");
+
+
+  currentArtist = index;
+
+}
+
+
+function nextArtist() {
+
+  showArtist(currentArtist + 1);
+
+}
+
+
+function prevArtist() {
+
+  showArtist(currentArtist - 1);
+
+}
+
+
+showArtist(0);
+
+
+let touchStartX = 0;
+
+let touchEndX = 0;
+
+
+const slider =
+document.getElementById("artistSlider");
+
+
+slider.addEventListener("touchstart", function(e) {
+
+  touchStartX = e.changedTouches[0].screenX;
+
+});
+
+
+slider.addEventListener("touchend", function(e) {
+
+  touchEndX = e.changedTouches[0].screenX;
+
+  handleSwipe();
+
+});
+
+
+function handleSwipe() {
+
+  const distance = touchEndX - touchStartX;
+
+
+  if (Math.abs(distance) < 50) {
+    return;
+  }
+
+
+  if (distance < 0) {
+    nextArtist();
+  } else {
+    prevArtist();
+  }
+
+}
+
+
+
+const musicData = [
 
 const musicData = [
 
