@@ -858,84 +858,62 @@ const musicData = [
 
 function searchMusic() {
 
+  let input =
+    document
+      .getElementById("search")
+      .value
+      .trim()
+      .toLowerCase();
 
-let input =
-document
-.getElementById("search")
-.value
-.toLowerCase();
+  let result =
+    document.getElementById("result");
 
+  result.innerHTML = "";
 
-let result =
-document.getElementById("result");
+  if (input === "") {
+    result.style.display = "none";
+    return;
+  }
 
+  let found = false;
 
-result.innerHTML = "";
+  musicData.forEach(function(item) {
 
+    let hit =
+      item.keyword.some(function(word) {
 
-if (input === "") {
+        return word
+          .toLowerCase()
+          .includes(input);
 
-result.style.display = "none";
+      });
 
-return;
+    if (hit) {
 
-}
+      result.innerHTML += `
+        <a href="${item.link}">
+          💿 ${item.title}<br>
+          ${item.artist}
+        </a>
+        <hr>
+      `;
 
+      found = true;
 
-let found = false;
+    }
 
+  });
 
-musicData.forEach(function(item) {
+  if (found) {
 
+    result.style.display = "block";
 
-let hit =
-item.keyword.some(function(word) {
+  } else {
 
-return word
-.toLowerCase()
-.includes(input);
+    result.innerHTML = "見つかりませんでした";
+    result.style.display = "block";
 
-});
-
-
-if (hit) {
-
-
-result.innerHTML +=
-
-`
-
-<a href="${item.link}">
-
-💿 ${item.title}<br>
-
-${item.artist}
-
-</a>
-
-`;
-
-
-result.style.display = "block";
-
-found = true;
-
-}
-
-});
-
-
-if (!found) {
-
-
-result.innerHTML =
-"見つかりませんでした";
-
-
-result.style.display =
-"block";
-
-}
+  }
 
 }
 
