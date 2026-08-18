@@ -290,58 +290,47 @@ id="search">
 
 
 
-<div class="menu">
+<!-- アーティスト・ディスクチェンジャー -->
 
-<a href="artist.html">
+<div class="artist-changer">
 
-🎤 アーティスト
+  <button class="change-btn left" onclick="prevArtist()">‹</button>
 
-</a>
+  <div class="artist-slider" id="artistSlider">
 
-</div>
+    <a href="superbeaver.html" class="artist-slide">
+      <img src="superbeaver.jpg" alt="SUPER BEAVER">
+      <div class="artist-title">SUPER BEAVER</div>
+    </a>
 
+    <a href="mrchildren.html" class="artist-slide">
+      <img src="mrchildren.jpg" alt="Mr.Children">
+      <div class="artist-title">Mr.Children</div>
+    </a>
 
+    <a href="yamazakimasayoshi.html" class="artist-slide">
+      <img src="yamazakimasayoshi.jpg" alt="山崎まさよし">
+      <div class="artist-title">山崎まさよし</div>
+    </a>
 
+    <a href="B'z.html" class="artist-slide">
+      <img src="Bz.jpg" alt="B'z">
+      <div class="artist-title">B'z</div>
+    </a>
 
+  </div>
 
-
-<div class="menu">
-
-<a href="album.html">
-
-💿 アルバム
-
-</a>
-
-</div>
-
-
-
-
-
-
-<div class="menu">
-
-<a href="dvd.html">
-
-📀 DVD・映像
-
-</a>
+  <button class="change-btn right" onclick="nextArtist()">›</button>
 
 </div>
 
 
+<div class="artist-dots" id="artistDots">
 
-
-
-
-<div class="menu">
-
-<a href="favorite.html">
-
-⭐ お気に入り
-
-</a>
+  <span class="active"></span>
+  <span></span>
+  <span></span>
+  <span></span>
 
 </div>
 
