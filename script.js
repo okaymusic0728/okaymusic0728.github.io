@@ -75,6 +75,10 @@ function playSong(number) {
   const player =
     document.getElementById("player");
 
+  if (!player) {
+    return;
+  }
+
   currentSong = number;
 
 
@@ -104,10 +108,16 @@ function playSong(number) {
 
   /* 曲名表示 */
 
-  document
-    .getElementById("now-title")
-    .innerHTML =
+  const nowTitle =
+    document.getElementById("now-title");
+
+
+  if (nowTitle) {
+
+    nowTitle.innerHTML =
       songs[number].title;
+
+  }
 
 
   /* 再生 */
@@ -124,23 +134,38 @@ function playSong(number) {
    曲が終わったら次の曲
    ========================================= */
 
-document
-  .getElementById("player")
-  .addEventListener(
-    "ended",
-    function() {
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
 
-      if (
-        currentSong <
-        songs.length - 1
-      ) {
+    const player =
+      document.getElementById("player");
 
-        playSong(currentSong + 1);
 
-      }
+    if (player) {
+
+      player.addEventListener(
+        "ended",
+        function() {
+
+          if (
+            currentSong <
+            songs.length - 1
+          ) {
+
+            playSong(
+              currentSong + 1
+            );
+
+          }
+
+        }
+      );
 
     }
-  );
+
+  }
+);
 
 
 /* =========================================
@@ -168,6 +193,11 @@ function togglePlay() {
     document.getElementById("player");
 
 
+  if (!player) {
+    return;
+  }
+
+
   if (player.paused) {
 
     player.play();
@@ -192,7 +222,9 @@ function nextSong() {
     songs.length - 1
   ) {
 
-    playSong(currentSong + 1);
+    playSong(
+      currentSong + 1
+    );
 
   }
 
@@ -201,6 +233,7 @@ function nextSong() {
 
 /* =================================================
    Okay Music 共通ページ機能
+
    ・ページ表示アニメーション
    ・ページ遷移アニメーション
    ・左上の戻るボタン
