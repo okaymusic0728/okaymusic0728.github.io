@@ -316,3 +316,124 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 });
+
+/* =========================================
+   ページ遷移アニメーション
+   ========================================= */
+
+/* ページが表示されたとき */
+body {
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+
+/* ページ表示開始 */
+body.page-enter {
+  animation: pageEnter 0.45s ease forwards;
+}
+
+
+@keyframes pageEnter {
+
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+
+}
+
+
+/* =========================================
+   ページ切り替え用の暗幕
+   ========================================= */
+
+#page-transition {
+
+  position: fixed;
+
+  inset: 0;
+
+  background: #000;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 99999;
+
+  transition:
+    opacity 0.22s ease;
+
+}
+
+
+/* ページ移動直前 */
+#page-transition.active {
+
+  opacity: 1;
+
+}
+
+
+/* =========================================
+   左上の戻るボタン
+   ========================================= */
+
+#okay-back-button {
+
+  position: fixed;
+
+  top: 15px;
+
+  left: 15px;
+
+  width: 42px;
+
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: rgba(20,20,20,0.65);
+
+  color: white;
+
+  text-decoration: none;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 22px;
+
+  line-height: 1;
+
+  box-shadow:
+    0 4px 15px rgba(0,0,0,0.45);
+
+  backdrop-filter: blur(6px);
+
+  -webkit-backdrop-filter: blur(6px);
+
+  z-index: 100000;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+
+}
+
+
+/* 押したとき */
+#okay-back-button:active {
+
+  transform: scale(0.88);
+
+  background: rgba(255,255,255,0.25);
+
+}
