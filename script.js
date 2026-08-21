@@ -66,58 +66,90 @@ const songs = [
 let currentSong = 0;
 
 
+/* =========================================
+   曲を再生
+   ========================================= */
+
 function playSong(number) {
 
-  const player = document.getElementById("player");
+  const player =
+    document.getElementById("player");
 
   currentSong = number;
 
-  // 前に光っていた曲を消す
-  document.querySelectorAll(".song").forEach(function(song){
-    song.classList.remove("playing");
-  });
 
-  // 今の曲を光らせる
+  /* 前に光っていた曲を消す */
 
-const songElement =
-document.getElementById("song" + number);
+  document
+    .querySelectorAll(".song")
+    .forEach(function(song) {
+
+      song.classList.remove("playing");
+
+    });
 
 
-if(songElement){
+  /* 今の曲を光らせる */
 
-  songElement.classList.add("playing");
+  const songElement =
+    document.getElementById("song" + number);
 
-}
-  // 曲名表示
-  document.getElementById("now-title").innerHTML =
-    songs[number].title;
 
-  // 再生
-  player.src = songs[number].file;
+  if (songElement) {
+
+    songElement.classList.add("playing");
+
+  }
+
+
+  /* 曲名表示 */
+
+  document
+    .getElementById("now-title")
+    .innerHTML =
+      songs[number].title;
+
+
+  /* 再生 */
+
+  player.src =
+    songs[number].file;
 
   player.play();
 
 }
 
 
+/* =========================================
+   曲が終わったら次の曲
+   ========================================= */
+
 document
-.getElementById("player")
-.addEventListener(
-"ended",
-function(){
+  .getElementById("player")
+  .addEventListener(
+    "ended",
+    function() {
 
-  if(currentSong < songs.length - 1){
+      if (
+        currentSong <
+        songs.length - 1
+      ) {
 
-    playSong(currentSong + 1);
+        playSong(currentSong + 1);
 
-  }
+      }
 
-});
-// 前の曲
+    }
+  );
 
-function prevSong(){
 
-  if(currentSong > 0){
+/* =========================================
+   前の曲
+   ========================================= */
+
+function prevSong() {
+
+  if (currentSong > 0) {
 
     playSong(currentSong - 1);
 
@@ -126,18 +158,21 @@ function prevSong(){
 }
 
 
-// 再生・一時停止
+/* =========================================
+   再生・一時停止
+   ========================================= */
 
-function togglePlay(){
+function togglePlay() {
 
-  const player = document.getElementById("player");
+  const player =
+    document.getElementById("player");
 
 
-  if(player.paused){
+  if (player.paused) {
 
     player.play();
 
-  }else{
+  } else {
 
     player.pause();
 
@@ -146,11 +181,16 @@ function togglePlay(){
 }
 
 
-// 次の曲
+/* =========================================
+   次の曲
+   ========================================= */
 
-function nextSong(){
+function nextSong() {
 
-  if(currentSong < songs.length - 1){
+  if (
+    currentSong <
+    songs.length - 1
+  ) {
 
     playSong(currentSong + 1);
 
@@ -158,282 +198,219 @@ function nextSong(){
 
 }
 
-/* =========================================
+
+/* =================================================
    Okay Music 共通ページ機能
+   ・ページ表示アニメーション
    ・ページ遷移アニメーション
    ・左上の戻るボタン
-   ========================================= */
+   ================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
-
-
-  /* =======================================
-     ページ表示時
-     ======================================= */
-
-  document.body.classList.add("page-enter");
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
 
 
-  /* =======================================
-     ページ遷移用の暗幕を作る
-     ======================================= */
+    /* =======================================
+       ページ表示開始
+       ======================================= */
 
-  const transition =
-    document.createElement("div");
-
-  transition.id = "page-transition";
-
-  document.body.appendChild(transition);
+    document.body.classList.add(
+      "page-enter"
+    );
 
 
-  /* =======================================
-     左上の戻るボタンを作る
-     ======================================= */
+    /* =======================================
+       ページ遷移用の暗幕
+       ======================================= */
 
-  const backButton =
-    document.createElement("a");
+    const transition =
+      document.createElement("div");
 
-  backButton.id = "okay-back-button";
+    transition.id =
+      "page-transition";
 
-  backButton.href = "#";
-
-  backButton.innerHTML = "←";
-
-  backButton.setAttribute(
-    "aria-label",
-    "前のページへ戻る"
-  );
-
-  document.body.appendChild(backButton);
+    document.body.appendChild(
+      transition
+    );
 
 
-  /* =======================================
-     戻るボタン
-     ======================================= */
+    /* =======================================
+       左上の戻るボタン
+       ======================================= */
 
-  backButton.addEventListener(
-    "click",
-    function (event) {
+    const backButton =
+      document.createElement("a");
 
-      event.preventDefault();
+    backButton.id =
+      "okay-back-button";
 
+    backButton.href =
+      "#";
 
-      /* 履歴がある場合 */
+    backButton.innerHTML =
+      "←";
 
-      if (window.history.length > 1) {
+    backButton.setAttribute(
+      "aria-label",
+      "前のページへ戻る"
+    );
 
-        transition.classList.add("active");
-
-
-        setTimeout(function () {
-
-          window.history.back();
-
-        }, 220);
-
-
-      }
-
-      /* 履歴がない場合はHOMEへ */
-
-      else {
-
-        transition.classList.add("active");
+    document.body.appendChild(
+      backButton
+    );
 
 
-        setTimeout(function () {
+    /* =======================================
+       戻るボタン
+       ======================================= */
 
-          window.location.href =
-            "index.html";
+    backButton.addEventListener(
+      "click",
+      function(event) {
 
-        }, 220);
-
-      }
-
-    }
-  );
+        event.preventDefault();
 
 
-  /* =======================================
-     ページ内リンクの遷移アニメーション
-     ======================================= */
+        /* 履歴がある場合 */
 
-  document.querySelectorAll("a").forEach(
-    function (link) {
+        if (
+          window.history.length > 1
+        ) {
 
-      link.addEventListener(
-        "click",
-        function (event) {
-
-          const href =
-            link.getAttribute("href");
+          transition.classList.add(
+            "active"
+          );
 
 
-          /* 通常のページリンクだけ対象 */
+          setTimeout(
+            function() {
 
-          if (
-            !href ||
-            href === "#" ||
-            href.startsWith("#") ||
-            href.startsWith("http") ||
-            href.startsWith("mailto:") ||
-            href.startsWith("tel:")
-          ) {
+              window.history.back();
 
-            return;
-
-          }
-
-
-          /* 同じページへのリンク */
-
-          if (
-            href ===
-            window.location.pathname.split("/").pop()
-          ) {
-
-            return;
-
-          }
-
-
-          event.preventDefault();
-
-
-          transition.classList.add("active");
-
-
-          setTimeout(function () {
-
-            window.location.href = href;
-
-          }, 220);
+            },
+            220
+          );
 
         }
+
+
+        /* 履歴がない場合はHOME */
+
+        else {
+
+          transition.classList.add(
+            "active"
+          );
+
+
+          setTimeout(
+            function() {
+
+              window.location.href =
+                "index.html";
+
+            },
+            220
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =======================================
+       ページ内リンクの遷移アニメーション
+       ======================================= */
+
+    document
+      .querySelectorAll("a")
+      .forEach(
+        function(link) {
+
+
+          link.addEventListener(
+            "click",
+            function(event) {
+
+
+              const href =
+                link.getAttribute(
+                  "href"
+                );
+
+
+              /* 対象外リンク */
+
+              if (
+
+                !href ||
+
+                href === "#" ||
+
+                href.startsWith("#") ||
+
+                href.startsWith("http") ||
+
+                href.startsWith("mailto:") ||
+
+                href.startsWith("tel:")
+
+              ) {
+
+                return;
+
+              }
+
+
+              /* 同じページへのリンク */
+
+              if (
+
+                href ===
+                window.location.pathname
+                  .split("/")
+                  .pop()
+
+              ) {
+
+                return;
+
+              }
+
+
+              /* ページ遷移を一旦止める */
+
+              event.preventDefault();
+
+
+              /* 暗転開始 */
+
+              transition.classList.add(
+                "active"
+              );
+
+
+              /* 少し暗転してから移動 */
+
+              setTimeout(
+                function() {
+
+                  window.location.href =
+                    href;
+
+                },
+                220
+              );
+
+            }
+
+          );
+
+        }
+
       );
 
-    }
-  );
-
-});
-
-/* =========================================
-   ページ遷移アニメーション
-   ========================================= */
-
-/* ページが表示されたとき */
-body {
-  opacity: 1;
-  transition: opacity 0.35s ease;
-}
-
-
-/* ページ表示開始 */
-body.page-enter {
-  animation: pageEnter 0.45s ease forwards;
-}
-
-
-@keyframes pageEnter {
-
-  0% {
-    opacity: 0;
   }
-
-  100% {
-    opacity: 1;
-  }
-
-}
-
-
-/* =========================================
-   ページ切り替え用の暗幕
-   ========================================= */
-
-#page-transition {
-
-  position: fixed;
-
-  inset: 0;
-
-  background: #000;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  z-index: 99999;
-
-  transition:
-    opacity 0.22s ease;
-
-}
-
-
-/* ページ移動直前 */
-#page-transition.active {
-
-  opacity: 1;
-
-}
-
-
-/* =========================================
-   左上の戻るボタン
-   ========================================= */
-
-#okay-back-button {
-
-  position: fixed;
-
-  top: 15px;
-
-  left: 15px;
-
-  width: 42px;
-
-  height: 42px;
-
-  border-radius: 50%;
-
-  background: rgba(20,20,20,0.65);
-
-  color: white;
-
-  text-decoration: none;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  font-size: 22px;
-
-  line-height: 1;
-
-  box-shadow:
-    0 4px 15px rgba(0,0,0,0.45);
-
-  backdrop-filter: blur(6px);
-
-  -webkit-backdrop-filter: blur(6px);
-
-  z-index: 100000;
-
-  transition:
-    transform 0.15s ease,
-    background 0.15s ease;
-
-}
-
-
-/* 押したとき */
-#okay-back-button:active {
-
-  transform: scale(0.88);
-
-  background: rgba(255,255,255,0.25);
-
-}
+);
