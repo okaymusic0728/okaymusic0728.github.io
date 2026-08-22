@@ -1,5 +1,5 @@
-```html
 <!DOCTYPE html>
+
 <html lang="ja">
 
 <head>
@@ -8,7 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SUPER BEAVER - Okay Music 🎵</title>
-
 
 <style>
 
@@ -31,6 +30,65 @@ body {
   padding-bottom: 90px;
 
   margin: 0;
+
+}
+
+
+/* =========================
+   左上の共通ボタン
+   ========================= */
+
+.page-tools {
+
+  position: fixed;
+
+  top: 10px;
+
+  left: 10px;
+
+  display: flex;
+
+  gap: 8px;
+
+  z-index: 10000;
+
+}
+
+
+.page-tool {
+
+  width: 38px;
+
+  height: 38px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: rgba(35,35,35,.88);
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  box-shadow: 0 3px 10px rgba(0,0,0,.35);
+
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+
+.page-tool:active {
+
+  transform: scale(.9);
 
 }
 
@@ -246,13 +304,36 @@ h1 {
 
 }
 
+
 </style>
 
 </head>
 
-
 <body>
 
+<!-- =========================
+     左上の共通ボタン
+     ←：1つ戻る
+     ↻：最新の情報に更新
+     ========================= -->
+
+<div class="page-tools">
+
+<button
+ class="page-tool"
+ type="button"
+ onclick="history.back()"
+ aria-label="1つ戻る">
+← </button>
+
+<button
+ class="page-tool"
+ type="button"
+ onclick="location.reload()"
+ aria-label="最新の情報に更新">
+↻ </button>
+
+</div>
 
 <!-- =========================
      下部4ボタン
@@ -282,18 +363,15 @@ h1 {
 
 </div>
 
-
 <!-- =========================
      SUPER BEAVER
      ========================= -->
 
 <div class="artist-card">
 
-
 <h1>
 SUPER BEAVER
 </h1>
-
 
 <!-- =========================
      ALBUM
@@ -303,9 +381,7 @@ SUPER BEAVER
 ALBUM
 </h2>
 
-
 <div class="album-list">
-
 
 <!-- 人生 -->
 
@@ -323,13 +399,12 @@ alt="人生">
 </h3>
 
 <p>
-2026.06.24
+2026
 </p>
 
 </a>
 
 </div>
-
 
 <!-- Acoustic Album 1 -->
 
@@ -347,20 +422,19 @@ Acoustic Album 1
 </h3>
 
 <p>
-2025.12.03
+2025
 </p>
 
 </a>
 
 </div>
 
-
 <!-- 音楽 -->
 
 <div class="album">
 
 <img
-src="ongaku.jpg"
+src="comingsoon.jpg"
 class="album-thumb"
 alt="音楽">
 
@@ -369,18 +443,17 @@ alt="音楽">
 </h3>
 
 <p>
-2025.12.03
+準備中
 </p>
 
 </div>
-
 
 <!-- 東京 -->
 
 <div class="album">
 
 <img
-src="tokyo.jpg"
+src="comingsoon.jpg"
 class="album-thumb"
 alt="東京">
 
@@ -389,18 +462,17 @@ alt="東京">
 </h3>
 
 <p>
-2022.02.23
+準備中
 </p>
 
 </div>
-
 
 <!-- アイラヴユー -->
 
 <div class="album">
 
 <img
-src="iloveyou.jpg"
+src="comingsoon.jpg"
 class="album-thumb"
 alt="アイラヴユー">
 
@@ -409,18 +481,17 @@ alt="アイラヴユー">
 </h3>
 
 <p>
-2021.02.03
+準備中
 </p>
 
 </div>
-
 
 <!-- SUPER BEAVER -->
 
 <div class="album">
 
 <img
-src="superbeaversuperbeaver.jpg"
+src="comingsoon.jpg"
 class="album-thumb"
 alt="SUPER BEAVER">
 
@@ -429,11 +500,10 @@ SUPER BEAVER
 </h3>
 
 <p>
-2010.10.06
+準備中
 </p>
 
 </div>
-
 
 <!-- 幸福軌道 -->
 
@@ -451,13 +521,12 @@ alt="幸福軌道">
 </h3>
 
 <p>
-2009.11.25
+2009
 </p>
 
 </a>
 
 </div>
-
 
 <!-- 心景 -->
 
@@ -473,14 +542,12 @@ alt="心景">
 </h3>
 
 <p>
-2009.08.26
+準備中
 </p>
 
 </div>
 
-
 </div>
-
 
 <!-- =========================
      SINGLE
@@ -490,11 +557,7 @@ alt="心景">
 SINGLE
 </h2>
 
-
 <div class="album-list">
-
-
-<!-- 燦然 / 生きがい -->
 
 <div class="album">
 
@@ -517,215 +580,81 @@ alt="燦然 / 生きがい">
 
 </div>
 
-
-<!-- 主人公 -->
+<!-- 以下シングルは準備中 -->
 
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="主人公">
-
-<h3>
-主人公
-</h3>
-
-<p>
-2025.07.02
-</p>
-
+<h3>主人公</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- 片想い / 涙の正体 -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="片想い / 涙の正体">
-
-<h3>
-片想い / 涙の正体
-</h3>
-
-<p>
-2025.03.12
-</p>
-
+<h3>片想い / 涙の正体</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- 儚くない -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="儚くない">
-
-<h3>
-儚くない
-</h3>
-
-<p>
-2023.06.28
-</p>
-
+<h3>儚くない</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- グラデーション -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="グラデーション">
-
-<h3>
-グラデーション
-</h3>
-
-<p>
-2023.04.19
-</p>
-
+<h3>グラデーション</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- ひたむき -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="ひたむき">
-
-<h3>
-ひたむき
-</h3>
-
-<p>
-2022.11.30
-</p>
-
+<h3>ひたむき</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- 名前を呼ぶよ -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="名前を呼ぶよ">
-
-<h3>
-名前を呼ぶよ
-</h3>
-
-<p>
-2021.07.07
-</p>
-
+<h3>名前を呼ぶよ</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- 愛しい人 -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="愛しい人">
-
-<h3>
-愛しい人
-</h3>
-
-<p>
-2021.05.19
-</p>
-
+<h3>愛しい人</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- 突破口 / 自慢になりたい -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="突破口 / 自慢になりたい">
-
-<h3>
-突破口 /<br>
-自慢になりたい
-</h3>
-
-<p>
-2020.10.21
-</p>
-
+<h3>突破口 /<br>自慢になりたい</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- ハイライト / ひとりで生きていたならば -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="ハイライト / ひとりで生きていたならば">
-
-<h3>
-ハイライト /<br>
-ひとりで生きていたならば
-</h3>
-
-<p>
-2020.06.10
-</p>
-
+<h3>ハイライト /<br>ひとりで生きていたならば</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- シアワセ -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="シアワセ">
-
-<h3>
-シアワセ
-</h3>
-
-<p>
-2009.11.04
-</p>
-
+<h3>シアワセ</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- 二つの旅路 -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="二つの旅路">
-
-<h3>
-二つの旅路
-</h3>
-
-<p>
-2009.08.26
-</p>
-
+<h3>二つの旅路</h3>
+<p>準備中</p>
 </div>
-
-
-<!-- 深呼吸 -->
 
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="深呼吸">
-
-<h3>
-深呼吸
-</h3>
-
-<p>
-2009.06.03
-</p>
-
+<h3>深呼吸</h3>
+<p>準備中</p>
 </div>
 
-
 </div>
-
 
 <!-- =========================
      配信
@@ -735,67 +664,36 @@ alt="燦然 / 生きがい">
 配信
 </h2>
 
-
 <div class="album-list">
 
-
-<!-- 映画 現在地 オリジナル・サウンドトラック -->
-
 <div class="album">
-
 <img
 src="comingsoon.jpg"
 class="album-thumb"
-alt="映画 SUPER BEAVER LIVE & DOCUMENTARY 現在地 オリジナル・サウンドトラック">
+alt="映画 現在地 オリジナルサウンドトラック">
 
 <h3>
 映画『SUPER BEAVER LIVE & DOCUMENTARY<br>
 -現在地-』オリジナル・サウンドトラック
 </h3>
 
-<p>
-2026.06.03
-</p>
+<p>準備中</p>
 
 </div>
 
-
-<!-- 値千金 -->
-
 <div class="album">
-
 <img src="comingsoon.jpg" class="album-thumb" alt="値千金">
-
-<h3>
-値千金
-</h3>
-
-<p>
-2023.12.27
-</p>
-
+<h3>値千金</h3>
+<p>準備中</p>
 </div>
 
-
-<!-- 決心 -->
-
-<div class="album">
-
+<div class="album coming-soon">
 <img src="comingsoon.jpg" class="album-thumb" alt="決心">
-
-<h3>
-決心
-</h3>
-
-<p>
-2023.11.03
-</p>
-
+<h3>決心</h3>
+<p>準備中</p>
 </div>
 
-
 </div>
-
 
 <!-- =========================
      未発表・非売品
@@ -805,11 +703,7 @@ alt="映画 SUPER BEAVER LIVE & DOCUMENTARY 現在地 オリジナル・サウ�
 未発表・非売品
 </h2>
 
-
 <div class="album-list">
-
-
-<!-- 喝采 -->
 
 <div class="album">
 
@@ -832,9 +726,7 @@ alt="喝采">
 
 </div>
 
-
 </div>
-
 
 <!-- =========================
      TV・その他
@@ -844,11 +736,9 @@ alt="喝采">
 TV・その他
 </h2>
 
-
 <div class="album-list">
 
-
-<div class="album">
+<div class="album coming-soon">
 
 <img
 src="comingsoon.jpg"
@@ -865,9 +755,7 @@ Coming Soon
 
 </div>
 
-
 </div>
-
 
 <!-- =========================
      VIDEO
@@ -877,11 +765,9 @@ Coming Soon
 VIDEO
 </h2>
 
-
 <div class="album-list">
 
-
-<div class="album">
+<div class="album coming-soon">
 
 <img
 src="comingsoon.jpg"
@@ -898,14 +784,10 @@ VIDEO
 
 </div>
 
-
 </div>
 
-
 </div>
-
 
 </body>
 
 </html>
-```
