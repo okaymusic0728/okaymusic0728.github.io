@@ -1,3 +1,19 @@
+もちろん！😊
+原因は **「音楽」と「東京」に `coming-soon` が付いていたから**やね。
+
+CSSに、
+
+```css
+.coming-soon .album-thumb {
+  filter: grayscale(100%);
+}
+```
+
+があるので、`class="album coming-soon"` になっているカードのジャケットだけモノクロになっていた。
+
+今回は **ジャケットを作っている途中でも全部カラー表示**したいということなので、`coming-soon` 関連を完全にやめた修正版を全文で貼るね。
+そのまま **superbeaver.html の中身を全部置き換えてOK**！
+
 ```html
 <!DOCTYPE html>
 <html lang="ja">
@@ -246,24 +262,6 @@ h1 {
 
 }
 
-
-/* =========================
-   Coming Soon
-   ========================= */
-
-.coming-soon {
-
-  opacity: 0.75;
-
-}
-
-
-.coming-soon .album-thumb {
-
-  filter: grayscale(100%);
-
-}
-
 </style>
 
 </head>
@@ -375,7 +373,7 @@ Acoustic Album 1
 
 <!-- 音楽 -->
 
-<div class="album coming-soon">
+<div class="album">
 
 <img
 src="ongaku.jpg"
@@ -395,7 +393,7 @@ alt="音楽">
 
 <!-- 東京 -->
 
-<div class="album coming-soon">
+<div class="album">
 
 <img
 src="tokyo.jpg"
@@ -415,7 +413,7 @@ alt="東京">
 
 <!-- アイラヴユー -->
 
-<div class="album coming-soon">
+<div class="album">
 
 <img
 src="iloveyou.jpg"
@@ -435,7 +433,7 @@ alt="アイラヴユー">
 
 <!-- SUPER BEAVER -->
 
-<div class="album coming-soon">
+<div class="album">
 
 <img
 src="superbeaversuperbeaver.jpg"
@@ -479,7 +477,7 @@ alt="幸福軌道">
 
 <!-- 心景 -->
 
-<div class="album coming-soon">
+<div class="album">
 
 <img
 src="comingsoon.jpg"
@@ -512,6 +510,8 @@ SINGLE
 <div class="album-list">
 
 
+<!-- 燦然 / 生きがい -->
+
 <div class="album">
 
 <a href="ikigai.html" class="album-link">
@@ -534,78 +534,209 @@ alt="燦然 / 生きがい">
 </div>
 
 
-<!-- 以下シングルは準備中 -->
+<!-- 主人公 -->
 
-<div class="album coming-soon">
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="主人公">
-<h3>主人公</h3>
-<p>2025.07.02</p>
+
+<h3>
+主人公
+</h3>
+
+<p>
+2025.07.02
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- 片想い / 涙の正体 -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="片想い / 涙の正体">
-<h3>片想い / 涙の正体</h3>
-<p>2025.03.12</p>
+
+<h3>
+片想い / 涙の正体
+</h3>
+
+<p>
+2025.03.12
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- 儚くない -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="儚くない">
-<h3>儚くない</h3>
-<p>2023.06.28</p>
+
+<h3>
+儚くない
+</h3>
+
+<p>
+2023.06.28
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- グラデーション -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="グラデーション">
-<h3>グラデーション</h3>
-<p>2023.04.19</p>
+
+<h3>
+グラデーション
+</h3>
+
+<p>
+2023.04.19
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- ひたむき -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="ひたむき">
-<h3>ひたむき</h3>
-<p>2022.11.30</p>
+
+<h3>
+ひたむき
+</h3>
+
+<p>
+2022.11.30
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- 名前を呼ぶよ -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="名前を呼ぶよ">
-<h3>名前を呼ぶよ</h3>
-<p>2021.07.07</p>
+
+<h3>
+名前を呼ぶよ
+</h3>
+
+<p>
+2021.07.07
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- 愛しい人 -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="愛しい人">
-<h3>愛しい人</h3>
-<p>2021.05.19</p>
+
+<h3>
+愛しい人
+</h3>
+
+<p>
+2021.05.19
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- 突破口 / 自慢になりたい -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="突破口 / 自慢になりたい">
-<h3>突破口 /<br>自慢になりたい</h3>
-<p>2020.10.21</p>
+
+<h3>
+突破口 /<br>
+自慢になりたい
+</h3>
+
+<p>
+2020.10.21
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- ハイライト / ひとりで生きていたならば -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="ハイライト / ひとりで生きていたならば">
-<h3>ハイライト /<br>ひとりで生きていたならば</h3>
-<p>2020.06.10</p>
+
+<h3>
+ハイライト /<br>
+ひとりで生きていたならば
+</h3>
+
+<p>
+2020.06.10
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- シアワセ -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="シアワセ">
-<h3>シアワセ</h3>
-<p>2009.11.04</p>
+
+<h3>
+シアワセ
+</h3>
+
+<p>
+2009.11.04
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- 二つの旅路 -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="二つの旅路">
-<h3>二つの旅路</h3>
-<p>2009.08.26</p>
+
+<h3>
+二つの旅路
+</h3>
+
+<p>
+2009.08.26
+</p>
+
 </div>
 
-<div class="album coming-soon">
+
+<!-- 深呼吸 -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="深呼吸">
-<h3>深呼吸</h3>
-<p>2009.06.03</p>
+
+<h3>
+深呼吸
+</h3>
+
+<p>
+2009.06.03
+</p>
+
 </div>
 
 
@@ -624,33 +755,58 @@ alt="燦然 / 生きがい">
 <div class="album-list">
 
 
-<div class="album coming-soon">
+<!-- 映画 現在地 オリジナル・サウンドトラック -->
+
+<div class="album">
+
 <img
 src="comingsoon.jpg"
 class="album-thumb"
-alt="映画 現在地 オリジナルサウンドトラック">
+alt="映画 SUPER BEAVER LIVE & DOCUMENTARY 現在地 オリジナル・サウンドトラック">
 
 <h3>
 映画『SUPER BEAVER LIVE & DOCUMENTARY<br>
 -現在地-』オリジナル・サウンドトラック
 </h3>
 
-<p>2026.06.03</p>
+<p>
+2026.06.03
+</p>
 
 </div>
 
 
-<div class="album coming-soon">
+<!-- 値千金 -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="値千金">
-<h3>値千金</h3>
-<p>2023.12.27</p>
+
+<h3>
+値千金
+</h3>
+
+<p>
+2023.12.27
+</p>
+
 </div>
 
 
-<div class="album coming-soon">
+<!-- 決心 -->
+
+<div class="album">
+
 <img src="comingsoon.jpg" class="album-thumb" alt="決心">
-<h3>決心</h3>
-<p>2023.11.03</p>
+
+<h3>
+決心
+</h3>
+
+<p>
+2023.11.03
+</p>
+
 </div>
 
 
@@ -668,6 +824,8 @@ alt="映画 現在地 オリジナルサウンドトラック">
 
 <div class="album-list">
 
+
+<!-- 喝采 -->
 
 <div class="album">
 
@@ -706,7 +864,7 @@ TV・その他
 <div class="album-list">
 
 
-<div class="album coming-soon">
+<div class="album">
 
 <img
 src="comingsoon.jpg"
@@ -739,7 +897,7 @@ VIDEO
 <div class="album-list">
 
 
-<div class="album coming-soon">
+<div class="album">
 
 <img
 src="comingsoon.jpg"
