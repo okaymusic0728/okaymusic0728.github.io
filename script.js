@@ -2,6 +2,74 @@
    Okay MUSIC 共通プレーヤー
    ========================================================= */
 
+/* =========================================================
+   共通プレーヤーHTMLを全ページに自動生成
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    /* すでに存在する場合は作らない */
+    if (document.querySelector(".player-box")) {
+      return;
+    }
+
+    const playerHTML = `
+
+      <div class="player-box">
+
+        <div class="player-main">
+
+          <div class="now-playing-title">
+            <span>🎧</span>
+            <span id="now-title">曲を選択してください</span>
+          </div>
+
+          <div class="controls">
+
+            <button
+              type="button"
+              onclick="prevSong()">
+              ⏮
+            </button>
+
+            <button
+              type="button"
+              onclick="togglePlay()">
+              ▶
+            </button>
+
+            <button
+              type="button"
+              onclick="nextSong()">
+              ⏭
+            </button>
+
+          </div>
+
+        </div>
+
+        <input
+          type="range"
+          id="seek-bar"
+          min="0"
+          max="100"
+          value="0"
+          step="0.1"
+        >
+
+      </div>
+
+    `;
+
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      playerHTML
+    );
+
+  }
+);
 
 /* =========================================================
    曲リスト
