@@ -391,14 +391,28 @@ h1 {
 
 <!-- 左上：戻る・更新 -->
 
+<!-- =========================
+     左上の共通ボタン
+     ←：1つ戻る
+     ↻：最新の情報に更新
+     ========================= -->
+
 <div class="page-tools">
 
-  <button onclick="history.back()" title="一つ戻る">
-    <i class="fa-solid fa-arrow-left"></i>
+  <button
+    class="page-tool"
+    type="button"
+    onclick="history.back()"
+    aria-label="1つ戻る">
+    ←
   </button>
 
-  <button onclick="location.reload()" title="最新情報に更新">
-    <i class="fa-solid fa-rotate-right"></i>
+  <button
+    class="page-tool"
+    type="button"
+    onclick="location.reload()"
+    aria-label="最新の情報に更新">
+    ↻
   </button>
 
 </div>
