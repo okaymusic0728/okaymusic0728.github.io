@@ -362,3 +362,65 @@ document.addEventListener(
 
   }
 )
+
+/* =========================================
+   再生位置バー
+   ========================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    const player =
+      document.getElementById("player");
+
+    const seekBar =
+      document.getElementById("seek-bar");
+
+    if (!player || !seekBar) {
+      return;
+    }
+
+
+    /* 曲の長さを取得したらバーを設定 */
+
+    player.addEventListener(
+      "loadedmetadata",
+      function() {
+
+        seekBar.max =
+          player.duration;
+
+        seekBar.value = 0;
+
+      }
+    );
+
+
+    /* 再生中にバーを動かす */
+
+    player.addEventListener(
+      "timeupdate",
+      function() {
+
+        seekBar.value =
+          player.currentTime;
+
+      }
+    );
+
+
+    /* バーを動かしたら再生位置を変更 */
+
+    seekBar.addEventListener(
+      "input",
+      function() {
+
+        player.currentTime =
+          seekBar.value;
+
+      }
+    );
+
+  }
+);
