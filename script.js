@@ -188,7 +188,7 @@ const songs = [
 
 {
   title: "01. 希望",
-  file: "https://drive.usercontent.google.com/download?id=1BjEcPIQ6HY4RalFghko_LCMeo68OAymC&export=download&confirm=t"
+  file: "https://drive.google.com/uc?export=open&id=1BjEcPIQ6HY4RalFghko_LCMeo68OAymC"
 },
 
   {
