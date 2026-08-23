@@ -1,3 +1,12 @@
+/* =========================================================
+   Okay MUSIC 共通プレーヤー
+   ========================================================= */
+
+
+/* =========================================================
+   曲リスト
+   ========================================================= */
+
 const songs = [
 
   {
@@ -63,33 +72,13 @@ const songs = [
 ];
 
 
-let currentSong = 0;
-
-
 /* =========================================================
-   プレーヤーを取得
-   ※ HTMLにaudio要素がなくても自動作成
+   プレーヤー本体
    ========================================================= */
 
-function getPlayer() {
+const player = new Audio();
 
-  let player = document.getElementById("player");
-
-  if (!player) {
-
-    player = document.createElement("audio");
-
-    player.id = "player";
-
-    player.preload = "metadata";
-
-    document.body.appendChild(player);
-
-  }
-
-  return player;
-
-}
+let currentSong = 0;
 
 
 /* =========================================================
@@ -98,16 +87,15 @@ function getPlayer() {
 
 function playSong(number) {
 
-  const player = getPlayer();
-
   if (!songs[number]) {
     return;
   }
 
+
   currentSong = number;
 
 
-  /* 全曲の再生中表示を解除 */
+  /* 再生中表示を一旦すべて解除 */
 
   document
     .querySelectorAll(".song")
@@ -118,10 +106,11 @@ function playSong(number) {
     });
 
 
-  /* 現在の曲を再生中表示 */
+  /* 今の曲を表示 */
 
   const songElement =
     document.getElementById("song" + number);
+
 
   if (songElement) {
 
@@ -130,10 +119,11 @@ function playSong(number) {
   }
 
 
-  /* プレーヤーの曲名 */
+  /* Now Playing */
 
   const nowTitle =
     document.getElementById("now-title");
+
 
   if (nowTitle) {
 
@@ -148,14 +138,40 @@ function playSong(number) {
   player.src =
     songs[number].file;
 
-  player.load();
+
+  /* 再生位置を先頭へ */
+
+  player.currentTime = 0;
 
 
   /* 再生 */
 
-  player.play().catch(function() {});
+  player.play()
+    .catch(function(error) {
+
+      console.log("再生できませんでした:", error);
+
+    });
 
 }
+
+
+/* =========================================================
+   曲が終わったら次の曲
+   ========================================================= */
+
+player.addEventListener(
+  "ended",
+  function() {
+
+    if (currentSong < songs.length - 1) {
+
+      playSong(currentSong + 1);
+
+    }
+
+  }
+);
 
 
 /* =========================================================
@@ -174,16 +190,38 @@ function prevSong() {
 
 
 /* =========================================================
+   次の曲
+   ========================================================= */
+
+function nextSong() {
+
+  if (currentSong < songs.length - 1) {
+
+    playSong(currentSong + 1);
+
+  }
+
+}
+
+
+/* =========================================================
    再生・一時停止
    ========================================================= */
 
 function togglePlay() {
 
-  const player = getPlayer();
+  if (!player.src) {
+
+    playSong(currentSong);
+
+    return;
+
+  }
+
 
   if (player.paused) {
 
-    player.play().catch(function() {});
+    player.play();
 
   } else {
 
@@ -195,113 +233,87 @@ function togglePlay() {
 
 
 /* =========================================================
-   次の曲
-   ========================================================= */
-
-function nextSong() {
-
-  if (
-    currentSong <
-    songs.length - 1
-  ) {
-
-    playSong(currentSong + 1);
-
-  }
-
-}
-
-
-/* =========================================================
-   初期化
+   再生位置バー
    ========================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
   function() {
 
-    const player = getPlayer();
-
     const seekBar =
       document.getElementById("seek-bar");
 
 
-    /* =====================================================
-       曲終了 → 次の曲
-       ===================================================== */
+    if (!seekBar) {
+      return;
+    }
+
+
+    /* 曲の長さを取得 */
 
     player.addEventListener(
-      "ended",
+      "loadedmetadata",
       function() {
 
-        if (
-          currentSong <
-          songs.length - 1
-        ) {
+        seekBar.max =
+          player.duration;
 
-          playSong(currentSong + 1);
-
-        }
+        seekBar.value = 0;
 
       }
     );
 
 
-    /* =====================================================
-       再生位置バー
-       ===================================================== */
+    /* 再生位置に合わせてバーを動かす */
 
-    if (seekBar) {
+    player.addEventListener(
+      "timeupdate",
+      function() {
 
-      player.addEventListener(
-        "loadedmetadata",
-        function() {
+        seekBar.value =
+          player.currentTime;
 
-          seekBar.max =
-            player.duration || 0;
-
-          seekBar.value = 0;
-
-        }
-      );
+      }
+    );
 
 
-      player.addEventListener(
-        "timeupdate",
-        function() {
+    /* バーを動かして再生位置を変更 */
 
-          if (!isNaN(player.duration)) {
+    seekBar.addEventListener(
+      "input",
+      function() {
 
-            seekBar.value =
-              player.currentTime;
+        player.currentTime =
+          Number(seekBar.value);
 
-          }
+      }
+    );
 
-        }
-      );
-
-
-      seekBar.addEventListener(
-        "input",
-        function() {
-
-          player.currentTime =
-            Number(seekBar.value);
-
-        }
-      );
-
-    }
+  }
+);
 
 
-    /* =====================================================
-       ページ遷移アニメーション
-       ===================================================== */
+/* =========================================================
+   Okay MUSIC 共通ページ機能
+   ========================================================= */
+
+
+/* =========================================================
+   ページ表示
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
 
     document.body.classList.add(
       "page-enter"
     );
 
+
+    /* =====================================================
+       ページ遷移用の暗幕
+       ===================================================== */
 
     const transition =
       document.createElement("div");
@@ -314,67 +326,91 @@ document.addEventListener(
     );
 
 
+    /* =====================================================
+       ページ内リンク
+       ===================================================== */
+
     document
       .querySelectorAll("a")
-      .forEach(function(link) {
+      .forEach(
+        function(link) {
 
-        link.addEventListener(
-          "click",
-          function(event) {
+          link.addEventListener(
+            "click",
+            function(event) {
 
-            const href =
-              link.getAttribute("href");
+              const href =
+                link.getAttribute("href");
 
 
-            if (
-              !href ||
-              href === "#" ||
-              href.startsWith("#") ||
-              href.startsWith("http") ||
-              href.startsWith("mailto:") ||
-              href.startsWith("tel:")
-            ) {
+              /* 対象外 */
 
-              return;
+              if (
+
+                !href ||
+
+                href === "#" ||
+
+                href.startsWith("#") ||
+
+                href.startsWith("http") ||
+
+                href.startsWith("mailto:") ||
+
+                href.startsWith("tel:")
+
+              ) {
+
+                return;
+
+              }
+
+
+              /* 同じページ */
+
+              if (
+
+                href ===
+                window.location.pathname
+                  .split("/")
+                  .pop()
+
+              ) {
+
+                return;
+
+              }
+
+
+              /* 通常の遷移を一旦止める */
+
+              event.preventDefault();
+
+
+              /* 暗転 */
+
+              transition.classList.add(
+                "active"
+              );
+
+
+              /* 少し待って移動 */
+
+              setTimeout(
+                function() {
+
+                  window.location.href =
+                    href;
+
+                },
+                220
+              );
 
             }
+          );
 
-
-            if (
-              href ===
-              window.location.pathname
-                .split("/")
-                .pop()
-            ) {
-
-              return;
-
-            }
-
-
-            event.preventDefault();
-
-
-            transition.classList.add(
-              "active"
-            );
-
-
-            setTimeout(
-              function() {
-
-                window.location.href =
-                  href;
-
-              },
-              220
-            );
-
-          }
-
-        );
-
-      });
+        }
+      );
 
   }
 );
