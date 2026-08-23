@@ -3,6 +3,115 @@
    ========================================================= */
 
 /* =========================================================
+   共通下部UI
+   プレーヤー＋4つのナビを全ページに自動生成
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    /* 共通プレーヤーを作成 */
+    if (!document.querySelector(".player-box")) {
+
+      const playerHTML = `
+
+        <div class="player-box">
+
+          <div class="player-main">
+
+            <div class="now-playing-title">
+              <span>🎧</span>
+              <span id="now-title">曲を選択してください</span>
+            </div>
+
+            <div class="controls">
+
+              <button
+                type="button"
+                onclick="prevSong()">
+                ⏮
+              </button>
+
+              <button
+                type="button"
+                onclick="togglePlay()">
+                ▶
+              </button>
+
+              <button
+                type="button"
+                onclick="nextSong()">
+                ⏭
+              </button>
+
+            </div>
+
+          </div>
+
+          <input
+            type="range"
+            id="seek-bar"
+            min="0"
+            max="100"
+            value="0"
+            step="0.1"
+          >
+
+        </div>
+
+      `;
+
+      document.body.insertAdjacentHTML(
+        "beforeend",
+        playerHTML
+      );
+
+    }
+
+
+    /* 共通4ボタンを作成 */
+    if (!document.querySelector(".nav")) {
+
+      const navHTML = `
+
+        <div class="nav">
+
+          <a href="index.html" class="nav-btn">
+            <i class="fa-solid fa-house"></i>
+            <span>HOME</span>
+          </a>
+
+          <a href="new.html" class="nav-btn">
+            <i class="fa-solid fa-sparkles"></i>
+            <span>NEW</span>
+          </a>
+
+          <a href="radio.html" class="nav-btn">
+            <i class="fa-solid fa-radio"></i>
+            <span>RADIO</span>
+          </a>
+
+          <a href="search.html" class="nav-btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>SEARCH</span>
+          </a>
+
+        </div>
+
+      `;
+
+      document.body.insertAdjacentHTML(
+        "beforeend",
+        navHTML
+      );
+
+    }
+
+  }
+);
+
+/* =========================================================
    共通プレーヤーHTMLを全ページに自動生成
    ========================================================= */
 
