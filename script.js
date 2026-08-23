@@ -188,62 +188,62 @@ const songs = [
 
   {
     title: "01. 希望",
-    file: "01.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1BjEcPIQ6HY4RalFghko_LCMeo68OAymC"
   },
 
   {
     title: "02. 涙の正体",
-    file: "02.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1A-fMOZwDIjimq9_1wtDcva01PP89Q5K_"
   },
 
   {
     title: "03. 燦然",
-    file: "03.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1P8U6v2VbRXnWN_gAtI184XKqin17ZFEO"
   },
 
   {
     title: "04. クライマックス",
-    file: "04.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1QR4UyGPBFUPZ8tLIotS3jJHec9HtfLhS"
   },
 
   {
     title: "05. 主人公",
-    file: "05.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1ZiN69MW4PpgWtd1H5TmtkkRi6W3DyZC6"
   },
 
   {
     title: "06. アプローズ",
-    file: "06.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1ZWB1Tqe6EetA9boMR6fI_6Yn3dTfxzHT"
   },
 
   {
     title: "07. 健気",
-    file: "07.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1qYbYFDGFQAA3_N81RN0XHDHIG_vBpgYQ"
   },
 
   {
     title: "08. まなざし",
-    file: "08.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1OGSuPbky4Sl4drlgj9pQlcQJGpmN4lZ_"
   },
 
   {
     title: "09. 夏と跡形",
-    file: "09.mp3"
+    file: "https://drive.google.com/uc?export=download&id=14JikTpXZqqChkOzDWn0g4Pnmog98WyyX"
   },
 
   {
     title: "10. 片想い",
-    file: "10.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1QHcp1rU6NfftIR1Tetjt-AyY5busWHcg"
   },
 
   {
     title: "11. 生きがい",
-    file: "11.mp3"
+    file: "https://drive.google.com/uc?export=download&id=1ICmUePAhjxL4AVzHgqqyoGs0S1ojl_9z"
   },
 
   {
     title: "12. 告白",
-    file: "12.mp3"
+    file: "https://drive.google.com/uc?export=download&id=19UQgaGYvx3wi1uCvrdwwwBUfpIAktvro"
   }
 
 ];
