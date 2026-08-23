@@ -487,6 +487,16 @@ document.addEventListener(
       "page-enter"
     );
 
+   const fixedUI =
+  document.querySelectorAll(
+    ".page-tools, .player-box, .nav"
+  );
+
+fixedUI.forEach(function(ui) {
+
+  ui.style.animation = "none";
+
+});
 
     /* =====================================================
        ページ遷移用の暗幕
