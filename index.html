@@ -10,8 +10,11 @@
 
 <link rel="apple-touch-icon" href="00001.png">
 
-<style>
+<link rel="stylesheet" href="style.css">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
 body {
 
   background-image:
@@ -29,8 +32,7 @@ body {
   font-family: sans-serif;
   text-align: center;
 
- padding: 12px 15px;
-padding-bottom: 80px;
+ padding: 12px 15px 150px 15px;
   min-height: 100vh;
   
   height: 100dvh;
@@ -285,68 +287,7 @@ h1 {
 }
 
 
-/* =========================
-   下部4ボタン
-   ========================= */
 
-.nav {
-
-  position: fixed;
-
-  bottom: 0;
-
-  left: 0;
-
-  width: 100%;
-
-  display: flex;
-
-  justify-content: space-around;
-
-  background: rgba(20,20,20,.95);
-
-  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
-
-  border-top: 1px solid #555;
-
-  z-index: 9999;
-
-}
-
-
-.nav-btn {
-
-  color: #c0c0c0;
-
-  text-decoration: none;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  font-size: 12px;
-
-  gap: 4px;
-
-  width: 25%;
-
-}
-
-
-.nav-btn:hover {
-
-  transform: scale(1.08);
-
-}
-
-
-.nav-btn:active {
-
-  transform: scale(0.95);
-
-}
 
 </style>
 
@@ -355,6 +296,31 @@ h1 {
 
 <body>
 
+<!-- =========================
+     左上の共通ボタン
+     ←：1つ戻る
+     ↻：最新の情報に更新
+     ========================= -->
+
+<div class="page-tools">
+
+  <button
+    class="page-tool"
+    type="button"
+    onclick="history.back()"
+    aria-label="1つ戻る">
+    ←
+  </button>
+
+  <button
+    class="page-tool"
+    type="button"
+    onclick="location.reload()"
+    aria-label="最新の情報に更新">
+    ↻
+  </button>
+
+</div>
 
 <!-- =========================
      下部4ボタン
@@ -362,39 +328,24 @@ h1 {
 
 <div class="nav">
 
-<a href="index.html" class="nav-btn">
-
-<span>⌂</span>
-
+<a href="index.html" class="nav-btn active">
+<i class="fa-solid fa-house"></i>
 <span>HOME</span>
-
 </a>
-
 
 <a href="new.html" class="nav-btn">
-
-<span>✨</span>
-
+<i class="fa-solid fa-sparkles"></i>
 <span>NEW</span>
-
 </a>
-
 
 <a href="radio.html" class="nav-btn">
-
-<span>📻</span>
-
+<i class="fa-solid fa-radio"></i>
 <span>RADIO</span>
-
 </a>
 
-
 <a href="search.html" class="nav-btn">
-
-<span>🔍</span>
-
+<i class="fa-solid fa-magnifying-glass"></i>
 <span>SEARCH</span>
-
 </a>
 
 </div>
