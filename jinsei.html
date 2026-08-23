@@ -224,19 +224,96 @@ h1 {
 
 .player-box {
 
-  background-color: #222;
+  position: fixed;
 
-  padding: 15px;
+  bottom: 76px;
 
-  margin: 30px auto;
+  left: 50%;
 
-  border-radius: 15px;
+  transform: translateX(-50%);
 
-  width: 100%;
+  background-color: rgba(34,34,34,.96);
+
+  padding: 6px 10px;
+
+  margin: 0;
+
+  border-radius: 10px;
+
+  width: calc(100% - 20px);
 
   max-width: 450px;
 
+  height: 58px;
+
   box-sizing: border-box;
+
+  z-index: 9998;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  box-shadow: 0 3px 15px rgba(0,0,0,.45);
+
+}
+
+.now-playing-title {
+
+  flex: 1;
+
+  min-width: 0;
+
+  text-align: left;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+}
+
+
+.controls {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+}
+
+
+.controls button {
+
+  width: 30px;
+
+  height: 30px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #333;
+
+  color: white;
+
+  font-size: 14px;
+
+}
+
+
+.controls button:active {
+
+  transform: scale(.9);
 
 }
 
@@ -432,27 +509,28 @@ NHK夜ドラ『バニラな毎日』劇中歌
 
 <div class="player-box">
 
-<h3>
-🎧 Now Playing
-</h3>
+  <div class="now-playing-title">
+    <span>🎧</span>
+    <span id="now-title">曲を選択してください</span>
+  </div>
 
-<p id="now-title">
-曲を選択してください
-</p>
+  <div class="controls">
 
-<div class="controls">
+    <button onclick="prevSong()">
+      ⏮
+    </button>
 
-<button onclick="prevSong()">
-⏮
-</button>
+    <button onclick="togglePlay()">
+      ▶
+    </button>
 
-<button onclick="togglePlay()">
-▶
-</button>
+    <button onclick="nextSong()">
+      ⏭
+    </button>
 
-<button onclick="nextSong()">
-⏭
-</button>
+  </div>
+
+  <audio id="player"></audio>
 
 </div>
 
