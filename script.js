@@ -186,10 +186,10 @@ document.addEventListener(
 
 const songs = [
 
-  {
-    title: "01. 希望",
-    file: "https://drive.google.com/uc?export=download&id=1BjEcPIQ6HY4RalFghko_LCMeo68OAymC"
-  },
+{
+  title: "01. 希望",
+  file: "https://drive.usercontent.google.com/download?id=1BjEcPIQ6HY4RalFghko_LCMeo68OAymC&export=download&confirm=t"
+},
 
   {
     title: "02. 涙の正体",
