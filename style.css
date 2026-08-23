@@ -644,3 +644,25 @@ body {
   padding-bottom: 150px !important;
 
 }
+
+/* =========================================================
+   共通ナビ：NEWアイコン
+   全ページ共通
+   ========================================================= */
+
+.nav-btn:nth-child(2) i {
+
+  font-family: sans-serif;
+
+  font-style: normal;
+
+  font-size: 20px;
+
+}
+
+
+.nav-btn:nth-child(2) i::before {
+
+  content: "✨";
+
+}
