@@ -317,6 +317,54 @@ h1 {
 
 }
 
+/* =========================
+   左上：戻る・更新
+   ========================= */
+
+.page-tools {
+
+  position: fixed;
+
+  top: 8px;
+
+  left: 8px;
+
+  display: flex;
+
+  gap: 5px;
+
+  z-index: 10000;
+
+}
+
+
+.page-tools button {
+
+  width: 30px;
+
+  height: 30px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: rgba(34,34,34,.9);
+
+  color: #c0c0c0;
+
+  font-size: 13px;
+
+}
+
+
+.page-tools button:active {
+
+  transform: scale(.9);
+
+}
+
 </style>
 
 </head>
@@ -325,7 +373,19 @@ h1 {
 
 <body>
 
+<!-- 左上：戻る・更新 -->
 
+<div class="page-tools">
+
+  <button onclick="history.back()" title="一つ戻る">
+    <i class="fa-solid fa-arrow-left"></i>
+  </button>
+
+  <button onclick="location.reload()" title="最新情報に更新">
+    <i class="fa-solid fa-rotate-right"></i>
+  </button>
+
+</div>
 
 <div class="nav">
 
@@ -522,11 +582,6 @@ NHK夜ドラ『バニラな毎日』劇中歌
   </div>
 
   <audio id="player"></audio>
-
-</div>
-
-
-<audio id="player" controls></audio>
 
 </div>
 
