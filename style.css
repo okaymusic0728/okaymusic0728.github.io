@@ -696,3 +696,44 @@ body {
   animation: none !important;
 
 }
+
+/* =========================================================
+   共通：下部ナビとプレーヤーの重なり防止
+   ========================================================= */
+
+/* 下部4ボタン */
+.nav {
+  height: 72px;
+  box-sizing: border-box;
+}
+
+
+/* プレーヤーはナビの上に固定 */
+.player-box {
+  position: fixed;
+  left: 0;
+  bottom: 72px;
+  width: 100%;
+  z-index: 9998;
+  box-sizing: border-box;
+}
+
+
+/* プレーヤーがコンテンツに被らないようにする */
+body {
+  padding-bottom: 300px;
+}
+
+
+/* iPhoneのホームバー対策 */
+@supports (padding: env(safe-area-inset-bottom)) {
+
+  .nav {
+    height: calc(72px + env(safe-area-inset-bottom));
+  }
+
+  .player-box {
+    bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
+}
