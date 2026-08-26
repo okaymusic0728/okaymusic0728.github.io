@@ -17,7 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
      左上：戻る・更新
      ========================= */
 
-  if (!document.querySelector(".page-tools")) {
+if (
+  !document.querySelector(".page-tools") &&
+  !document.body.classList.contains("home-page")
+) { {
 
     document.body.insertAdjacentHTML(
       "afterbegin",
