@@ -58,27 +58,27 @@ document.addEventListener("DOMContentLoaded", function () {
       `
       <div class="nav">
 
-        <a href="index.html" class="nav-btn">
-          <i class="fa-solid fa-house"></i>
-          <span>ホーム</span>
-        </a>
+  <a href="index.html" class="nav-btn">
+    <i class="fa-solid fa-house"></i>
+    <span>HOME</span>
+  </a>
 
-        <a href="new.html" class="nav-btn">
-          <i class="fa-solid fa-sparkles"></i>
-          <span>新着</span>
-        </a>
+  <a href="new.html" class="nav-btn">
+    <i class="fa-solid fa-sparkles"></i>
+    <span>NEW</span>
+  </a>
 
-        <a href="radio.html" class="nav-btn">
-          <i class="fa-solid fa-radio"></i>
-          <span>ラジオ</span>
-        </a>
+  <a href="radio.html" class="nav-btn">
+    <i class="fa-solid fa-radio"></i>
+    <span>RADIO</span>
+  </a>
 
-        <a href="search.html" class="nav-btn">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <span>検索</span>
-        </a>
+  <a href="search.html" class="nav-btn">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span>SEARCH</span>
+  </a>
 
-      </div>
+</div>
       `
     );
 
