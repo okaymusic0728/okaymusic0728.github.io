@@ -2,14 +2,16 @@
    Okay MUSIC 共通システム
    ========================================================= */
 
+const player = new Audio();
+
+let currentSong = 0;
+
 
 /* =========================================================
    共通UIを自動生成
-   戻る・更新・プレーヤー・下部ナビ
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
-
 
   /* =========================
      左上：戻る・更新
@@ -17,8 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!document.querySelector(".page-tools")) {
 
-    const toolsHTML = `
-
+    document.body.insertAdjacentHTML(
+      "afterbegin",
+      `
       <div class="page-tools">
 
         <button
@@ -38,103 +41,67 @@ document.addEventListener("DOMContentLoaded", function () {
         </button>
 
       </div>
-
-    `;
-
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      toolsHTML
+      `
     );
 
   }
 
 
   /* =========================
-     下部4ボタン
+     下部ナビ
      ========================= */
 
   if (!document.querySelector(".nav")) {
 
-    const navHTML = `
-
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      `
       <div class="nav">
 
         <a href="index.html" class="nav-btn">
           <i class="fa-solid fa-house"></i>
-          <span>HOME</span>
+          <span>ホーム</span>
         </a>
 
         <a href="new.html" class="nav-btn">
           <i class="fa-solid fa-sparkles"></i>
-          <span>NEW</span>
+          <span>新着</span>
         </a>
 
         <a href="radio.html" class="nav-btn">
           <i class="fa-solid fa-radio"></i>
-          <span>RADIO</span>
+          <span>ラジオ</span>
         </a>
 
         <a href="search.html" class="nav-btn">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <span>SEARCH</span>
+          <span>検索</span>
         </a>
 
       </div>
-
-    `;
-
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      navHTML
+      `
     );
 
   }
 
 
   /* =========================
-     共通プレーヤー
+     Apple Music風プレーヤー
      ========================= */
 
   if (!document.querySelector(".player-box")) {
 
-    const playerHTML = `
-
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      `
       <div class="player-box">
 
-        <div class="player-main">
+        <div class="player-info">
 
           <div class="now-playing-title">
-
-            <span>🎧</span>
-
             <span id="now-title">
               曲を選択してください
             </span>
-
-          </div>
-
-
-          <div class="controls">
-
-            <button
-              type="button"
-              onclick="prevSong()">
-              ⏮
-            </button>
-
-            <button
-              type="button"
-              id="play-button"
-              onclick="togglePlay()">
-              ▶
-            </button>
-
-            <button
-              type="button"
-              onclick="nextSong()">
-              ⏭
-            </button>
-
           </div>
 
         </div>
@@ -149,41 +116,71 @@ document.addEventListener("DOMContentLoaded", function () {
           step="0.1"
         >
 
+
+        <div class="player-time">
+
+          <span id="current-time">
+            0:00
+          </span>
+
+          <span id="duration">
+            0:00
+          </span>
+
+        </div>
+
+
+        <div class="controls">
+
+          <button
+            type="button"
+            onclick="prevSong()">
+            <i class="fa-solid fa-backward-step"></i>
+          </button>
+
+          <button
+            type="button"
+            class="play-button"
+            onclick="togglePlay()">
+            <i
+              id="play-icon"
+              class="fa-solid fa-play">
+            </i>
+          </button>
+
+          <button
+            type="button"
+            onclick="nextSong()">
+            <i class="fa-solid fa-forward-step"></i>
+          </button>
+
+        </div>
+
       </div>
-
-    `;
-
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      playerHTML
+      `
     );
 
   }
+
+
+  setupSeekBar();
 
 });
 
 
 /* =========================================================
-   共通プレーヤー本体
-   ========================================================= */
-
-const player = new Audio();
-
-let currentSong = 0;
-
-
-/* =========================================================
-   このページの曲リストを取得
-   各アルバムページで albumSongs を設定する
+   曲データ取得
    ========================================================= */
 
 function getSongs() {
 
-  if (typeof window.albumSongs === "undefined") {
-    return [];
+  if (Array.isArray(window.albumSongs)) {
+
+    return window.albumSongs;
+
   }
 
-  return window.albumSongs;
+  return [];
 
 }
 
@@ -196,9 +193,7 @@ function playSong(number) {
 
   const songs = getSongs();
 
-
   if (!songs[number]) {
-    console.log("曲が登録されていません");
     return;
   }
 
@@ -206,7 +201,7 @@ function playSong(number) {
   currentSong = number;
 
 
-  /* 再生中表示を解除 */
+  /* 曲一覧の再生中表示 */
 
   document
     .querySelectorAll(".song")
@@ -216,8 +211,6 @@ function playSong(number) {
 
     });
 
-
-  /* 現在の曲を再生中表示 */
 
   const songElement =
     document.getElementById("song" + number);
@@ -244,7 +237,7 @@ function playSong(number) {
   }
 
 
-  /* 音源設定 */
+  /* 音源変更 */
 
   player.src =
     songs[number].file;
@@ -253,9 +246,12 @@ function playSong(number) {
   player.currentTime = 0;
 
 
-  /* 再生 */
-
   player.play()
+    .then(function () {
+
+      updatePlayIcon(true);
+
+    })
     .catch(function (error) {
 
       console.log(
@@ -263,29 +259,11 @@ function playSong(number) {
         error
       );
 
+      updatePlayIcon(false);
+
     });
 
 }
-
-
-/* =========================================================
-   曲終了 → 次の曲
-   ========================================================= */
-
-player.addEventListener(
-  "ended",
-  function () {
-
-    const songs = getSongs();
-
-    if (currentSong < songs.length - 1) {
-
-      playSong(currentSong + 1);
-
-    }
-
-  }
-);
 
 
 /* =========================================================
@@ -294,9 +272,16 @@ player.addEventListener(
 
 function prevSong() {
 
+  const songs = getSongs();
+
+
   if (currentSong > 0) {
 
     playSong(currentSong - 1);
+
+  } else if (songs.length > 0) {
+
+    playSong(songs.length - 1);
 
   }
 
@@ -311,9 +296,14 @@ function nextSong() {
 
   const songs = getSongs();
 
+
   if (currentSong < songs.length - 1) {
 
     playSong(currentSong + 1);
+
+  } else if (songs.length > 0) {
+
+    playSong(0);
 
   }
 
@@ -328,14 +318,14 @@ function togglePlay() {
 
   const songs = getSongs();
 
-  if (songs.length === 0) {
-    return;
-  }
-
 
   if (!player.src) {
 
-    playSong(currentSong);
+    if (songs.length > 0) {
+
+      playSong(currentSong);
+
+    }
 
     return;
 
@@ -346,9 +336,13 @@ function togglePlay() {
 
     player.play();
 
+    updatePlayIcon(true);
+
   } else {
 
     player.pause();
+
+    updatePlayIcon(false);
 
   }
 
@@ -356,186 +350,169 @@ function togglePlay() {
 
 
 /* =========================================================
-   再生ボタン表示
+   再生終了
    ========================================================= */
 
 player.addEventListener(
-  "play",
+  "ended",
   function () {
 
-    const button =
-      document.getElementById("play-button");
-
-    if (button) {
-
-      button.textContent = "⏸";
-
-    }
+    nextSong();
 
   }
 );
+
+
+/* =========================================================
+   シークバー
+   ========================================================= */
+
+function setupSeekBar() {
+
+  const seekBar =
+    document.getElementById("seek-bar");
+
+
+  if (!seekBar) {
+    return;
+  }
+
+
+  player.addEventListener(
+    "loadedmetadata",
+    function () {
+
+      if (
+        Number.isFinite(player.duration)
+      ) {
+
+        seekBar.max =
+          player.duration;
+
+        document.getElementById(
+          "duration"
+        ).textContent =
+          formatTime(player.duration);
+
+      }
+
+    }
+  );
+
+
+  player.addEventListener(
+    "timeupdate",
+    function () {
+
+      seekBar.value =
+        player.currentTime;
+
+
+      const currentTime =
+        document.getElementById(
+          "current-time"
+        );
+
+
+      if (currentTime) {
+
+        currentTime.textContent =
+          formatTime(player.currentTime);
+
+      }
+
+    }
+  );
+
+
+  seekBar.addEventListener(
+    "input",
+    function () {
+
+      player.currentTime =
+        Number(seekBar.value);
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   時間表示
+   ========================================================= */
+
+function formatTime(seconds) {
+
+  if (!Number.isFinite(seconds)) {
+    return "0:00";
+  }
+
+
+  const minutes =
+    Math.floor(seconds / 60);
+
+
+  const remainingSeconds =
+    Math.floor(seconds % 60)
+      .toString()
+      .padStart(2, "0");
+
+
+  return (
+    minutes +
+    ":" +
+    remainingSeconds
+  );
+
+}
+
+
+/* =========================================================
+   再生アイコン変更
+   ========================================================= */
+
+function updatePlayIcon(isPlaying) {
+
+  const playIcon =
+    document.getElementById("play-icon");
+
+
+  if (!playIcon) {
+    return;
+  }
+
+
+  if (isPlaying) {
+
+    playIcon.className =
+      "fa-solid fa-pause";
+
+  } else {
+
+    playIcon.className =
+      "fa-solid fa-play";
+
+  }
+
+}
 
 
 player.addEventListener(
   "pause",
   function () {
 
-    const button =
-      document.getElementById("play-button");
-
-    if (button) {
-
-      button.textContent = "▶";
-
-    }
+    updatePlayIcon(false);
 
   }
 );
 
 
-/* =========================================================
-   再生位置バー
-   ========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
+player.addEventListener(
+  "play",
   function () {
 
-    const seekBar =
-      document.getElementById("seek-bar");
-
-
-    if (!seekBar) {
-      return;
-    }
-
-
-    player.addEventListener(
-      "loadedmetadata",
-      function () {
-
-        if (
-          Number.isFinite(player.duration)
-        ) {
-
-          seekBar.max =
-            player.duration;
-
-          seekBar.value = 0;
-
-        }
-
-      }
-    );
-
-
-    player.addEventListener(
-      "timeupdate",
-      function () {
-
-        if (
-          Number.isFinite(player.duration)
-        ) {
-
-          seekBar.value =
-            player.currentTime;
-
-        }
-
-      }
-    );
-
-
-    seekBar.addEventListener(
-      "input",
-      function () {
-
-        player.currentTime =
-          Number(seekBar.value);
-
-      }
-    );
-
-  }
-);
-
-
-/* =========================================================
-   ページ遷移
-   ========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function () {
-
-    const transition =
-      document.createElement("div");
-
-    transition.id =
-      "page-transition";
-
-    document.body.appendChild(
-      transition
-    );
-
-
-    document
-      .querySelectorAll("a")
-      .forEach(
-        function (link) {
-
-          link.addEventListener(
-            "click",
-            function (event) {
-
-              const href =
-                link.getAttribute("href");
-
-
-              if (
-
-                !href ||
-
-                href === "#" ||
-
-                href.startsWith("#") ||
-
-                href.startsWith("http") ||
-
-                href.startsWith("mailto:") ||
-
-                href.startsWith("tel:")
-
-              ) {
-
-                return;
-
-              }
-
-
-              event.preventDefault();
-
-
-              transition.classList.add(
-                "active"
-              );
-
-
-              setTimeout(
-                function () {
-
-                  window.location.href =
-                    href;
-
-                },
-                220
-              );
-
-            }
-          );
-
-        }
-      );
+    updatePlayIcon(true);
 
   }
 );
