@@ -22,57 +22,12 @@
 
 <body>
 
-<!-- 左上：戻る・更新 -->
-
-<!-- =========================
-     左上の共通ボタン
-     ←：1つ戻る
-     ↻：最新の情報に更新
-     ========================= -->
-
-<div class="page-tools">
-
-  <button
-    class="page-tool"
-    type="button"
-    onclick="history.back()"
-    aria-label="1つ戻る">
-    ←
-  </button>
-
-  <button
-    class="page-tool"
-    type="button"
-    onclick="location.reload()"
-    aria-label="最新の情報に更新">
+<!-- 
     ↻
   </button>
 
 </div>
 
-<div class="nav">
-
-<a href="index.html" class="nav-btn">
-<i class="fa-solid fa-house"></i>
-<span>HOME</span>
-</a>
-
-<a href="new.html" class="nav-btn">
-<i class="fa-solid fa-sparkles"></i>
-<span>NEW</span>
-</a>
-
-<a href="radio.html" class="nav-btn">
-<i class="fa-solid fa-radio"></i>
-<span>RADIO</span>
-</a>
-
-<a href="search.html" class="nav-btn">
-<i class="fa-solid fa-magnifying-glass"></i>
-<span>SEARCH</span>
-</a>
-
-</div>
 
 
 
@@ -221,30 +176,7 @@ NHK夜ドラ『バニラな毎日』劇中歌
 </div>
 
 
-<div class="player-box">
 
-  <div class="player-main">
-
-    <div class="now-playing-title">
-      <span>🎧</span>
-      <span id="now-title">曲を選択してください</span>
-    </div>
-
-    <div class="controls">
-
-      <button onclick="prevSong()">
-        ⏮
-      </button>
-
-      <button onclick="togglePlay()">
-        ▶
-      </button>
-
-      <button onclick="nextSong()">
-        ⏭
-      </button>
-
-    </div>
 
   </div>
 
