@@ -270,7 +270,7 @@ h1 {
 
 
 .nav-btn i {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 
@@ -500,22 +500,6 @@ body {
   padding-bottom: 180px !important;
 }
 
-
-/* =========================================================
-   共通ナビ：NEWアイコン
-   全ページ共通
-   ========================================================= */
-
-.nav-btn:nth-child(2) i {
-  font-family: sans-serif;
-  font-style: normal;
-  font-size: 20px;
-}
-
-
-.nav-btn:nth-child(2) i::before {
-  content: "✨";
-}
 
 
 /* =========================================================
