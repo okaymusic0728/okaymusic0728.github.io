@@ -2,6 +2,11 @@
    Okay MUSIC 共通システム
    ========================================================= */
 
+
+/* =========================================================
+   共通オーディオプレーヤー
+   ========================================================= */
+
 const player = new Audio();
 
 let currentSong = 0;
@@ -15,12 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* =========================
      左上：戻る・更新
+     TOPページ以外に自動表示
      ========================= */
 
-if (
-  !document.querySelector(".page-tools") &&
-  !document.body.classList.contains("home-page")
-) { {
+  if (
+    !document.querySelector(".page-tools") &&
+    !document.body.classList.contains("home-page")
+  ) {
 
     document.body.insertAdjacentHTML(
       "afterbegin",
@@ -51,7 +57,8 @@ if (
 
 
   /* =========================
-     下部ナビ
+     下部4ボタン
+     全ページ共通
      ========================= */
 
   if (!document.querySelector(".nav")) {
@@ -61,27 +68,27 @@ if (
       `
       <div class="nav">
 
-  <a href="index.html" class="nav-btn">
-    <i class="fa-solid fa-house"></i>
-    <span>HOME</span>
-  </a>
+        <a href="index.html" class="nav-btn">
+          <i class="fa-solid fa-house"></i>
+          <span>HOME</span>
+        </a>
 
-  <a href="new.html" class="nav-btn">
-    <i class="fa-solid fa-sparkles"></i>
-    <span>NEW</span>
-  </a>
+        <a href="new.html" class="nav-btn">
+          <i class="fa-solid fa-sparkles"></i>
+          <span>NEW</span>
+        </a>
 
-  <a href="radio.html" class="nav-btn">
-    <i class="fa-solid fa-radio"></i>
-    <span>RADIO</span>
-  </a>
+        <a href="radio.html" class="nav-btn">
+          <i class="fa-solid fa-radio"></i>
+          <span>RADIO</span>
+        </a>
 
-  <a href="search.html" class="nav-btn">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span>SEARCH</span>
-  </a>
+        <a href="search.html" class="nav-btn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>SEARCH</span>
+        </a>
 
-</div>
+      </div>
       `
     );
 
@@ -89,7 +96,8 @@ if (
 
 
   /* =========================
-     Apple Music風プレーヤー
+     共通プレーヤー
+     全ページ共通
      ========================= */
 
   if (!document.querySelector(".player-box")) {
@@ -99,12 +107,52 @@ if (
       `
       <div class="player-box">
 
-        <div class="player-info">
+        <div class="player-main">
 
           <div class="now-playing-title">
+
             <span id="now-title">
               曲を選択してください
             </span>
+
+          </div>
+
+
+          <div class="controls">
+
+            <button
+              type="button"
+              onclick="prevSong()"
+              aria-label="前の曲">
+
+              <i class="fa-solid fa-backward-step"></i>
+
+            </button>
+
+
+            <button
+              type="button"
+              class="play-button"
+              onclick="togglePlay()"
+              aria-label="再生・一時停止">
+
+              <i
+                id="play-icon"
+                class="fa-solid fa-play">
+              </i>
+
+            </button>
+
+
+            <button
+              type="button"
+              onclick="nextSong()"
+              aria-label="次の曲">
+
+              <i class="fa-solid fa-forward-step"></i>
+
+            </button>
+
           </div>
 
         </div>
@@ -132,39 +180,16 @@ if (
 
         </div>
 
-
-        <div class="controls">
-
-          <button
-            type="button"
-            onclick="prevSong()">
-            <i class="fa-solid fa-backward-step"></i>
-          </button>
-
-          <button
-            type="button"
-            class="play-button"
-            onclick="togglePlay()">
-            <i
-              id="play-icon"
-              class="fa-solid fa-play">
-            </i>
-          </button>
-
-          <button
-            type="button"
-            onclick="nextSong()">
-            <i class="fa-solid fa-forward-step"></i>
-          </button>
-
-        </div>
-
       </div>
       `
     );
 
   }
 
+
+  /* =========================
+     シークバー設定
+     ========================= */
 
   setupSeekBar();
 
@@ -178,9 +203,7 @@ if (
 function getSongs() {
 
   if (Array.isArray(window.albumSongs)) {
-
     return window.albumSongs;
-
   }
 
   return [];
@@ -240,29 +263,23 @@ function playSong(number) {
   }
 
 
-  /* 音源変更 */
+  /* 音源設定 */
 
   player.src =
     songs[number].file;
 
-
   player.currentTime = 0;
 
 
+  /* 再生 */
+
   player.play()
-    .then(function () {
-
-      updatePlayIcon(true);
-
-    })
     .catch(function (error) {
 
       console.log(
         "再生できませんでした:",
         error
       );
-
-      updatePlayIcon(false);
 
     });
 
@@ -277,12 +294,16 @@ function prevSong() {
 
   const songs = getSongs();
 
+  if (songs.length === 0) {
+    return;
+  }
+
 
   if (currentSong > 0) {
 
     playSong(currentSong - 1);
 
-  } else if (songs.length > 0) {
+  } else {
 
     playSong(songs.length - 1);
 
@@ -299,12 +320,16 @@ function nextSong() {
 
   const songs = getSongs();
 
+  if (songs.length === 0) {
+    return;
+  }
+
 
   if (currentSong < songs.length - 1) {
 
     playSong(currentSong + 1);
 
-  } else if (songs.length > 0) {
+  } else {
 
     playSong(0);
 
@@ -322,6 +347,8 @@ function togglePlay() {
   const songs = getSongs();
 
 
+  /* まだ曲を選択していない場合 */
+
   if (!player.src) {
 
     if (songs.length > 0) {
@@ -337,15 +364,19 @@ function togglePlay() {
 
   if (player.paused) {
 
-    player.play();
+    player.play()
+      .catch(function (error) {
 
-    updatePlayIcon(true);
+        console.log(
+          "再生できませんでした:",
+          error
+        );
+
+      });
 
   } else {
 
     player.pause();
-
-    updatePlayIcon(false);
 
   }
 
@@ -353,7 +384,7 @@ function togglePlay() {
 
 
 /* =========================================================
-   再生終了
+   曲の再生終了
    ========================================================= */
 
 player.addEventListener(
@@ -385,17 +416,22 @@ function setupSeekBar() {
     "loadedmetadata",
     function () {
 
-      if (
-        Number.isFinite(player.duration)
-      ) {
+      if (Number.isFinite(player.duration)) {
 
         seekBar.max =
           player.duration;
 
-        document.getElementById(
-          "duration"
-        ).textContent =
-          formatTime(player.duration);
+
+        const duration =
+          document.getElementById("duration");
+
+
+        if (duration) {
+
+          duration.textContent =
+            formatTime(player.duration);
+
+        }
 
       }
 
@@ -412,9 +448,7 @@ function setupSeekBar() {
 
 
       const currentTime =
-        document.getElementById(
-          "current-time"
-        );
+        document.getElementById("current-time");
 
 
       if (currentTime) {
@@ -501,21 +535,25 @@ function updatePlayIcon(isPlaying) {
 }
 
 
-player.addEventListener(
-  "pause",
-  function () {
-
-    updatePlayIcon(false);
-
-  }
-);
-
+/* =========================================================
+   再生状態をボタンに反映
+   ========================================================= */
 
 player.addEventListener(
   "play",
   function () {
 
     updatePlayIcon(true);
+
+  }
+);
+
+
+player.addEventListener(
+  "pause",
+  function () {
+
+    updatePlayIcon(false);
 
   }
 );
