@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
+
 body {
 
   background-image:
@@ -32,9 +33,9 @@ body {
   font-family: sans-serif;
   text-align: center;
 
- padding: 12px 15px 150px 15px;
+  padding: 12px 15px 150px 15px;
   min-height: 100vh;
-  
+
   height: 100dvh;
   overflow: hidden;
   box-sizing: border-box;
@@ -48,6 +49,7 @@ h1 {
   margin: 50px 0 0;
 }
 
+
 .message {
   font-size: 11px;
   text-align: left;
@@ -55,6 +57,10 @@ h1 {
   line-height: 1.4;
 }
 
+
+/* =========================
+   検索
+   ========================= */
 
 .search-box {
 
@@ -219,6 +225,7 @@ h1 {
   left: -2px;
 }
 
+
 .change-btn.right {
   right: -2px;
 }
@@ -286,9 +293,6 @@ h1 {
 
 }
 
-
-
-
 </style>
 
 </head>
@@ -296,59 +300,12 @@ h1 {
 
 <body class="home-page">
 
-<!-- =========================
-     左上の共通ボタン
-     ←：1つ戻る
-     ↻：最新の情報に更新
-     ========================= -->
-
-<div class="page-tools">
-
-  <button
-    class="page-tool"
-    type="button"
-    onclick="history.back()"
-    aria-label="1つ戻る">
-    ←
-  </button>
-
-  <button
-    class="page-tool"
-    type="button"
-    onclick="location.reload()"
-    aria-label="最新の情報に更新">
-    ↻
-  </button>
-
-</div>
 
 <!-- =========================
-     下部4ボタン
+     TOPページ
+     ※ 左上の「戻る」「更新」は表示しない
+     ※ 下部4ボタンとプレーヤーは script.js が共通生成
      ========================= -->
-
-<div class="nav">
-
-<a href="index.html" class="nav-btn">
-<i class="fa-solid fa-house"></i>
-<span>HOME</span>
-</a>
-
-<a href="new.html" class="nav-btn">
-<i class="fa-solid fa-sparkles"></i>
-<span>NEW</span>
-</a>
-
-<a href="radio.html" class="nav-btn">
-<i class="fa-solid fa-radio"></i>
-<span>RADIO</span>
-</a>
-
-<a href="search.html" class="nav-btn">
-<i class="fa-solid fa-magnifying-glass"></i>
-<span>SEARCH</span>
-</a>
-
-</div>
 
 
 <h1>
@@ -869,6 +826,12 @@ function searchMusic() {
 }
 
 </script>
+
+
+<!-- =========================
+     Okay MUSIC 共通システム
+     プレーヤー＋下部4ボタンを自動表示
+     ========================= -->
 
 <script src="script.js"></script>
 
