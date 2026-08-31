@@ -1,356 +1,881 @@
 <!DOCTYPE html>
+
 <html lang="ja">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SUPER BEAVER - Okay Music 🎵</title>
+
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+
 <style>
+
 /* =========================
    タイトル
    ========================= */
+
 h1 {
+
   font-size: 32px;
+
   margin: 8px 0 20px;
+
 }
+
+
 /* =========================
    アーティスト全体
    ========================= */
+
 .artist-card {
+
   background-color: #222;
+
   width: 100%;
+
   max-width: 700px;
+
   margin: 15px auto;
+
   padding: 15px;
+
   border-radius: 15px;
+
   box-sizing: border-box;
+
 }
+
+
 /* =========================
    カテゴリ
    ========================= */
+
 .category-title {
+
   text-align: left;
+
   font-size: 22px;
+
   margin: 30px 0 12px;
+
 }
+
+
 /* =========================
    ジャケット一覧
    ========================= */
+
 .album-list {
+
   display: grid;
+
   grid-template-columns: repeat(2, minmax(0, 1fr));
+
   gap: 12px;
+
   width: 100%;
+
 }
+
+
 /* =========================
    ジャケットカード
    ========================= */
+
 .album {
+
   background-color: #333;
+
   padding: 8px;
+
   border-radius: 12px;
+
   transition: 0.2s;
+
   text-align: center;
+
   box-sizing: border-box;
+
 }
+
+
 .album:hover {
+
   transform: translateY(-4px);
+
   box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+
 }
+
+
 .album-link {
+
   color: white;
+
   text-decoration: none;
+
   display: block;
+
 }
+
+
 .album-thumb {
+
   display: block;
+
   width: 100%;
+
   aspect-ratio: 1 / 1;
+
   object-fit: cover;
+
   margin: 0 auto;
+
   border-radius: 8px;
+
 }
+
+
 .album h3 {
+
   font-size: 13px;
+
   margin: 8px 0 3px;
+
   line-height: 1.3;
+
 }
+
+
 .album p {
+
   font-size: 12px;
+
   color: #ccc;
+
   margin: 0;
+
 }
+
 </style>
+
 </head>
+
+
 <body>
+
+
 <!-- =========================
      SUPER BEAVER
      ========================= -->
+
 <div class="artist-card">
+
+
 <h1>
 SUPER BEAVER
 </h1>
+
+
 <!-- =========================
      ALBUM
      ========================= -->
+
 <h2 class="category-title">
 ALBUM
 </h2>
+
+
 <div class="album-list">
+
+
 <!-- 人生 -->
+
 <div class="album">
+
 <a href="jinsei.html" class="album-link">
+
+<img
+src="jinsei.jpeg"
+class="album-thumb"
+alt="人生">
+
 <h3>
 人生
 </h3>
+
 <p>
 2026.06.24
 </p>
+
 </a>
+
 </div>
+
+
 <!-- Acoustic Album 1 -->
+
 <div class="album">
+
 <a href="acoustic.html" class="album-link">
+
+<img
+src="acoustic.jpg"
+class="album-thumb"
+alt="Acoustic Album 1">
+
 <h3>
 Acoustic Album 1
 </h3>
+
 <p>
 2025.12.03
 </p>
+
 </a>
+
 </div>
+
+
 <!-- 音楽 -->
+
 <div class="album">
+
+<img
+src="ongaku.jpg"
+class="album-thumb"
+alt="音楽">
+
 <h3>
 音楽
 </h3>
+
 <p>
 2024.02.21
 </p>
+
 </div>
+
+
 <!-- 東京 -->
+
 <div class="album">
+
+<img
+src="tokyo.jpg"
+class="album-thumb"
+alt="東京">
+
 <h3>
 東京
 </h3>
+
 <p>
 2022.02.23
 </p>
+
 </div>
+
+
 <!-- アイラヴユー -->
+
 <div class="album">
+
+<img
+src="iloveyou.jpg"
+class="album-thumb"
+alt="アイラヴユー">
+
 <h3>
 アイラヴユー
 </h3>
+
 <p>
 2021.02.03
 </p>
+
 </div>
+
+
 <!-- SUPER BEAVER -->
+
 <div class="album">
+
+<img
+src="superbeaversuperbeaver.jpg"
+class="album-thumb"
+alt="SUPER BEAVER">
+
 <h3>
 SUPER BEAVER
 </h3>
+
 <p>
 2010.10.06
 </p>
+
 </div>
+
+
 <!-- 幸福軌道 -->
+
 <div class="album">
+
 <a href="kouhukukidou.html" class="album-link">
+
+<img
+src="superbeaver幸福軌道.jpg"
+class="album-thumb"
+alt="幸福軌道">
+
 <h3>
 幸福軌道
 </h3>
+
 <p>
 2009.11.25
 </p>
+
 </a>
+
 </div>
+
+
 <!-- 心景 -->
+
 <div class="album">
+
+<img
+src="shinkei.jpg"
+class="album-thumb"
+alt="心景">
+
 <h3>
 心景
 </h3>
+
 <p>
 2009.08.26
 </p>
+
 </div>
+
+
 </div>
+
+
 <!-- =========================
      SINGLE
      ========================= -->
+
 <h2 class="category-title">
 SINGLE
 </h2>
+
+
 <div class="album-list">
+
+
+<!-- 燦然 / 生きがい -->
+
 <div class="album">
+
 <a href="ikigai.html" class="album-link">
+
+<img
+src="ikigai.jpg"
+class="album-thumb"
+alt="燦然 / 生きがい">
+
 <h3>
 燦然 / 生きがい
 </h3>
+
 <p>
 2026.02.11
 </p>
+
 </a>
+
 </div>
+
+
+<!-- 主人公 -->
+
 <div class="album">
-<img src="shujinkou.jpg" class="album-thumb" alt="主人公">
-<h3>主人公</h3>
-<p>2025.07.02</p>
+
+<img
+src="shujinkou.jpg"
+class="album-thumb"
+alt="主人公">
+
+<h3>
+主人公
+</h3>
+
+<p>
+2025.07.02
+</p>
+
 </div>
+
+
+<!-- 片想い / 涙の正体 -->
+
 <div class="album">
-<img src="kataomoi.jpg" class="album-thumb" alt="片想い / 涙の正体">
-<h3>片想い / 涙の正体</h3>
-<p>2025.03.12</p>
+
+<img
+src="kataomoi.jpg"
+class="album-thumb"
+alt="片想い / 涙の正体">
+
+<h3>
+片想い / 涙の正体
+</h3>
+
+<p>
+2025.03.12
+</p>
+
 </div>
+
+
+<!-- 儚くない -->
+
 <div class="album">
-<img src="hakanakunai.jpg" class="album-thumb" alt="儚くない">
-<h3>儚くない</h3>
-<p>2023.06.28</p>
+
+<img
+src="hakanakunai.jpg"
+class="album-thumb"
+alt="儚くない">
+
+<h3>
+儚くない
+</h3>
+
+<p>
+2023.06.28
+</p>
+
 </div>
+
+
+<!-- グラデーション -->
+
 <div class="album">
-<img src="gradaision.jpg" class="album-thumb" alt="グラデーション">
-<h3>グラデーション</h3>
-<p>2023.04.19</p>
+
+<img
+src="gradaision.jpg"
+class="album-thumb"
+alt="グラデーション">
+
+<h3>
+グラデーション
+</h3>
+
+<p>
+2023.04.19
+</p>
+
 </div>
+
+
+<!-- ひたむき -->
+
 <div class="album">
-<img src="hitamuki.jpg" class="album-thumb" alt="ひたむき">
-<h3>ひたむき</h3>
-<p>2022.11.30</p>
+
+<img
+src="hitamuki.jpg"
+class="album-thumb"
+alt="ひたむき">
+
+<h3>
+ひたむき
+</h3>
+
+<p>
+2022.11.30
+</p>
+
 </div>
+
+
+<!-- 名前を呼ぶよ -->
+
 <div class="album">
-<img src="namae.jpg" class="album-thumb" alt="名前を呼ぶよ">
-<h3>名前を呼ぶよ</h3>
-<p>2021.07.07</p>
+
+<img
+src="namae.jpg"
+class="album-thumb"
+alt="名前を呼ぶよ">
+
+<h3>
+名前を呼ぶよ
+</h3>
+
+<p>
+2021.07.07
+</p>
+
 </div>
+
+
+<!-- 愛しい人 -->
+
 <div class="album">
-<img src="itoshii.jpg" class="album-thumb" alt="愛しい人">
-<h3>愛しい人</h3>
-<p>2021.05.19</p>
+
+<img
+src="itoshii.jpg"
+class="album-thumb"
+alt="愛しい人">
+
+<h3>
+愛しい人
+</h3>
+
+<p>
+2021.05.19
+</p>
+
 </div>
+
+
+<!-- 突破口 / 自慢になりたい -->
+
 <div class="album">
-<img src="toppa.jpg" class="album-thumb" alt="突破口 / 自慢になりたい">
-<h3>突破口 /<br>自慢になりたい</h3>
-<p>2020.10.21</p>
+
+<img
+src="toppa.jpg"
+class="album-thumb"
+alt="突破口 / 自慢になりたい">
+
+<h3>
+突破口 /<br>
+自慢になりたい
+</h3>
+
+<p>
+2020.10.21
+</p>
+
 </div>
+
+
+<!-- ハイライト -->
+
 <div class="album">
-<img src="highlight.jpg" class="album-thumb" alt="ハイライト / ひとりで生きていたならば">
-<h3>ハイライト /<br>ひとりで生きていたならば</h3>
-<p>2020.06.10</p>
+
+<img
+src="highlight.jpg"
+class="album-thumb"
+alt="ハイライト / ひとりで生きていたならば">
+
+<h3>
+ハイライト /<br>
+ひとりで生きていたならば
+</h3>
+
+<p>
+2020.06.10
+</p>
+
 </div>
+
+
+<!-- シアワセ -->
+
 <div class="album">
-<img src="shiawase.jpg" class="album-thumb" alt="シアワセ">
-<h3>シアワセ</h3>
-<p>2009.11.04</p>
+
+<img
+src="shiawase.jpg"
+class="album-thumb"
+alt="シアワセ">
+
+<h3>
+シアワセ
+</h3>
+
+<p>
+2009.11.04
+</p>
+
 </div>
+
+
+<!-- 二つの旅路 -->
+
 <div class="album">
-<img src="futatsu.jpg" class="album-thumb" alt="二つの旅路">
-<h3>二つの旅路</h3>
-<p>2009.08.26</p>
+
+<img
+src="futatsu.jpg"
+class="album-thumb"
+alt="二つの旅路">
+
+<h3>
+二つの旅路
+</h3>
+
+<p>
+2009.08.26
+</p>
+
 </div>
+
+
+<!-- 深呼吸 -->
+
 <div class="album">
-<img src="shinkokyu.jpg" class="album-thumb" alt="深呼吸">
-<h3>深呼吸</h3>
-<p>2009.06.03</p>
+
+<img
+src="shinkokyu.jpg"
+class="album-thumb"
+alt="深呼吸">
+
+<h3>
+深呼吸
+</h3>
+
+<p>
+2009.06.03
+</p>
+
 </div>
+
+
 </div>
+
+
 <!-- =========================
      配信
      ========================= -->
+
 <h2 class="category-title">
 配信
 </h2>
+
+
 <div class="album-list">
+
+
+<!-- 現在地 -->
+
 <div class="album">
+
 <img
 src="genzaichi.jpg"
 class="album-thumb"
 alt="映画 現在地 オリジナルサウンドトラック">
+
 <h3>
 映画『SUPER BEAVER LIVE & DOCUMENTARY<br>
 -現在地-』オリジナル・サウンドトラック
 </h3>
-<p>2026.06.03</p>
+
+<p>
+2026.06.03
+</p>
+
 </div>
+
+
+<!-- 値千金 -->
+
 <div class="album">
-<img src="chisenkin.jpg" class="album-thumb" alt="値千金">
-<h3>値千金</h3>
-<p>2023.12.27</p>
+
+<img
+src="chisenkin.jpg"
+class="album-thumb"
+alt="値千金">
+
+<h3>
+値千金
+</h3>
+
+<p>
+2023.12.27
+</p>
+
 </div>
+
+
+<!-- 決心 -->
+
 <div class="album">
-<img src="kessin.jpg" class="album-thumb" alt="決心">
-<h3>決心</h3>
-<p>2023.11.03</p>
+
+<img
+src="kessin.jpg"
+class="album-thumb"
+alt="決心">
+
+<h3>
+決心
+</h3>
+
+<p>
+2023.11.03
+</p>
+
 </div>
+
+
 </div>
+
+
 <!-- =========================
      未発表/非売品
      ========================= -->
+
 <h2 class="category-title">
 未発表/非売品
 </h2>
+
+
 <div class="album-list">
+
+
+<!-- 喝采 -->
+
 <div class="album">
+
 <a href="kasai.html" class="album-link">
+
+<img
+src="kasai.jpg"
+class="album-thumb"
+alt="喝采">
+
 <h3>
 喝采
 </h3>
+
 <p>
 非売品
 </p>
+
 </a>
+
 </div>
+
+
 </div>
+
+
 <!-- =========================
      TV/その他
      ========================= -->
+
 <h2 class="category-title">
 TV/その他
 </h2>
+
+
 <div class="album-list">
+
+
 <div class="album coming-soon">
+
+<img
+src="comingsoon.jpg"
+class="album-thumb"
+alt="Coming Soon">
+
 <h3>
 準備中
 </h3>
+
 <p>
 準備中
 </p>
+
 </div>
+
+
 </div>
+
+
 <!-- =========================
      ラジオ
      ========================= -->
+
 <h2 class="category-title">
 ラジオ
 </h2>
+
+
 <div class="album-list">
+
+
 <div class="album coming-soon">
+
+<img
+src="rocks.jpg"
+class="album-thumb"
+alt="ビーバーLOCKS!">
+
 <h3>
 ビーバーLOCKS!
 </h3>
+
 <p>
 準備中
 </p>
+
 </div>
+
+
 </div>
+
+
 <!-- =========================
      ビデオ
      ========================= -->
+
 <h2 class="category-title">
 ビデオ
 </h2>
+
+
 <div class="album-list">
+
+
 <div class="album coming-soon">
+
+<img
+src="comingsoon.jpg"
+class="album-thumb"
+alt="ビデオ 準備中">
+
 <h3>
 準備中
 </h3>
+
 <p>
 準備中
 </p>
+
 </div>
+
+
 </div>
+
+
 </div>
+
+
+<!-- 共通システム -->
+
 <script src="script.js"></script>
+
+
 </body>
+
 </html>
