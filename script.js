@@ -13,6 +13,15 @@ let currentSong = 0;
 
 
 /* =========================================================
+   次の曲の先読み用プレーヤー
+   ========================================================= */
+
+const nextPlayer = new Audio();
+
+let preloadedSong = -1;
+
+
+/* =========================================================
    共通UIを自動生成
    ========================================================= */
 
@@ -74,9 +83,9 @@ document.addEventListener("DOMContentLoaded", function () {
         </a>
 
         <a href="new.html" class="nav-btn">
-  <span class="nav-icon">✴︎</span>
-  <span>NEWS</span>
-</a>
+          <span class="nav-icon">✴︎</span>
+          <span>NEWS</span>
+        </a>
 
         <a href="radio.html" class="nav-btn">
           <i class="fa-solid fa-radio"></i>
@@ -212,6 +221,53 @@ function getSongs() {
 
 
 /* =========================================================
+   次の曲を先読み
+   ========================================================= */
+
+function preloadNextSong() {
+
+  const songs = getSongs();
+
+  if (songs.length === 0) {
+    return;
+  }
+
+
+  let nextSongNumber =
+    currentSong + 1;
+
+
+  if (nextSongNumber >= songs.length) {
+
+    nextSongNumber = 0;
+
+  }
+
+
+  if (!songs[nextSongNumber]) {
+    return;
+  }
+
+
+  if (preloadedSong === nextSongNumber) {
+    return;
+  }
+
+
+  nextPlayer.src =
+    songs[nextSongNumber].file;
+
+
+  nextPlayer.load();
+
+
+  preloadedSong =
+    nextSongNumber;
+
+}
+
+
+/* =========================================================
    曲を再生
    ========================================================= */
 
@@ -282,6 +338,11 @@ function playSong(number) {
       );
 
     });
+
+
+  /* 次の曲を先読み */
+
+  preloadNextSong();
 
 }
 
