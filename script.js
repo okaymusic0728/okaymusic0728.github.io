@@ -74,9 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
         </a>
 
         <a href="new.html" class="nav-btn">
-          <i class="fa-solid fa-sparkles"></i>
-          <span>NEWS</span>
-        </a>
+  <span class="nav-icon">✴︎</span>
+  <span>NEWS</span>
+</a>
 
         <a href="radio.html" class="nav-btn">
           <i class="fa-solid fa-radio"></i>
