@@ -215,16 +215,6 @@ function createPageTools() {
         </button>
 
 
-        <button
-          class="page-tool"
-          type="button"
-          onclick="location.reload()"
-          aria-label="最新の情報に更新">
-
-          ↻
-
-        </button>
-
       </div>
       `
     );
