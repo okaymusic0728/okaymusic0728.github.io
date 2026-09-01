@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Acoustic Album 1 - SUPER BEAVER - Okay MUSIC</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+
+
+
+
+
+<div class="album">
+
+<h1>
+Acoustic Album 1
+</h1>
+
+
+
+<p>
+【初回生産限定盤B (CD+DVD)】
+</p>
+
+
+<p>
+2025.12.03 RELEASE
+</p>
+
+
+
+
+
+<img class="album-jacket" src="acoustic.jpg" alt="SUPER BEAVER Acoustic Album 1 ジャケット">
+
+
+<div class="song" id="song0" onclick="playSong(0)">
+01. 人として
+</div>
+
+
+<div class="song" id="song1" onclick="playSong(1)">
+02. ひたむき
+</div>
+
+
+<div class="song" id="song2" onclick="playSong(2)">
+03. 正攻法
+</div>
+
+
+<div class="song" id="song3" onclick="playSong(3)">
+04. 秘密
+</div>
+
+
+<div class="song" id="song4" onclick="playSong(4)">
+05. グラデーション
+</div>
+
+
+<div class="song" id="song5" onclick="playSong(5)">
+06. mob
+</div>
+
+<div class="song" id="song6" onclick="playSong(6)">
+07. 美しい日
+</div>
+
+
+<div class="song" id="song7" onclick="playSong(7)">
+08. 名前を呼ぶよ
+</div>
+
+
+<div class="song" id="song8" onclick="playSong(8)">
+09. 予感
+</div>
+
+
+<div class="song" id="song9" onclick="playSong(9)">
+10. Q&A
+</div>
+
+
+<div class="song" id="song10" onclick="playSong(10)">
+11. 切望
+</div>
+
+
+<div class="song" id="song11" onclick="playSong(11)">
+12. それでも世界が目を覚ますのなら
+</div>
+
+
+<div class="song" id="song11" onclick="playSong(12)">
+13. アイラヴユー
+</div>
+
+<div class="info">
+
+<h3>
+仕様
+</h3>
+
+<p>
+【初回生産限定盤A (CD+BD)】SRCL-13453～13454　¥8,000（税抜）
+</p>
+
+<p>
+【初回生産限定盤B (CD+DVD)】SRCL-13455～13456　¥7,500（税抜）
+</p>
+
+<p>
+【通常盤(初回仕様) (CD)】SRCL-13457　¥3,300（税抜）
+</p>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+  window.albumSongs = [
+
+{
+  title: "01. 希望",
+  file: "https://www.dropbox.com/scl/fi/f2xx7ecip4vrtc2ztla6k/01.mp3?rlkey=4nc84hv5wo068v6he52z54ge6&st=tbwan13l&e=1&raw=1"
+},
+{
+  title: "02. 涙の正体",
+  file: "https://www.dropbox.com/scl/fi/y3fiw7638wwfbhokl3sr0/02.mp3?rlkey=5kkh23kx9qrpgldo6igblqnec&st=gpfms57o&raw=1"
+},
+{
+  title: "03. 燦然",
+  file: "https://www.dropbox.com/scl/fi/ov6wqd4i7njo2l64ym046/03.mp3?rlkey=u2cl6jm8r7w8tnzhm96iexslk&st=6zdvyhax&raw=1"
+},
+{
+  title: "04. クライマックス",
+  file: "https://www.dropbox.com/scl/fi/scx5fwol0c9b02p8wokpx/04.mp3?rlkey=8oz0ybtx89u4ajicwqmzi9fmp&st=r7jfgp9c&raw=1"
+},
+{
+  title: "05. 主人公",
+  file: "https://www.dropbox.com/scl/fi/q0mma7ja0kmisbk3rhe9m/05.mp3?rlkey=pkq43f1eqxdzcb3dqimg4e91t&st=jxeb6vem&raw=1"
+},
+{
+  title: "06. アプローズ",
+  file: "https://www.dropbox.com/scl/fi/nqoeo5nikvzka7pviq4sc/06.mp3?rlkey=bg37eguju4qk7pfw0zrcowh5o&st=ut0g88ix&raw=1"
+},
+{
+  title: "07. 健気",
+  file: "https://www.dropbox.com/scl/fi/q92kr7x9upt4aopfmeu2h/07.mp3?rlkey=ogg1kfr08isttt4w8ds8ha3c6&st=dfp7zy6p&raw=1"
+},
+{
+  title: "08. まなざし",
+  file: "https://www.dropbox.com/scl/fi/jlw3z8fgyklwq2yzyfeet/08.mp3?rlkey=by54w7l2xysugdlullee5v2io&st=ago4e4mq&raw=1"
+},
+{
+  title: "09. 夏と跡形",
+  file: "https://www.dropbox.com/scl/fi/9e6grx4oo29d0eff7mhww/09.mp3?rlkey=h76lun9ru0d24voavuxsmv9cw&st=4n6pijpy&raw=1"
+},
+{
+  title: "10. 片想い",
+  file: "https://www.dropbox.com/scl/fi/wa8s19vremt0u2eahb39b/10.mp3?rlkey=ustos8gz6rnk2wic1308kx4vh&st=nulkce6w&raw=1"
+},
+{
+  title: "11. 生きがい",
+  file: "https://www.dropbox.com/scl/fi/9ipaqg0rtvucvahq2hb6a/11.mp3?rlkey=o3ieuj4jij9glr08o9hbkcsg1&st=h6do4yq4&raw=1"
+},
+{
+  title: "12. 告白",
+  file: "https://www.dropbox.com/scl/fi/nj0tui6y05abnwc4cjyrn/12.mp3?rlkey=lhcimncblwjluozhbab6bs85b&st=pqipyte8&raw=1"
+}
+  ];
+</script>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
