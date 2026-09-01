@@ -535,16 +535,11 @@ body {
    レア音源 ☆
    ========================= */
 
-.rare-thumb {
-  position: relative;
-  width: 100%;
-}
-
 .rare-star {
   position: absolute;
   top: 5px;
   left: 6px;
-  color: white;
+  color: #FFD700;
   font-size: 18px;
   line-height: 1;
   text-shadow: 0 0 5px rgba(0,0,0,0.8);
