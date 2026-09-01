@@ -112,7 +112,7 @@ Acoustic Album 1
 </div>
 
 
-<div class="song" id="song11" onclick="playSong(12)">
+<div class="song" id="song12" onclick="playSong(12)">
 13. アイラヴユー
 </div>
 
@@ -149,52 +149,60 @@ Acoustic Album 1
   window.albumSongs = [
 
 {
-  title: "01. 希望",
-  file: "https://www.dropbox.com/scl/fi/f2xx7ecip4vrtc2ztla6k/01.mp3?rlkey=4nc84hv5wo068v6he52z54ge6&st=tbwan13l&e=1&raw=1"
+  title: "01. 人として",
+  file: "https://www.dropbox.com/scl/fi/vnamufbypd4lhekvxpk6a/01-Acoustic-Album-1-Ver..mp3?rlkey=5cgfj68xkkhg7c4onz3lflx1l&st=pmvbkd4p&dl=0"
 },
 {
-  title: "02. 涙の正体",
-  file: "https://www.dropbox.com/scl/fi/y3fiw7638wwfbhokl3sr0/02.mp3?rlkey=5kkh23kx9qrpgldo6igblqnec&st=gpfms57o&raw=1"
+  title: "02. ひたむき",
+  file: "https://www.dropbox.com/scl/fi/fymks0n5bntvh5cud3gt6/02-Acoustic-Album-1-Ver..mp3?rlkey=5qeo306ixlv95thdpy421r1wl&st=fxa9my24&dl=0"
 },
 {
-  title: "03. 燦然",
-  file: "https://www.dropbox.com/scl/fi/ov6wqd4i7njo2l64ym046/03.mp3?rlkey=u2cl6jm8r7w8tnzhm96iexslk&st=6zdvyhax&raw=1"
+  title: "03. 正攻法",
+  file: "https://www.dropbox.com/scl/fi/lgw0mec3nnf3dspfn1qgp/03-Acoustic-Album-1-Ver..mp3?rlkey=hth8mwdnb8cv1r8xqyoqltdcl&st=1xdo5t7w&dl=0"
 },
 {
-  title: "04. クライマックス",
-  file: "https://www.dropbox.com/scl/fi/scx5fwol0c9b02p8wokpx/04.mp3?rlkey=8oz0ybtx89u4ajicwqmzi9fmp&st=r7jfgp9c&raw=1"
+  title: "04. 秘密",
+  file: "https://www.dropbox.com/scl/fi/x2knaoxcvtyi3mb6o13jm/04-Acoustic-Album-1-Ver..mp3?rlkey=2q125k0whsy3v6rxdmvv8f43z&st=d7yd3xi2&dl=0"
 },
 {
-  title: "05. 主人公",
-  file: "https://www.dropbox.com/scl/fi/q0mma7ja0kmisbk3rhe9m/05.mp3?rlkey=pkq43f1eqxdzcb3dqimg4e91t&st=jxeb6vem&raw=1"
+  title: "05. グラデーション",
+  file: "https://www.dropbox.com/scl/fi/5jh2as0inrbfmnh1aqz8l/05-Acoustic-Album-1-Ver..mp3?rlkey=lp2meb2pt34kd7kz58crb6dso&st=3jkjdbdv&dl=0"
 },
 {
-  title: "06. アプローズ",
-  file: "https://www.dropbox.com/scl/fi/nqoeo5nikvzka7pviq4sc/06.mp3?rlkey=bg37eguju4qk7pfw0zrcowh5o&st=ut0g88ix&raw=1"
+  title: "06. mob",
+  file: "https://www.dropbox.com/scl/fi/3obhth4itg0jw9pt62zyj/06-mob-Acoustic-Album-1-Ver..mp3?rlkey=u4d7ljq7btwpwb9vby9q0x86o&st=w58ul3yq&dl=0"
 },
 {
-  title: "07. 健気",
-  file: "https://www.dropbox.com/scl/fi/q92kr7x9upt4aopfmeu2h/07.mp3?rlkey=ogg1kfr08isttt4w8ds8ha3c6&st=dfp7zy6p&raw=1"
+  title: "07. 美しい日",
+  file: "https://www.dropbox.com/scl/fi/9j2f1dmryacl2ot5fga35/07-Acoustic-Album-1-Ver..mp3?rlkey=sikrnj0oiz3zheqf6dunvrzug&st=viz2vvdt&dl=0"
 },
 {
-  title: "08. まなざし",
-  file: "https://www.dropbox.com/scl/fi/jlw3z8fgyklwq2yzyfeet/08.mp3?rlkey=by54w7l2xysugdlullee5v2io&st=ago4e4mq&raw=1"
+  title: "08. 値千金",
+  file: "https://www.dropbox.com/scl/fi/jr9uyh94f38fono8qa00a/08-Acoustic-Album-1-Ver..mp3?rlkey=m6l3qeayrc3o69fw7epenbqnt&st=ynsa2us5&dl=0"
 },
 {
-  title: "09. 夏と跡形",
-  file: "https://www.dropbox.com/scl/fi/9e6grx4oo29d0eff7mhww/09.mp3?rlkey=h76lun9ru0d24voavuxsmv9cw&st=4n6pijpy&raw=1"
+  title: "09. 名前を呼ぶよ",
+  file: "https://www.dropbox.com/scl/fi/uctwntgcy0cvq58t1jgqd/09-Acoustic-Album-1-Ver..mp3?rlkey=hxdpqba0hycfolzejrasiter8&st=5rl2104e&dl=0"
 },
 {
-  title: "10. 片想い",
-  file: "https://www.dropbox.com/scl/fi/wa8s19vremt0u2eahb39b/10.mp3?rlkey=ustos8gz6rnk2wic1308kx4vh&st=nulkce6w&raw=1"
+  title: "10. 予感",
+  file: "https://www.dropbox.com/scl/fi/vrky6mlabw39yl2lqe407/10-Acoustic-Album-1-Ver..mp3?rlkey=ltnq6g1v37dlso6lai9gakiol&st=xaeoq6uz&dl=0"
 },
 {
-  title: "11. 生きがい",
-  file: "https://www.dropbox.com/scl/fi/9ipaqg0rtvucvahq2hb6a/11.mp3?rlkey=o3ieuj4jij9glr08o9hbkcsg1&st=h6do4yq4&raw=1"
+  title: "11. Q&A",
+  file: "https://www.dropbox.com/scl/fi/f2vpd1j686azzq7plba8h/11-Q-A-Acoustic-Album-1-Ver..mp3?rlkey=it9lf6oj6n71z4j46c6dnvoa3&st=4cnh13a3&dl=0"
 },
 {
-  title: "12. 告白",
-  file: "https://www.dropbox.com/scl/fi/nj0tui6y05abnwc4cjyrn/12.mp3?rlkey=lhcimncblwjluozhbab6bs85b&st=pqipyte8&raw=1"
+  title: "12. 切望",
+  file: "https://www.dropbox.com/scl/fi/w3f0ktak8bjt50x3ir9fu/12-Acoustic-Album-1-Ver..mp3?rlkey=oh0tmp3wfnqcmd0ijofc7u0v4&st=ukwi23kn&dl=0"
+}
+{
+  title: "13. それでも世界が目を覚ますのなら",
+  file: "https://www.dropbox.com/scl/fi/463qhyri472jtw90eahep/13-Acoustic-Album-1.mp3?rlkey=t16tg7vbqbu3rm8eaivd5si5c&st=enffzj11&dl=0"
+}
+{
+  title: "14. アイラヴユー",
+  file: "https://www.dropbox.com/scl/fi/urclzh9ffe7kcls77hnva/14-Acoustic-Album-1-Ver..mp3?rlkey=ljyjx00wkamadcemk8dqdp58s&st=809haowu&dl=0"
 }
   ];
 </script>
