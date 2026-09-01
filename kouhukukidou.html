@@ -6,306 +6,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>幸福軌道 - Okay Music 🎵</title>
+<title>幸福軌道 - SUPER BEAVER - Okay MUSIC</title>
+
+<link rel="stylesheet" href="style.css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <style>
-
-body {
-
-  background-color: #111;
-  color: white;
-  font-family: sans-serif;
-  text-align: center;
-  padding: 15px 0;
-  padding-bottom: 80px;
-
-}
-
-
-h1 {
-
-  font-size: 32px;
-
-  margin: 8px 0;
-
-}
-
-
-.nav {
-
-  position: fixed;
-
-  bottom: 0;
-
-  left: 0;
-
-  width: 100%;
-
-  display: flex;
-
-  justify-content: space-around;
-
-  background: rgba(20,20,20,.95);
-
-  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
-
-  border-top: 1px solid #555;
-
-  z-index: 9999;
-
-}
-
-
-.nav-btn {
-
-  color: #c0c0c0;
-
-  text-decoration: none;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  font-size: 12px;
-
-  gap: 4px;
-
-  width: 25%;
-
-}
-
-
-.nav-btn i {
-
-  font-size: 20px;
-
-}
-
-
-.nav-btn:hover {
-
-  transform: scale(1.08);
-
-}
-
-
-.nav-btn:active {
-
-  transform: scale(0.95);
-
-}
-
-
-.album {
-
-  background-color: #222;
-
-  padding: 15px;
-
-  margin: 20px auto;
-
-  border-radius: 15px;
-
-  width: 100%;
-
-  max-width: 450px;
-
-  box-sizing: border-box;
-
-}
-
-
-.album h1,
-.album h2,
-.album p {
-
-  margin: 3px 0;
-
-}
-
-
-.album-jacket {
-
-  width: calc(100% + 30px);
-
-  max-width: none;
-
-  margin-left: -15px;
-
-  border-radius: 10px;
-
-}
-
-
-.song {
-
-  background-color: #333;
-
-  padding: 8px 12px;
-
-  margin: 8px 0;
-
-  border-radius: 10px;
-
-  text-align: left;
-
-  cursor: pointer;
-
-  transition: 0.2s;
-
-  height: 55px;
-
-  box-sizing: border-box;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-}
-
-
-.song:hover {
-
-  background-color: #555;
-
-  transform: scale(1.03);
-
-}
-
-
-.song:active {
-
-  transform: scale(0.97);
-
-}
-
-
-.info {
-
-  background-color: #333;
-
-  padding: 12px;
-
-  border-radius: 10px;
-
-  margin-top: 20px;
-
-  width: 100%;
-
-  box-sizing: border-box;
-
-  text-align: left;
-
-}
-
-
-.subtitle {
-
-  font-size: 9px;
-
-  color: #bbb;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  margin-top: 1px;
-
-  display: block;
-
-  line-height: 1.1;
-
-}
-
-
-.player-box {
-
-  background-color: #222;
-
-  padding: 15px;
-
-  margin: 30px auto;
-
-  border-radius: 15px;
-
-  width: 100%;
-
-  max-width: 450px;
-
-  box-sizing: border-box;
-
-}
-
 
 </style>
 
 </head>
 
 
+
 <body>
 
 
-<div class="nav">
-
-<a href="index.html" class="nav-btn">
-
-<i class="fa-solid fa-house"></i>
-
-<span>HOME</span>
-
-</a>
-
-
-<a href="new.html" class="nav-btn">
-
-<i class="fa-solid fa-sparkles"></i>
-
-<span>NEW</span>
-
-</a>
-
-
-<a href="radio.html" class="nav-btn">
-
-<i class="fa-solid fa-radio"></i>
-
-<span>RADIO</span>
-
-</a>
-
-
-<a href="search.html" class="nav-btn">
-
-<i class="fa-solid fa-magnifying-glass"></i>
-
-<span>SEARCH</span>
-
-</a>
-
-</div>
 
 
 
-<h2>
-SUPER BEAVER
-</h2>
 
+
+
+<div class="album">
 
 <h1>
 幸福軌道
 </h1>
 
 
+
 <p>
-【初回生産限定盤】
+【初回生産限定盤 (CD+DVD)】
 </p>
 
 
@@ -315,158 +48,174 @@ SUPER BEAVER
 
 
 
-<div class="album">
 
 
-<img class="album-jacket" src="superbeaver幸福軌道.jpg">
+<img class="album-jacket" src="superbeaver幸福軌道" alt="幸福軌道 ジャケット">
 
+<h2 class="disc-title">
+DISC1
+</h2>
 
+<div class="song" id="song0" onclick="playSong(0)">
+01. 幸福軌道
+</div>
 
+<div class="song" id="song1" onclick="playSong(1)">
+02. シアワセ
+</div>
+
+<div class="song" id="song2" onclick="playSong(2)">
+03. 二つの旅路
+</div>
+
+<div class="song" id="song3" onclick="playSong(3)">
+04. 地球軸
+</div>
+
+<div class="song" id="song4" onclick="playSong(4)">
+05. 電波
+</div>
+
+<div class="song" id="song5" onclick="playSong(5)">
+06. 未だ見ぬ明日へ
+</div>
+
+<div class="song" id="song6" onclick="playSong(6)">
+07. ドクターペッパー
+</div>
+
+<div class="song" id="song7" onclick="playSong(7)">
+08. 種の話
+</div>
+
+<div class="song" id="song8" onclick="playSong(8)">
+09. 深呼吸
+</div>
+
+<div class="song" id="song9" onclick="playSong(9)">
+10. さよならも、ありがとう
+</div>
+
+<div class="song" id="song10" onclick="playSong(10)">
+11. 日常サイクル
+</div>
+
+<div class="song" id="song11" onclick="playSong(11)">
+12. 風
+</div>
+
+<div class="song" id="song12" onclick="playSong(12)">
+13. アカネボシ
+</div>
+
+<div class="song" id="song13" onclick="playSong(13)">
+14.  [Secret Track]
+</div>
+
+<h2 class="disc-title">
+DISC2(DVD音源のみ)
+</h2>
+
+<div class="song" id="song14" onclick="playSong(14)">
+01. シアワセ -Acoustic version- (Live)
+</div>
+  
 <div class="info">
 
-<h3>📀 アルバム情報</h3>
-
-<p>
-発売日：2009年11月25日
-</p>
-
-<p>
-形態：初回生産限定盤
-</p>
-
-<p>
-収録：CD + DVD
-</p>
-
-</div>
-
-
-
-<h2>
-💿 DISC 1（CD）
-</h2>
-
-
-<div class="song">
-▶ 01. 幸福軌道
-</div>
-
-
-<div class="song">
-▶ 02. シアワセ
-</div>
-
-
-<div class="song">
-▶ 03. 二つの旅路
-</div>
-
-
-<div class="song">
-▶ 04. 地球軸
-</div>
-
-
-<div class="song">
-▶ 05. 電波
-</div>
-
-
-<div class="song">
-▶ 06. 未だ見ぬ明日へ
-</div>
-
-
-<div class="song">
-▶ 07. ドクターペッパー
-</div>
-
-
-<div class="song">
-▶ 08. 種の話
-</div>
-
-
-<div class="song">
-▶ 09. 深呼吸
-</div>
-
-
-<div class="song">
-▶ 10. さよならも、ありがとう
-</div>
-
-
-<div class="song">
-▶ 11. 日常サイクル
-</div>
-
-
-<div class="song">
-▶ 12. 風
-</div>
-
-
-<div class="song">
-▶ 13. アカネボシ
-</div>
-
-
-<div class="song">
-▶ 14. [Secret Track]
-</div>
-
-
-
-<h2>
-📀 DISC 2（DVD）
-</h2>
-
-
-<div class="song">
-▶ 01. シアワセ -Acoustic version- (Live)
-</div>
-
-
-
-<div class="player-box">
-
 <h3>
-🎧 Now Playing
+仕様
 </h3>
 
-
-<p id="now-title">
-曲を選択してください
+<p>
+【幸福軌道 ［CD+DVD］＜初回生産限定盤＞】¥3,300（税抜）
 </p>
 
+<p>
+【幸福軌道 ［CD］＜通常盤＞】ESCL-3332　¥3,204（税抜）
+</p>
 
-<div class="controls">
-
-<button>
-⏮
-</button>
-
-
-<button>
-▶
-</button>
-
-
-<button>
-⏭
-</button>
+<p>
+半径5メートル的日常ロック！メジャー1stフルアルバムリリース！
+</p>
 
 </div>
 
 
-<audio id="player" controls></audio>
 
 </div>
 
 
-</div>
 
+
+
+
+<script>
+  window.albumSongs = [
+
+{
+  title: "01. 幸福軌道",
+  file: "https://www.dropbox.com/scl/fi/6k825riyrayzpfwwpfzm6/01.mp3?rlkey=ut1bqwkt0gj4dphi5otngmmac&st=zuo73c0l&raw=1"
+},
+{
+  title: "02. シアワセ",
+  file: "https://www.dropbox.com/scl/fi/ra3o8kr576861pwgyx5gr/02.mp3?rlkey=7avpzi4u552lv34kaxmatx1wq&st=z102w7d5&raw=1"
+},
+{
+  title: "03. 二つの旅路",
+  file: "https://www.dropbox.com/scl/fi/dn2wgrp6tt36ll55bmdmb/03.mp3?rlkey=y8otwmi24udys9597o3wg3snu&st=3xw2qtwg&raw=1"
+},
+{
+  title: "04. 地球軸",
+  file: "https://www.dropbox.com/scl/fi/xf188pqtgjx75f9h8cky8/04.mp3?rlkey=k4p5cbxxiji66dsxq89o3kuh0&st=4uzgrlcb&raw=1"
+},
+{
+  title: "05. 電波",
+  file: "https://www.dropbox.com/scl/fi/atup5wqgeq5jv2x8nnjc8/05.mp3?rlkey=i3tzgayjk7x0idpzuybpftjv1&st=glh33kg2&raw=1"
+},
+{
+  title: "06. 未だ見ぬ明日へ",
+  file: "https://www.dropbox.com/scl/fi/r9a822446qlp4od8nssjt/06.mp3?rlkey=8cp6b3uyl5pe89b7ig08z9sv6&st=ki4lqc1i&raw=1"
+},
+{
+  title: "07. ドクターペッパー",
+  file: "https://www.dropbox.com/scl/fi/al38ud5nv29hif0s0v4hh/07.mp3?rlkey=udlfx0yte1aw1m9xiijh7339t&st=xq8i9fax&raw=1"
+},
+{
+  title: "08.  種の話",
+  file: "https://www.dropbox.com/scl/fi/l64e5yaej0cte5p63s9a4/08.mp3?rlkey=r139gsqyhleaa4qheud66awbg&st=zfzn1fmd&raw=1"
+},
+{
+  title: "09.  深呼吸",
+  file: "https://www.dropbox.com/scl/fi/qa90shwug8hs79x7e47ep/09.mp3?rlkey=uia4ocnhxd1xllks5urp7aps6&st=7plg2y62&raw=1"
+},
+{
+  title: "10. さよならも、ありがとう",
+  file: "https://www.dropbox.com/scl/fi/iega58xmjf6jfqnmko6jr/10.mp3?rlkey=856teakipx3czp1x4iq6l63wz&st=94zc9hel&raw=1"
+},
+{
+  title: "11. 日常サイクル",
+  file: "https://www.dropbox.com/scl/fi/8x1oyxmt01fwqm87jebgc/11.mp3?rlkey=692xl4amq3jck5j5ccmu8tp00&st=hikbhdbc&raw=1"
+},
+{
+  title: "12. 風",
+  file: "https://www.dropbox.com/scl/fi/i6os73w24q8d8qpxfxjw1/12.mp3?rlkey=hwekpol574s063h1jr7cwhciy&st=m3cj3xv5&raw=1"
+},
+{
+  title: "13. アカネボシ",
+  file: "https://www.dropbox.com/scl/fi/egbtocsouopeedxc8isv3/13.mp3?rlkey=h92kw2uy9px0g5d670424og0q&st=187f7r1g&raw=1"
+},
+{
+  title: "14.  [Secret Track]",
+  file: "https://www.dropbox.com/scl/fi/7i8agqqoyi2hpe56m8ee9/14-Secret-Track.mp3?rlkey=kqcfdlx3ah63geel1yed6yi7v&st=c8qjywtw&raw=1"
+},
+{
+  title: "01.  シアワセ -Acoustic version- (Live)",
+  file: "https://www.dropbox.com/scl/fi/oqmflibipdmyxwn6hrq4e/2-01.mp3?rlkey=mdh0fpzyppzglawdkldsuym0r&st=xnnup0lz&raw=1"
+},
+];
+</script>
+
+<script src="script.js"></script>
 
 </body>
 
