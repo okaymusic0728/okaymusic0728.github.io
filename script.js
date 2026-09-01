@@ -11,6 +11,7 @@ const player = new Audio();
 
 let currentSong = 0;
 
+
 /* =========================================================
    次の曲の先読み
    ========================================================= */
@@ -18,6 +19,7 @@ let currentSong = 0;
 const nextPlayer = new Audio();
 
 let preloadedSong = -1;
+
 
 /* =========================================================
    再生中のアルバム情報
@@ -31,53 +33,57 @@ let activeSongs = [];
    共通UIを自動生成
    ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
-
-  /* =========================
-     ページ内容を入れる共通領域
-     ========================= */
-
-  setupPageRoot();
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
 
 
-  /* =========================
-     左上：戻る・更新
-     TOPページ以外に自動表示
-     ========================= */
+    /* =========================
+       ページ内容を入れる共通領域
+       ========================= */
 
-  createPageTools();
-
-
-  /* =========================
-     下部4ボタン
-     全ページ共通
-     ========================= */
-
-  createNavigation();
+    setupPageRoot();
 
 
-  /* =========================
-     共通プレーヤー
-     全ページ共通
-     ========================= */
+    /* =========================
+       左上：戻る・更新
+       TOPページ以外に自動表示
+       ========================= */
 
-  createPlayer();
-
-
-  /* =========================
-     シークバー設定
-     ========================= */
-
-  setupSeekBar();
+    createPageTools();
 
 
-  /* =========================
-     ページ内リンクを共通処理
-     ========================= */
+    /* =========================
+       下部4ボタン
+       全ページ共通
+       ========================= */
 
-  setupPageNavigation();
+    createNavigation();
 
-});
+
+    /* =========================
+       共通プレーヤー
+       全ページ共通
+       ========================= */
+
+    createPlayer();
+
+
+    /* =========================
+       シークバー設定
+       ========================= */
+
+    setupSeekBar();
+
+
+    /* =========================
+       ページ内リンクを共通処理
+       ========================= */
+
+    setupPageNavigation();
+
+  }
+);
 
 
 /* =========================================================
@@ -86,38 +92,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function setupPageRoot() {
 
-  if (document.getElementById("page-content-root")) {
+
+  if (
+    document.getElementById(
+      "page-content-root"
+    )
+  ) {
+
     return;
+
   }
 
 
   const root =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   root.id =
     "page-content-root";
 
 
   const children =
-    Array.from(document.body.children);
+    Array.from(
+      document.body.children
+    );
 
 
-  children.forEach(function (element) {
+  children.forEach(
+    function (element) {
 
-    if (
-      element.classList.contains("page-tools") ||
-      element.classList.contains("nav") ||
-      element.classList.contains("player-box")
-    ) {
 
-      return;
+      if (
+
+        element.classList.contains(
+          "page-tools"
+        ) ||
+
+        element.classList.contains(
+          "nav"
+        ) ||
+
+        element.classList.contains(
+          "player-box"
+        )
+
+      ) {
+
+        return;
+
+      }
+
+
+      root.appendChild(
+        element
+      );
 
     }
-
-
-    root.appendChild(element);
-
-  });
+  );
 
 
   document.body.insertBefore(
@@ -130,13 +163,17 @@ function setupPageRoot() {
 
   document
     .head
-    .querySelectorAll("style")
-    .forEach(function (style) {
+    .querySelectorAll(
+      "style"
+    )
+    .forEach(
+      function (style) {
 
-      style.dataset.spaPageStyle =
-        "true";
+        style.dataset.spaPageStyle =
+          "true";
 
-    });
+      }
+    );
 
 }
 
@@ -147,13 +184,23 @@ function setupPageRoot() {
 
 function createPageTools() {
 
+
   if (
-    !document.querySelector(".page-tools") &&
-    !document.body.classList.contains("home-page")
+
+    !document.querySelector(
+      ".page-tools"
+    ) &&
+
+    !document.body.classList.contains(
+      "home-page"
+    )
+
   ) {
+
 
     document.body.insertAdjacentHTML(
       "afterbegin",
+
       `
       <div class="page-tools">
 
@@ -162,15 +209,20 @@ function createPageTools() {
           type="button"
           onclick="history.back()"
           aria-label="1つ戻る">
+
           ←
+
         </button>
+
 
         <button
           class="page-tool"
           type="button"
           onclick="location.reload()"
           aria-label="最新の情報に更新">
+
           ↻
+
         </button>
 
       </div>
@@ -188,34 +240,75 @@ function createPageTools() {
 
 function createNavigation() {
 
-  if (document.querySelector(".nav")) {
+
+  if (
+    document.querySelector(
+      ".nav"
+    )
+  ) {
+
     return;
+
   }
 
 
   document.body.insertAdjacentHTML(
     "beforeend",
+
     `
     <div class="nav">
 
-      <a href="index.html" class="nav-btn">
+      <a
+        href="index.html"
+        class="nav-btn">
+
         <i class="fa-solid fa-house"></i>
-        <span>HOME</span>
+
+        <span>
+          HOME
+        </span>
+
       </a>
 
-      <a href="new.html" class="nav-btn">
-        <span class="nav-icon">✴︎</span>
-        <span>NEWS</span>
+
+      <a
+        href="new.html"
+        class="nav-btn">
+
+        <span class="nav-icon">
+          ✴︎
+        </span>
+
+        <span>
+          NEWS
+        </span>
+
       </a>
 
-      <a href="radio.html" class="nav-btn">
+
+      <a
+        href="radio.html"
+        class="nav-btn">
+
         <i class="fa-solid fa-radio"></i>
-        <span>RADIO</span>
+
+        <span>
+          RADIO
+        </span>
+
       </a>
 
-      <a href="search.html" class="nav-btn">
+
+      <a
+        href="search.html"
+        class="nav-btn">
+
         <i class="fa-solid fa-magnifying-glass"></i>
-        <span>SEARCH</span>
+
+        <span>
+          SEARCH
+        </span>
+
       </a>
 
     </div>
@@ -231,28 +324,40 @@ function createNavigation() {
 
 function createPlayer() {
 
-  if (document.querySelector(".player-box")) {
+
+  if (
+    document.querySelector(
+      ".player-box"
+    )
+  ) {
+
     return;
+
   }
 
 
   document.body.insertAdjacentHTML(
     "beforeend",
+
     `
     <div class="player-box">
 
       <div class="player-main">
 
+
         <div class="now-playing-title">
 
           <span id="now-title">
+
             曲を選択してください
+
           </span>
 
         </div>
 
 
         <div class="controls">
+
 
           <button
             type="button"
@@ -273,6 +378,7 @@ function createPlayer() {
             <i
               id="play-icon"
               class="fa-solid fa-play">
+
             </i>
 
           </button>
@@ -293,23 +399,36 @@ function createPlayer() {
 
 
       <input
+
         type="range"
+
         id="seek-bar"
+
         min="0"
+
         max="100"
+
         value="0"
+
         step="0.1"
+
       >
 
 
       <div class="player-time">
 
+
         <span id="current-time">
+
           0:00
+
         </span>
 
+
         <span id="duration">
+
           0:00
+
         </span>
 
       </div>
@@ -327,30 +446,48 @@ function createPlayer() {
 
 function setupPageNavigation() {
 
+
   document.addEventListener(
     "click",
+
     function (event) {
 
+
       const link =
-        event.target.closest("a");
+        event.target.closest(
+          "a"
+        );
 
 
       if (!link) {
+
         return;
+
       }
 
 
       /* 新しいタブなどは通常動作 */
 
       if (
+
         event.defaultPrevented ||
+
         event.button !== 0 ||
+
         event.metaKey ||
+
         event.ctrlKey ||
+
         event.shiftKey ||
+
         event.altKey ||
+
         link.target === "_blank" ||
-        link.hasAttribute("download")
+
+        link.hasAttribute(
+          "download"
+        )
+
       ) {
 
         return;
@@ -359,11 +496,15 @@ function setupPageNavigation() {
 
 
       const href =
-        link.getAttribute("href");
+        link.getAttribute(
+          "href"
+        );
 
 
       if (!href) {
+
         return;
+
       }
 
 
@@ -377,7 +518,8 @@ function setupPageNavigation() {
 
 
       if (
-        url.origin !== location.origin
+        url.origin !==
+        location.origin
       ) {
 
         return;
@@ -388,9 +530,15 @@ function setupPageNavigation() {
       /* ページ内アンカーのみの場合 */
 
       if (
-        url.pathname === location.pathname &&
-        url.search === location.search &&
+
+        url.pathname ===
+        location.pathname &&
+
+        url.search ===
+        location.search &&
+
         url.hash
+
       ) {
 
         return;
@@ -403,13 +551,22 @@ function setupPageNavigation() {
        */
 
       const isHTML =
-        url.pathname.endsWith(".html") ||
-        url.pathname.endsWith("/") ||
+
+        url.pathname.endsWith(
+          ".html"
+        ) ||
+
+        url.pathname.endsWith(
+          "/"
+        ) ||
+
         url.pathname === "";
 
 
       if (!isHTML) {
+
         return;
+
       }
 
 
@@ -429,6 +586,7 @@ function setupPageNavigation() {
 
   window.addEventListener(
     "popstate",
+
     function () {
 
       navigateTo(
@@ -451,16 +609,22 @@ async function navigateTo(
   pushHistory
 ) {
 
+
   try {
 
+
     const response =
-      await fetch(url);
+      await fetch(
+        url
+      );
 
 
     if (!response.ok) {
+
       throw new Error(
         "ページを読み込めませんでした"
       );
+
     }
 
 
@@ -484,6 +648,7 @@ async function navigateTo(
      */
 
     if (pushHistory) {
+
 
       history.pushState(
         {},
@@ -519,32 +684,44 @@ async function navigateTo(
       .querySelectorAll(
         "style[data-spa-page-style]"
       )
-      .forEach(function (style) {
+      .forEach(
+        function (style) {
 
-        style.remove();
+          style.remove();
 
-      });
+        }
+      );
 
 
     newDocument
       .head
-      .querySelectorAll("style")
-      .forEach(function (style) {
+      .querySelectorAll(
+        "style"
+      )
+      .forEach(
+        function (style) {
 
-        const newStyle =
-          document.createElement("style");
 
-        newStyle.dataset.spaPageStyle =
-          "true";
+          const newStyle =
+            document.createElement(
+              "style"
+            );
 
-        newStyle.textContent =
-          style.textContent;
 
-        document.head.appendChild(
-          newStyle
-        );
+          newStyle.dataset.spaPageStyle =
+            "true";
 
-      });
+
+          newStyle.textContent =
+            style.textContent;
+
+
+          document.head.appendChild(
+            newStyle
+          );
+
+        }
+      );
 
 
     /*
@@ -565,8 +742,12 @@ async function navigateTo(
 
 
     if (!root) {
-      location.href = url;
+
+      location.href =
+        url;
+
       return;
+
     }
 
 
@@ -583,10 +764,21 @@ async function navigateTo(
     contentNodes.forEach(
       function (element) {
 
+
         if (
-          element.classList.contains("page-tools") ||
-          element.classList.contains("nav") ||
-          element.classList.contains("player-box")
+
+          element.classList.contains(
+            "page-tools"
+          ) ||
+
+          element.classList.contains(
+            "nav"
+          ) ||
+
+          element.classList.contains(
+            "player-box"
+          )
+
         ) {
 
           return;
@@ -599,8 +791,12 @@ async function navigateTo(
          */
 
         if (
-          element.tagName === "SCRIPT" &&
+
+          element.tagName ===
+          "SCRIPT" &&
+
           element.src
+
         ) {
 
           return;
@@ -620,7 +816,8 @@ async function navigateTo(
 
 
     /*
-     * ページ固有のインラインJavaScriptを実行
+     * ページ固有の
+     * インラインJavaScriptを実行
      */
 
     const scripts =
@@ -634,20 +831,28 @@ async function navigateTo(
     scripts.forEach(
       function (script) {
 
+
         const code =
           script.textContent.trim();
 
 
         if (!code) {
+
           return;
+
         }
 
 
         try {
 
-          window.eval(code);
+
+          window.eval(
+            code
+          );
+
 
         } catch (error) {
+
 
           console.error(
             "ページ固有スクリプトエラー:",
@@ -671,7 +876,9 @@ async function navigateTo(
 
 
     if (oldTools) {
+
       oldTools.remove();
+
     }
 
 
@@ -679,14 +886,18 @@ async function navigateTo(
 
 
     /*
-     * アルバムページなら現在位置を初期化
+     * アルバムページなら
+     * 現在位置を初期化
      */
 
     if (
-      Array.isArray(window.albumSongs)
+      Array.isArray(
+        window.albumSongs
+      )
     ) {
 
-      currentSong = 0;
+      currentSong =
+        0;
 
     }
 
@@ -703,6 +914,7 @@ async function navigateTo(
 
   } catch (error) {
 
+
     console.error(
       "ページ遷移エラー:",
       error
@@ -710,10 +922,12 @@ async function navigateTo(
 
 
     /*
-     * 失敗した場合は通常のページ移動
+     * 失敗した場合は
+     * 通常のページ移動
      */
 
-    location.href = url;
+    location.href =
+      url;
 
   }
 
@@ -726,14 +940,20 @@ async function navigateTo(
 
 function getSongs() {
 
+
   /*
-   * 現在のページで新しい曲を選択した場合
-   * activeSongsを更新する
+   * 現在再生中の
+   * アルバム情報を優先
    */
 
   if (
-    Array.isArray(activeSongs) &&
+
+    Array.isArray(
+      activeSongs
+    ) &&
+
     activeSongs.length > 0
+
   ) {
 
     return activeSongs;
@@ -741,8 +961,18 @@ function getSongs() {
   }
 
 
-  if (Array.isArray(window.albumSongs)) {
+  /*
+   * 現在のページの曲情報
+   */
+
+  if (
+    Array.isArray(
+      window.albumSongs
+    )
+  ) {
+
     return window.albumSongs;
+
   }
 
 
@@ -752,26 +982,129 @@ function getSongs() {
 
 
 /* =========================================================
+   次の曲を先読み
+   ========================================================= */
+
+function preloadNextSong() {
+
+
+  const songs =
+    getSongs();
+
+
+  if (
+    songs.length === 0
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * 次の曲番号
+   */
+
+  let nextSongNumber =
+    currentSong + 1;
+
+
+  /*
+   * 最後の曲なら
+   * 最初の曲を先読み
+   */
+
+  if (
+    nextSongNumber >=
+    songs.length
+  ) {
+
+    nextSongNumber =
+      0;
+
+  }
+
+
+  if (
+    !songs[nextSongNumber]
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * 同じ曲を
+   * すでに先読み済みなら
+   * 再読み込みしない
+   */
+
+  if (
+
+    preloadedSong ===
+    nextSongNumber &&
+
+    nextPlayer.src ===
+    songs[nextSongNumber].file
+
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * 次の曲を読み込み
+   */
+
+  nextPlayer.src =
+    songs[nextSongNumber].file;
+
+
+  nextPlayer.preload =
+    "auto";
+
+
+  nextPlayer.load();
+
+
+  preloadedSong =
+    nextSongNumber;
+
+}
+
+
+/* =========================================================
    曲を再生
    ========================================================= */
 
-function playSong(number) {
+function playSong(
+  number
+) {
+
 
   const pageSongs =
-    Array.isArray(window.albumSongs)
+    Array.isArray(
+      window.albumSongs
+    )
       ? window.albumSongs
       : [];
 
 
   /*
    * 現在ページの曲をクリックした場合
-   * そのアルバムを新しい再生リストにする
+   * そのアルバムを
+   * 新しい再生リストにする
    */
 
   if (
     !pageSongs[number]
   ) {
+
     return;
+
   }
 
 
@@ -783,15 +1116,31 @@ function playSong(number) {
     number;
 
 
-  /* 曲一覧の再生中表示 */
+  /*
+   * 先読み状態をリセット
+   */
+
+  preloadedSong =
+    -1;
+
+
+  /*
+   * 曲一覧の再生中表示
+   */
 
   document
-    .querySelectorAll(".song")
-    .forEach(function (song) {
+    .querySelectorAll(
+      ".song"
+    )
+    .forEach(
+      function (song) {
 
-      song.classList.remove("playing");
+        song.classList.remove(
+          "playing"
+        );
 
-    });
+      }
+    );
 
 
   const songElement =
@@ -809,7 +1158,9 @@ function playSong(number) {
   }
 
 
-  /* 曲名表示 */
+  /*
+   * 曲名表示
+   */
 
   const nowTitle =
     document.getElementById(
@@ -825,26 +1176,44 @@ function playSong(number) {
   }
 
 
-  /* 音源設定 */
+  /*
+   * 音源設定
+   */
 
   player.src =
     activeSongs[number].file;
+
+
+  player.preload =
+    "auto";
+
 
   player.currentTime =
     0;
 
 
-  /* 再生 */
+  /*
+   * 次の曲を先読み
+   */
+
+  preloadNextSong();
+
+
+  /*
+   * 再生
+   */
 
   player.play()
-    .catch(function (error) {
+    .catch(
+      function (error) {
 
-      console.log(
-        "再生できませんでした:",
-        error
-      );
+        console.log(
+          "再生できませんでした:",
+          error
+        );
 
-    });
+      }
+    );
 
 }
 
@@ -855,16 +1224,23 @@ function playSong(number) {
 
 function prevSong() {
 
+
   const songs =
     getSongs();
 
 
-  if (songs.length === 0) {
+  if (
+    songs.length === 0
+  ) {
+
     return;
+
   }
 
 
-  if (currentSong > 0) {
+  if (
+    currentSong > 0
+  ) {
 
     playStoredSong(
       currentSong - 1
@@ -887,18 +1263,25 @@ function prevSong() {
 
 function nextSong() {
 
+
   const songs =
     getSongs();
 
 
-  if (songs.length === 0) {
+  if (
+    songs.length === 0
+  ) {
+
     return;
+
   }
 
 
   if (
+
     currentSong <
     songs.length - 1
+
   ) {
 
     playStoredSong(
@@ -907,7 +1290,9 @@ function nextSong() {
 
   } else {
 
-    playStoredSong(0);
+    playStoredSong(
+      0
+    );
 
   }
 
@@ -918,14 +1303,21 @@ function nextSong() {
    保持している再生リストから再生
    ========================================================= */
 
-function playStoredSong(number) {
+function playStoredSong(
+  number
+) {
+
 
   const songs =
     getSongs();
 
 
-  if (!songs[number]) {
+  if (
+    !songs[number]
+  ) {
+
     return;
+
   }
 
 
@@ -933,13 +1325,23 @@ function playStoredSong(number) {
     number;
 
 
+  /*
+   * 曲一覧の再生中表示
+   */
+
   document
-    .querySelectorAll(".song")
-    .forEach(function (song) {
+    .querySelectorAll(
+      ".song"
+    )
+    .forEach(
+      function (song) {
 
-      song.classList.remove("playing");
+        song.classList.remove(
+          "playing"
+        );
 
-    });
+      }
+    );
 
 
   const songElement =
@@ -957,6 +1359,10 @@ function playStoredSong(number) {
   }
 
 
+  /*
+   * 曲名表示
+   */
+
   const nowTitle =
     document.getElementById(
       "now-title"
@@ -971,23 +1377,48 @@ function playStoredSong(number) {
   }
 
 
+  /*
+   * 音源設定
+   */
+
   player.src =
     songs[number].file;
+
+
+  player.preload =
+    "auto";
 
 
   player.currentTime =
     0;
 
 
+  /*
+   * 次の曲を先読み
+   */
+
+  preloadedSong =
+    -1;
+
+
+  preloadNextSong();
+
+
+  /*
+   * 再生
+   */
+
   player.play()
-    .catch(function (error) {
+    .catch(
+      function (error) {
 
-      console.log(
-        "再生できませんでした:",
-        error
-      );
+        console.log(
+          "再生できませんでした:",
+          error
+        );
 
-    });
+      }
+    );
 
 }
 
@@ -998,13 +1429,23 @@ function playStoredSong(number) {
 
 function togglePlay() {
 
+
   const songs =
     getSongs();
 
 
-  if (!player.src) {
+  /*
+   * まだ曲を選択していない場合
+   */
 
-    if (songs.length > 0) {
+  if (
+    !player.src
+  ) {
+
+
+    if (
+      songs.length > 0
+    ) {
 
       playStoredSong(
         currentSong
@@ -1012,24 +1453,36 @@ function togglePlay() {
 
     }
 
+
     return;
 
   }
 
 
-  if (player.paused) {
+  /*
+   * 一時停止中なら再生
+   */
+
+  if (
+    player.paused
+  ) {
+
 
     player.play()
-      .catch(function (error) {
+      .catch(
+        function (error) {
 
-        console.log(
-          "再生できませんでした:",
-          error
-        );
+          console.log(
+            "再生できませんでした:",
+            error
+          );
 
-      });
+        }
+      );
+
 
   } else {
+
 
     player.pause();
 
@@ -1044,6 +1497,7 @@ function togglePlay() {
 
 player.addEventListener(
   "ended",
+
   function () {
 
     nextSong();
@@ -1058,6 +1512,7 @@ player.addEventListener(
 
 function setupSeekBar() {
 
+
   const seekBar =
     document.getElementById(
       "seek-bar"
@@ -1065,19 +1520,28 @@ function setupSeekBar() {
 
 
   if (!seekBar) {
+
     return;
+
   }
 
 
+  /*
+   * 曲の長さ取得
+   */
+
   player.addEventListener(
     "loadedmetadata",
+
     function () {
+
 
       if (
         Number.isFinite(
           player.duration
         )
       ) {
+
 
         seekBar.max =
           player.duration;
@@ -1104,9 +1568,15 @@ function setupSeekBar() {
   );
 
 
+  /*
+   * 再生時間更新
+   */
+
   player.addEventListener(
     "timeupdate",
+
     function () {
+
 
       seekBar.value =
         player.currentTime;
@@ -1131,9 +1601,15 @@ function setupSeekBar() {
   );
 
 
+  /*
+   * シークバー操作
+   */
+
   seekBar.addEventListener(
     "input",
+
     function () {
+
 
       player.currentTime =
         Number(
@@ -1150,10 +1626,15 @@ function setupSeekBar() {
    時間表示
    ========================================================= */
 
-function formatTime(seconds) {
+function formatTime(
+  seconds
+) {
+
 
   if (
-    !Number.isFinite(seconds)
+    !Number.isFinite(
+      seconds
+    )
   ) {
 
     return "0:00";
@@ -1179,9 +1660,13 @@ function formatTime(seconds) {
 
 
   return (
+
     minutes +
+
     ":" +
+
     remainingSeconds
+
   );
 
 }
@@ -1195,6 +1680,7 @@ function updatePlayIcon(
   isPlaying
 ) {
 
+
   const playIcon =
     document.getElementById(
       "play-icon"
@@ -1202,16 +1688,21 @@ function updatePlayIcon(
 
 
   if (!playIcon) {
+
     return;
+
   }
 
 
   if (isPlaying) {
 
+
     playIcon.className =
       "fa-solid fa-pause";
 
+
   } else {
+
 
     playIcon.className =
       "fa-solid fa-play";
@@ -1227,9 +1718,12 @@ function updatePlayIcon(
 
 player.addEventListener(
   "play",
+
   function () {
 
-    updatePlayIcon(true);
+    updatePlayIcon(
+      true
+    );
 
   }
 );
@@ -1237,9 +1731,12 @@ player.addEventListener(
 
 player.addEventListener(
   "pause",
+
   function () {
 
-    updatePlayIcon(false);
+    updatePlayIcon(
+      false
+    );
 
   }
 );
