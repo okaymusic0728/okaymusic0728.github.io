@@ -13,15 +13,132 @@ let currentSong = 0;
 
 
 /* =========================================================
+   再生中のアルバム情報
+   ページ移動しても保持する
+   ========================================================= */
+
+let activeSongs = [];
+
+
+/* =========================================================
    共通UIを自動生成
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
 
   /* =========================
+     ページ内容を入れる共通領域
+     ========================= */
+
+  setupPageRoot();
+
+
+  /* =========================
      左上：戻る・更新
      TOPページ以外に自動表示
      ========================= */
+
+  createPageTools();
+
+
+  /* =========================
+     下部4ボタン
+     全ページ共通
+     ========================= */
+
+  createNavigation();
+
+
+  /* =========================
+     共通プレーヤー
+     全ページ共通
+     ========================= */
+
+  createPlayer();
+
+
+  /* =========================
+     シークバー設定
+     ========================= */
+
+  setupSeekBar();
+
+
+  /* =========================
+     ページ内リンクを共通処理
+     ========================= */
+
+  setupPageNavigation();
+
+});
+
+
+/* =========================================================
+   共通ページ領域
+   ========================================================= */
+
+function setupPageRoot() {
+
+  if (document.getElementById("page-content-root")) {
+    return;
+  }
+
+
+  const root =
+    document.createElement("div");
+
+  root.id =
+    "page-content-root";
+
+
+  const children =
+    Array.from(document.body.children);
+
+
+  children.forEach(function (element) {
+
+    if (
+      element.classList.contains("page-tools") ||
+      element.classList.contains("nav") ||
+      element.classList.contains("player-box")
+    ) {
+
+      return;
+
+    }
+
+
+    root.appendChild(element);
+
+  });
+
+
+  document.body.insertBefore(
+    root,
+    document.body.firstChild
+  );
+
+
+  /* 現在のページ専用CSSを識別 */
+
+  document
+    .head
+    .querySelectorAll("style")
+    .forEach(function (style) {
+
+      style.dataset.spaPageStyle =
+        "true";
+
+    });
+
+}
+
+
+/* =========================================================
+   戻る・更新ボタン
+   ========================================================= */
+
+function createPageTools() {
 
   if (
     !document.querySelector(".page-tools") &&
@@ -55,145 +172,545 @@ document.addEventListener("DOMContentLoaded", function () {
 
   }
 
+}
 
-  /* =========================
-     下部4ボタン
-     全ページ共通
-     ========================= */
 
-  if (!document.querySelector(".nav")) {
+/* =========================================================
+   下部4ボタン
+   ========================================================= */
 
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      `
-      <div class="nav">
+function createNavigation() {
 
-        <a href="index.html" class="nav-btn">
-          <i class="fa-solid fa-house"></i>
-          <span>HOME</span>
-        </a>
-
-        <a href="new.html" class="nav-btn">
-          <span class="nav-icon">✴︎</span>
-          <span>NEWS</span>
-        </a>
-
-        <a href="radio.html" class="nav-btn">
-          <i class="fa-solid fa-radio"></i>
-          <span>RADIO</span>
-        </a>
-
-        <a href="search.html" class="nav-btn">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <span>SEARCH</span>
-        </a>
-
-      </div>
-      `
-    );
-
+  if (document.querySelector(".nav")) {
+    return;
   }
 
 
-  /* =========================
-     共通プレーヤー
-     全ページ共通
-     ========================= */
+  document.body.insertAdjacentHTML(
+    "beforeend",
+    `
+    <div class="nav">
 
-  if (!document.querySelector(".player-box")) {
+      <a href="index.html" class="nav-btn">
+        <i class="fa-solid fa-house"></i>
+        <span>HOME</span>
+      </a>
 
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      `
-      <div class="player-box">
+      <a href="new.html" class="nav-btn">
+        <span class="nav-icon">✴︎</span>
+        <span>NEWS</span>
+      </a>
 
-        <div class="player-main">
+      <a href="radio.html" class="nav-btn">
+        <i class="fa-solid fa-radio"></i>
+        <span>RADIO</span>
+      </a>
 
-          <div class="now-playing-title">
+      <a href="search.html" class="nav-btn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>SEARCH</span>
+      </a>
 
-            <span id="now-title">
-              曲を選択してください
-            </span>
+    </div>
+    `
+  );
 
-          </div>
-
-
-          <div class="controls">
-
-            <button
-              type="button"
-              onclick="prevSong()"
-              aria-label="前の曲">
-
-              <i class="fa-solid fa-backward-step"></i>
-
-            </button>
+}
 
 
-            <button
-              type="button"
-              class="play-button"
-              onclick="togglePlay()"
-              aria-label="再生・一時停止">
+/* =========================================================
+   共通プレーヤー
+   ========================================================= */
 
-              <i
-                id="play-icon"
-                class="fa-solid fa-play">
-              </i>
+function createPlayer() {
 
-            </button>
+  if (document.querySelector(".player-box")) {
+    return;
+  }
 
 
-            <button
-              type="button"
-              onclick="nextSong()"
-              aria-label="次の曲">
+  document.body.insertAdjacentHTML(
+    "beforeend",
+    `
+    <div class="player-box">
 
-              <i class="fa-solid fa-forward-step"></i>
+      <div class="player-main">
 
-            </button>
+        <div class="now-playing-title">
 
-          </div>
-
-        </div>
-
-
-        <input
-          type="range"
-          id="seek-bar"
-          min="0"
-          max="100"
-          value="0"
-          step="0.1"
-        >
-
-
-        <div class="player-time">
-
-          <span id="current-time">
-            0:00
-          </span>
-
-          <span id="duration">
-            0:00
+          <span id="now-title">
+            曲を選択してください
           </span>
 
         </div>
 
+
+        <div class="controls">
+
+          <button
+            type="button"
+            onclick="prevSong()"
+            aria-label="前の曲">
+
+            <i class="fa-solid fa-backward-step"></i>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="play-button"
+            onclick="togglePlay()"
+            aria-label="再生・一時停止">
+
+            <i
+              id="play-icon"
+              class="fa-solid fa-play">
+            </i>
+
+          </button>
+
+
+          <button
+            type="button"
+            onclick="nextSong()"
+            aria-label="次の曲">
+
+            <i class="fa-solid fa-forward-step"></i>
+
+          </button>
+
+        </div>
+
       </div>
-      `
+
+
+      <input
+        type="range"
+        id="seek-bar"
+        min="0"
+        max="100"
+        value="0"
+        step="0.1"
+      >
+
+
+      <div class="player-time">
+
+        <span id="current-time">
+          0:00
+        </span>
+
+        <span id="duration">
+          0:00
+        </span>
+
+      </div>
+
+    </div>
+    `
+  );
+
+}
+
+
+/* =========================================================
+   ページ移動処理
+   ========================================================= */
+
+function setupPageNavigation() {
+
+  document.addEventListener(
+    "click",
+    function (event) {
+
+      const link =
+        event.target.closest("a");
+
+
+      if (!link) {
+        return;
+      }
+
+
+      /* 新しいタブなどは通常動作 */
+
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey ||
+        link.target === "_blank" ||
+        link.hasAttribute("download")
+      ) {
+
+        return;
+
+      }
+
+
+      const href =
+        link.getAttribute("href");
+
+
+      if (!href) {
+        return;
+      }
+
+
+      /* 外部リンクは通常動作 */
+
+      const url =
+        new URL(
+          href,
+          location.href
+        );
+
+
+      if (
+        url.origin !== location.origin
+      ) {
+
+        return;
+
+      }
+
+
+      /* ページ内アンカーのみの場合 */
+
+      if (
+        url.pathname === location.pathname &&
+        url.search === location.search &&
+        url.hash
+      ) {
+
+        return;
+
+      }
+
+
+      /*
+       * HTMLページだけSPA遷移
+       */
+
+      const isHTML =
+        url.pathname.endsWith(".html") ||
+        url.pathname.endsWith("/") ||
+        url.pathname === "";
+
+
+      if (!isHTML) {
+        return;
+      }
+
+
+      event.preventDefault();
+
+
+      navigateTo(
+        url.href,
+        true
+      );
+
+    }
+  );
+
+
+  /* 戻る・進む */
+
+  window.addEventListener(
+    "popstate",
+    function () {
+
+      navigateTo(
+        location.href,
+        false
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   ページ読み込み
+   ========================================================= */
+
+async function navigateTo(
+  url,
+  pushHistory
+) {
+
+  try {
+
+    const response =
+      await fetch(url);
+
+
+    if (!response.ok) {
+      throw new Error(
+        "ページを読み込めませんでした"
+      );
+    }
+
+
+    const html =
+      await response.text();
+
+
+    const parser =
+      new DOMParser();
+
+
+    const newDocument =
+      parser.parseFromString(
+        html,
+        "text/html"
+      );
+
+
+    /*
+     * 履歴を追加
+     */
+
+    if (pushHistory) {
+
+      history.pushState(
+        {},
+        "",
+        url
+      );
+
+    }
+
+
+    /*
+     * タイトル変更
+     */
+
+    document.title =
+      newDocument.title;
+
+
+    /*
+     * body class変更
+     */
+
+    document.body.className =
+      newDocument.body.className;
+
+
+    /*
+     * 現在ページ用CSSを交換
+     */
+
+    document
+      .head
+      .querySelectorAll(
+        "style[data-spa-page-style]"
+      )
+      .forEach(function (style) {
+
+        style.remove();
+
+      });
+
+
+    newDocument
+      .head
+      .querySelectorAll("style")
+      .forEach(function (style) {
+
+        const newStyle =
+          document.createElement("style");
+
+        newStyle.dataset.spaPageStyle =
+          "true";
+
+        newStyle.textContent =
+          style.textContent;
+
+        document.head.appendChild(
+          newStyle
+        );
+
+      });
+
+
+    /*
+     * albumSongsを一度リセット
+     */
+
+    delete window.albumSongs;
+
+
+    /*
+     * 新しいページ本文を取得
+     */
+
+    const root =
+      document.getElementById(
+        "page-content-root"
+      );
+
+
+    if (!root) {
+      location.href = url;
+      return;
+    }
+
+
+    const contentNodes =
+      Array.from(
+        newDocument.body.children
+      );
+
+
+    let contentHTML =
+      "";
+
+
+    contentNodes.forEach(
+      function (element) {
+
+        if (
+          element.classList.contains("page-tools") ||
+          element.classList.contains("nav") ||
+          element.classList.contains("player-box")
+        ) {
+
+          return;
+
+        }
+
+
+        /*
+         * script.js本体は入れない
+         */
+
+        if (
+          element.tagName === "SCRIPT" &&
+          element.src
+        ) {
+
+          return;
+
+        }
+
+
+        contentHTML +=
+          element.outerHTML;
+
+      }
     );
+
+
+    root.innerHTML =
+      contentHTML;
+
+
+    /*
+     * ページ固有のインラインJavaScriptを実行
+     */
+
+    const scripts =
+      Array.from(
+        newDocument.querySelectorAll(
+          "body script:not([src])"
+        )
+      );
+
+
+    scripts.forEach(
+      function (script) {
+
+        const code =
+          script.textContent.trim();
+
+
+        if (!code) {
+          return;
+        }
+
+
+        try {
+
+          window.eval(code);
+
+        } catch (error) {
+
+          console.error(
+            "ページ固有スクリプトエラー:",
+            error
+          );
+
+        }
+
+      }
+    );
+
+
+    /*
+     * 新しいページの戻るボタンを調整
+     */
+
+    const oldTools =
+      document.querySelector(
+        ".page-tools"
+      );
+
+
+    if (oldTools) {
+      oldTools.remove();
+    }
+
+
+    createPageTools();
+
+
+    /*
+     * アルバムページなら現在位置を初期化
+     */
+
+    if (
+      Array.isArray(window.albumSongs)
+    ) {
+
+      currentSong = 0;
+
+    }
+
+
+    /*
+     * スクロール位置
+     */
+
+    window.scrollTo(
+      0,
+      0
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "ページ遷移エラー:",
+      error
+    );
+
+
+    /*
+     * 失敗した場合は通常のページ移動
+     */
+
+    location.href = url;
 
   }
 
-
-  /* =========================
-     シークバー設定
-     ========================= */
-
-  setupSeekBar();
-
-});
+}
 
 
 /* =========================================================
@@ -202,9 +719,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function getSongs() {
 
+  /*
+   * 現在のページで新しい曲を選択した場合
+   * activeSongsを更新する
+   */
+
+  if (
+    Array.isArray(activeSongs) &&
+    activeSongs.length > 0
+  ) {
+
+    return activeSongs;
+
+  }
+
+
   if (Array.isArray(window.albumSongs)) {
     return window.albumSongs;
   }
+
 
   return [];
 
@@ -217,14 +750,30 @@ function getSongs() {
 
 function playSong(number) {
 
-  const songs = getSongs();
+  const pageSongs =
+    Array.isArray(window.albumSongs)
+      ? window.albumSongs
+      : [];
 
-  if (!songs[number]) {
+
+  /*
+   * 現在ページの曲をクリックした場合
+   * そのアルバムを新しい再生リストにする
+   */
+
+  if (
+    !pageSongs[number]
+  ) {
     return;
   }
 
 
-  currentSong = number;
+  activeSongs =
+    pageSongs;
+
+
+  currentSong =
+    number;
 
 
   /* 曲一覧の再生中表示 */
@@ -239,12 +788,16 @@ function playSong(number) {
 
 
   const songElement =
-    document.getElementById("song" + number);
+    document.getElementById(
+      "song" + number
+    );
 
 
   if (songElement) {
 
-    songElement.classList.add("playing");
+    songElement.classList.add(
+      "playing"
+    );
 
   }
 
@@ -252,13 +805,15 @@ function playSong(number) {
   /* 曲名表示 */
 
   const nowTitle =
-    document.getElementById("now-title");
+    document.getElementById(
+      "now-title"
+    );
 
 
   if (nowTitle) {
 
     nowTitle.textContent =
-      songs[number].title;
+      activeSongs[number].title;
 
   }
 
@@ -266,9 +821,10 @@ function playSong(number) {
   /* 音源設定 */
 
   player.src =
-    songs[number].file;
+    activeSongs[number].file;
 
-  player.currentTime = 0;
+  player.currentTime =
+    0;
 
 
   /* 再生 */
@@ -292,7 +848,9 @@ function playSong(number) {
 
 function prevSong() {
 
-  const songs = getSongs();
+  const songs =
+    getSongs();
+
 
   if (songs.length === 0) {
     return;
@@ -301,11 +859,15 @@ function prevSong() {
 
   if (currentSong > 0) {
 
-    playSong(currentSong - 1);
+    playStoredSong(
+      currentSong - 1
+    );
 
   } else {
 
-    playSong(songs.length - 1);
+    playStoredSong(
+      songs.length - 1
+    );
 
   }
 
@@ -318,22 +880,107 @@ function prevSong() {
 
 function nextSong() {
 
-  const songs = getSongs();
+  const songs =
+    getSongs();
+
 
   if (songs.length === 0) {
     return;
   }
 
 
-  if (currentSong < songs.length - 1) {
+  if (
+    currentSong <
+    songs.length - 1
+  ) {
 
-    playSong(currentSong + 1);
+    playStoredSong(
+      currentSong + 1
+    );
 
   } else {
 
-    playSong(0);
+    playStoredSong(0);
 
   }
+
+}
+
+
+/* =========================================================
+   保持している再生リストから再生
+   ========================================================= */
+
+function playStoredSong(number) {
+
+  const songs =
+    getSongs();
+
+
+  if (!songs[number]) {
+    return;
+  }
+
+
+  currentSong =
+    number;
+
+
+  document
+    .querySelectorAll(".song")
+    .forEach(function (song) {
+
+      song.classList.remove("playing");
+
+    });
+
+
+  const songElement =
+    document.getElementById(
+      "song" + number
+    );
+
+
+  if (songElement) {
+
+    songElement.classList.add(
+      "playing"
+    );
+
+  }
+
+
+  const nowTitle =
+    document.getElementById(
+      "now-title"
+    );
+
+
+  if (nowTitle) {
+
+    nowTitle.textContent =
+      songs[number].title;
+
+  }
+
+
+  player.src =
+    songs[number].file;
+
+
+  player.currentTime =
+    0;
+
+
+  player.play()
+    .catch(function (error) {
+
+      console.log(
+        "再生できませんでした:",
+        error
+      );
+
+    });
 
 }
 
@@ -344,16 +991,17 @@ function nextSong() {
 
 function togglePlay() {
 
-  const songs = getSongs();
+  const songs =
+    getSongs();
 
-
-  /* まだ曲を選択していない場合 */
 
   if (!player.src) {
 
     if (songs.length > 0) {
 
-      playSong(currentSong);
+      playStoredSong(
+        currentSong
+      );
 
     }
 
@@ -404,7 +1052,9 @@ player.addEventListener(
 function setupSeekBar() {
 
   const seekBar =
-    document.getElementById("seek-bar");
+    document.getElementById(
+      "seek-bar"
+    );
 
 
   if (!seekBar) {
@@ -416,20 +1066,28 @@ function setupSeekBar() {
     "loadedmetadata",
     function () {
 
-      if (Number.isFinite(player.duration)) {
+      if (
+        Number.isFinite(
+          player.duration
+        )
+      ) {
 
         seekBar.max =
           player.duration;
 
 
         const duration =
-          document.getElementById("duration");
+          document.getElementById(
+            "duration"
+          );
 
 
         if (duration) {
 
           duration.textContent =
-            formatTime(player.duration);
+            formatTime(
+              player.duration
+            );
 
         }
 
@@ -448,13 +1106,17 @@ function setupSeekBar() {
 
 
       const currentTime =
-        document.getElementById("current-time");
+        document.getElementById(
+          "current-time"
+        );
 
 
       if (currentTime) {
 
         currentTime.textContent =
-          formatTime(player.currentTime);
+          formatTime(
+            player.currentTime
+          );
 
       }
 
@@ -467,7 +1129,9 @@ function setupSeekBar() {
     function () {
 
       player.currentTime =
-        Number(seekBar.value);
+        Number(
+          seekBar.value
+        );
 
     }
   );
@@ -481,19 +1145,30 @@ function setupSeekBar() {
 
 function formatTime(seconds) {
 
-  if (!Number.isFinite(seconds)) {
+  if (
+    !Number.isFinite(seconds)
+  ) {
+
     return "0:00";
+
   }
 
 
   const minutes =
-    Math.floor(seconds / 60);
+    Math.floor(
+      seconds / 60
+    );
 
 
   const remainingSeconds =
-    Math.floor(seconds % 60)
+    Math.floor(
+      seconds % 60
+    )
       .toString()
-      .padStart(2, "0");
+      .padStart(
+        2,
+        "0"
+      );
 
 
   return (
@@ -509,10 +1184,14 @@ function formatTime(seconds) {
    再生アイコン変更
    ========================================================= */
 
-function updatePlayIcon(isPlaying) {
+function updatePlayIcon(
+  isPlaying
+) {
 
   const playIcon =
-    document.getElementById("play-icon");
+    document.getElementById(
+      "play-icon"
+    );
 
 
   if (!playIcon) {
