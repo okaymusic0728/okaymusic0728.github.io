@@ -530,3 +530,34 @@ body {
 .disc-title {
   text-align: left;
 }
+
+/* =========================
+   レア音源 ☆
+   ========================= */
+
+.rare-thumb {
+  position: relative;
+  width: 100%;
+}
+
+.rare-star {
+  position: absolute;
+  top: 5px;
+  left: 6px;
+  color: white;
+  font-size: 18px;
+  line-height: 1;
+  text-shadow: 0 0 5px rgba(0,0,0,0.8);
+  animation: rareStarBlink 3s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes rareStarBlink {
+  0%, 100% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
