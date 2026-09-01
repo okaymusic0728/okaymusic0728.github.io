@@ -526,3 +526,7 @@ body {
 .nav {
   animation: none !important;
 }
+
+.disc-title {
+  text-align: left;
+}
