@@ -276,9 +276,9 @@ function createNavigation() {
       </a>
 
 
-<button
-  type="button"
-  class="nav-btn nav-disabled">
+<a
+  href="javascript:void(0)"
+  class="nav-btn">
 
   <i class="fa-solid fa-radio"></i>
 
@@ -286,12 +286,12 @@ function createNavigation() {
     RADIO
   </span>
 
-</button>
+</a>
 
 
-<button
-  type="button"
-  class="nav-btn nav-disabled">
+<a
+  href="search.html"
+  class="nav-btn">
 
   <i class="fa-solid fa-magnifying-glass"></i>
 
@@ -299,7 +299,7 @@ function createNavigation() {
     SEARCH
   </span>
 
-</button>
+</a>
 
     </div>
     `
