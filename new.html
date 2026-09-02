@@ -71,16 +71,36 @@ body {
 
 
 /* =========================================================
-   タイトル
+   NEWSヘッダー
    ========================================================= */
 
+.news-header {
 
-.news-page h1 {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
 
   margin:
     0
     0
     30px;
+
+}
+
+
+/* =========================================================
+   タイトル
+   ========================================================= */
+
+.news-page h1 {
+
+  margin:
+    0;
 
   font-size:
     26px;
@@ -90,6 +110,53 @@ body {
 
   letter-spacing:
     0.08em;
+
+}
+
+
+/* =========================================================
+   REQUESTボタン
+   ========================================================= */
+
+.request-button {
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    8px
+    14px;
+
+  border:
+    1px
+    solid
+    rgba(
+      255,
+      255,
+      255,
+      0.4
+    );
+
+  border-radius:
+    20px;
+
+  color:
+    white;
+
+  font-size:
+    11px;
+
+  letter-spacing:
+    0.08em;
+
+  text-decoration:
+    none;
 
 }
 
@@ -213,9 +280,22 @@ body {
 <div class="news-page">
 
 
-<h1>
-NEWS
-</h1>
+<div class="news-header">
+
+  <h1>
+    NEWS
+  </h1>
+
+
+  <a
+    href="request.html"
+    class="request-button">
+
+    REQUEST
+
+  </a>
+
+</div>
 
 
 <div class="news-list">
