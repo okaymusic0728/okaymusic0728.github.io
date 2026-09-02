@@ -504,14 +504,21 @@ slide.classList.remove("active");
 
 artistDots.forEach(function(dot) {
 
-dot.classList.remove("active");
+  dot.classList.remove("active");
 
 });
 
 
 artistSlides[index].classList.add("active");
 
-artistDots[index].classList.add("active");
+
+/* 常に中央の〇をアクティブにする */
+
+if (artistDots.length >= 2) {
+
+  artistDots[1].classList.add("active");
+
+}
 
 
 currentArtist = index;
