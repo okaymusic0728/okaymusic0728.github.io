@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+検索 - Okay Music
+</title>
+
+
+<link
+  rel="apple-touch-icon"
+  href="00001.png"
+>
+
+
+<link
+  rel="stylesheet"
+  href="style.css"
+>
+
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+
+<style>
+
+
+body {
+
+  background-image:
+
+    linear-gradient(
+      rgba(0,0,0,0.55),
+      rgba(0,0,0,0.55)
+    ),
+
+    url("background.jpg");
+
+
+  background-size:
+    cover;
+
+
+  background-position:
+    center;
+
+
+  background-attachment:
+    fixed;
+
+
+  color:
+    white;
+
+
+  font-family:
+    sans-serif;
+
+
+  padding:
+    70px
+    15px
+    180px;
+
+
+  box-sizing:
+    border-box;
+
+}
+
+
+/* =========================
+   ページタイトル
+   ========================= */
+
+.search-page-title {
+
+  max-width:
+    600px;
+
+
+  margin:
+    0
+    auto
+    25px;
+
+
+  text-align:
+    left;
+
+
+  font-size:
+    24px;
+
+}
+
+
+/* =========================
+   検索ボックス
+   ========================= */
+
+.search-box {
+
+  max-width:
+    600px;
+
+
+  margin:
+    0
+    auto
+    25px;
+
+}
+
+
+.search-box input {
+
+  width:
+    100%;
+
+
+  box-sizing:
+    border-box;
+
+
+  padding:
+    15px;
+
+
+  border:
+    none;
+
+
+  border-radius:
+    12px;
+
+
+  font-size:
+    16px;
+
+
+  outline:
+    none;
+
+}
+
+
+/* =========================
+   検索結果
+   ========================= */
+
+.search-results {
+
+  max-width:
+    600px;
+
+
+  margin:
+    0
+    auto;
+
+}
+
+
+.search-message {
+
+  text-align:
+    left;
+
+
+  color:
+    #cccccc;
+
+
+  font-size:
+    14px;
+
+
+  margin:
+    15px
+    0;
+
+}
+
+
+/* =========================
+   検索結果カード
+   ========================= */
+
+.search-result-item {
+
+  display:
+    block;
+
+
+  text-decoration:
+    none;
+
+
+  color:
+    white;
+
+
+  background:
+    rgba(
+      20,
+      20,
+      20,
+      0.82
+    );
+
+
+  border-radius:
+    12px;
+
+
+  padding:
+    18px;
+
+
+  margin:
+    12px
+    0;
+
+
+  text-align:
+    left;
+
+
+  transition:
+    0.2s;
+
+}
+
+
+.search-result-item:active {
+
+  transform:
+    scale(
+      0.98
+    );
+
+}
+
+
+.result-song {
+
+  font-size:
+    18px;
+
+
+  font-weight:
+    bold;
+
+
+  margin-bottom:
+    8px;
+
+}
+
+
+.result-album {
+
+  font-size:
+    14px;
+
+
+  color:
+    #dddddd;
+
+
+  margin-bottom:
+    5px;
+
+}
+
+
+.result-artist {
+
+  font-size:
+    13px;
+
+
+  color:
+    #aaaaaa;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SEARCH
+     ========================= -->
+
+<h1
+  class="search-page-title"
+>
+
+SEARCH
+
+</h1>
+
+
+<!-- =========================
+     検索入力
+     ========================= -->
+
+<div
+  class="search-box"
+>
+
+<input
+
+  type="text"
+
+  id="searchInput"
+
+  placeholder="アーティスト・アルバム・曲名で検索"
+
+  oninput="searchMusic()"
+
+>
+
+</div>
+
+
+<!-- =========================
+     検索結果
+     ========================= -->
+
+<div
+  id="searchMessage"
+  class="search-message"
+>
+
+アーティスト名、アルバム名、曲名を入力してください
+
+</div>
+
+
+<div
+  id="searchResults"
+  class="search-results"
+>
+
+</div>
+
+
+<script>
+
+
+/* =========================================================
+   Okay Music
+   検索データ
+   ========================================================= */
+
+
+/*
+ * ここに検索データを追加していく
+ *
+ * 曲名検索
+ * アルバム検索
+ * アーティスト検索
+ *
+ * すべて対応可能
+ */
+
+
+const musicSearchData = [
+
+
+  /* =========================================================
+     SUPER BEAVER
+     人生【ファンクラブ盤】
+     ========================================================= */
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "希望",
+
+    keywords:
+      [
+        "希望",
+        "きぼう",
+        "super beaver",
+        "superbeaver",
+        "人生",
+        "じんせい"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "涙の正体",
+
+    keywords:
+      [
+        "涙の正体",
+        "なみだのしょうたい",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "燦然",
+
+    keywords:
+      [
+        "燦然",
+        "さんぜん",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "クライマックス",
+
+    keywords:
+      [
+        "クライマックス",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "主人公",
+
+    keywords:
+      [
+        "主人公",
+        "しゅじんこう",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "アプローズ",
+
+    keywords:
+      [
+        "アプローズ",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "健気",
+
+    keywords:
+      [
+        "健気",
+        "けなげ",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "まなざし",
+
+    keywords:
+      [
+        "まなざし",
+        "眼差し",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "夏と跡形",
+
+    keywords:
+      [
+        "夏と跡形",
+        "なつとあとかた",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "片想い",
+
+    keywords:
+      [
+        "片想い",
+        "片思い",
+        "かたおもい",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "生きがい",
+
+    keywords:
+      [
+        "生きがい",
+        "生き甲斐",
+        "いきがい",
+        "ikigai",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "人生【ファンクラブ盤】",
+
+    title:
+      "告白",
+
+    keywords:
+      [
+        "告白",
+        "こくはく",
+        "super beaver",
+        "superbeaver",
+        "人生"
+      ],
+
+    link:
+      "jinsei.html"
+  },
+
+
+  /* =========================================================
+     SUPER BEAVER
+     燦然 / 生きがい
+     ========================================================= */
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "燦然 / 生きがい",
+
+    title:
+      "燦然",
+
+    keywords:
+      [
+        "燦然",
+        "さんぜん",
+        "super beaver",
+        "superbeaver",
+        "生きがい"
+      ],
+
+    link:
+      "ikigai.html"
+  },
+
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "燦然 / 生きがい",
+
+    title:
+      "生きがい",
+
+    keywords:
+      [
+        "生きがい",
+        "いきがい",
+        "ikigai",
+        "super beaver",
+        "superbeaver",
+        "燦然"
+      ],
+
+    link:
+      "ikigai.html"
+  },
+
+
+  /* =========================================================
+     SUPER BEAVER
+     喝采
+     ========================================================= */
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "喝采",
+
+    title:
+      "喝采",
+
+    keywords:
+      [
+        "喝采",
+        "かっさい",
+        "kassai",
+        "super beaver",
+        "superbeaver"
+      ],
+
+    link:
+      "kasai.html"
+  },
+
+
+  /* =========================================================
+     SUPER BEAVER
+     Acoustic Album 1
+     ========================================================= */
+
+  {
+    artist:
+      "SUPER BEAVER",
+
+    album:
+      "Acoustic Album 1",
+
+    title:
+      "Acoustic Album 1",
+
+    keywords:
+      [
+        "acoustic album 1",
+        "acoustic",
+        "アコースティック",
+        "super beaver",
+        "superbeaver"
+      ],
+
+    link:
+      "acoustic.html"
+  }
+
+
+];
+
+
+/* =========================================================
+   検索処理
+   ========================================================= */
+
+function searchMusic() {
+
+
+  const input =
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const results =
+    document.getElementById(
+      "searchResults"
+    );
+
+
+  const message =
+    document.getElementById(
+      "searchMessage"
+    );
+
+
+  /*
+   * 初期状態
+   */
+
+  if (
+    input === ""
+  ) {
+
+
+    results.innerHTML =
+      "";
+
+
+    message.textContent =
+      "アーティスト名、アルバム名、曲名を入力してください";
+
+
+    return;
+
+  }
+
+
+  /*
+   * 検索
+   */
+
+  const foundSongs =
+    musicSearchData.filter(
+      function (item) {
+
+
+        const searchTargets = [
+
+          item.artist,
+
+          item.album,
+
+          item.title,
+
+          ...item.keywords
+
+        ];
+
+
+        return searchTargets.some(
+          function (word) {
+
+
+            return (
+              word
+                .toLowerCase()
+                .includes(
+                  input
+                )
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+  /*
+   * 結果なし
+   */
+
+  if (
+    foundSongs.length === 0
+  ) {
+
+
+    results.innerHTML =
+      "";
+
+
+    message.textContent =
+      "見つかりませんでした";
+
+
+    return;
+
+  }
+
+
+  /*
+   * 検索結果表示
+   */
+
+  message.textContent =
+    foundSongs.length +
+    "件見つかりました";
+
+
+  results.innerHTML =
+    "";
+
+
+  foundSongs.forEach(
+    function (item) {
+
+
+      results.innerHTML +=
+        `
+
+        <a
+          href="${item.link}"
+          class="search-result-item"
+        >
+
+          <div
+            class="result-song"
+          >
+
+            🎵 ${item.title}
+
+          </div>
+
+
+          <div
+            class="result-album"
+          >
+
+            💿 ${item.album}
+
+          </div>
+
+
+          <div
+            class="result-artist"
+          >
+
+            ${item.artist}
+
+          </div>
+
+        </a>
+
+        `;
+
+    }
+  );
+
+}
+
+
+</script>
+
+
+<!-- =========================
+     Okay MUSIC 共通システム
+     ========================= -->
+
+<script
+  src="script.js"
+></script>
+
+
+</body>
+
+</html>
