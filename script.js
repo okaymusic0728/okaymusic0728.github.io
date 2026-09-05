@@ -596,6 +596,42 @@ function setupPageNavigation() {
 
 }
 
+/* =========================================================
+   ページ遷移アニメーション
+   ========================================================= */
+
+function pageTransitionOut() {
+
+  document.body.classList.add(
+    "page-transition-out"
+  );
+
+}
+
+
+function pageTransitionIn() {
+
+  document.body.classList.remove(
+    "page-transition-out"
+  );
+
+  document.body.classList.add(
+    "page-transition-in"
+  );
+
+
+  setTimeout(
+    function () {
+
+      document.body.classList.remove(
+        "page-transition-in"
+      );
+
+    },
+    350
+  );
+
+}
 
 /* =========================================================
    ページ読み込み
