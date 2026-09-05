@@ -531,3 +531,67 @@ body {
   text-align: left;
 }
 
+/* =========================================================
+   ページ遷移アニメーション
+   全ページ共通
+   ========================================================= */
+
+
+/* 画面を覆う暗転用レイヤー */
+
+body::after {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  background: black;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 99999;
+
+  transition: opacity 0.18s ease;
+
+}
+
+
+/* ページ移動する直前 */
+
+body.page-transition-out::after {
+
+  opacity: 0.45;
+
+}
+
+
+/* 新しいページが表示された後 */
+
+body.page-transition-in::after {
+
+  animation:
+    pageFadeIn
+    0.35s ease forwards;
+
+}
+
+
+@keyframes pageFadeIn {
+
+  from {
+
+    opacity: 0.45;
+
+  }
+
+  to {
+
+    opacity: 0;
+
+  }
+
+}
