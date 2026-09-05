@@ -205,15 +205,14 @@ function createPageTools() {
       <div class="page-tools">
 
         <button
-          class="page-tool"
-          type="button"
-          onclick="history.back()"
-          aria-label="1つ戻る">
+  class="page-tool"
+  type="button"
+  onclick="goBack()"
+  aria-label="1つ戻る">
 
-          ←
+  ←
 
-        </button>
-
+</button>
 
       </div>
       `
