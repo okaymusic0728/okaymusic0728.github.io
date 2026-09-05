@@ -643,6 +643,29 @@ async function navigateTo(
 ) {
 
 
+  /*
+   * ページを一瞬暗くする
+   */
+
+  pageTransitionOut();
+
+
+  /*
+   * 0.18秒待つ
+   */
+
+  await new Promise(
+    function (resolve) {
+
+      setTimeout(
+        resolve,
+        180
+      );
+
+    }
+  );
+
+
   try {
 
 
@@ -943,6 +966,12 @@ async function navigateTo(
       0,
       0
     );
+    
+    /*
+ * 新しいページを明るく表示
+ */
+
+pageTransitionIn();
 
 
   } catch (error) {
