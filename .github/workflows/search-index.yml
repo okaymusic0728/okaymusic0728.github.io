@@ -1,0 +1,49 @@
+name: Generate Search Index
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.html"
+      - "generate-search-index.py"
+      - ".github/workflows/search-index.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # リポジトリを取得
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Pythonをセットアップ
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # 検索インデックスを生成
+      - name: Generate search-index.json
+        run: |
+          python generate-search-index.py
+
+      # 変更があればGitHubへ保存
+      - name: Commit search-index.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add search-index.json
+
+          if git diff --cached --quiet; then
+            echo "search-index.json に変更はありません"
+          else
+            git commit -m "Auto update search-index.json"
+            git push
+          fi
