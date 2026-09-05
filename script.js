@@ -80,7 +80,7 @@ document.addEventListener(
        ページ内リンクを共通処理
        ========================= */
 
-// setupPageNavigation();
+ setupPageNavigation();
 
   }
 );
