@@ -42,7 +42,7 @@ h1 {
 
   background-color: #222;
 
-  background-image: url("childrenback.jpg");
+  background-image: url("superbeaver2.jpg");
 
   background-repeat: repeat;
 
@@ -183,25 +183,57 @@ h1 {
 
 
 <!-- =========================
-     Mr.Children
+     SUPER BEAVER
      ========================= -->
 
 <div class="artist-card">
 
 
 <h1>
-Mr.Children
+SUPER BEAVER
 </h1>
 
+<div class="category-tabs">
+
+  <button class="category-tab active" onclick="showCategory('album', this)">
+    ALBUM
+  </button>
+
+  <button class="category-tab" onclick="showCategory('single', this)">
+    SINGLE
+  </button>
+
+  <button class="category-tab" onclick="showCategory('digital', this)">
+    配信
+  </button>
+
+  <button class="category-tab" onclick="showCategory('rare', this)">
+    未発表/非売品
+  </button>
+
+  <button class="category-tab" onclick="showCategory('other', this)">
+    TV/その他
+  </button>
+
+  <button class="category-tab" onclick="showCategory('radio', this)">
+    ラジオ
+  </button>
+
+  <button class="category-tab" onclick="showCategory('video', this)">
+    ビデオ
+  </button>
+
+</div>
 
 <!-- =========================
      ALBUM
      ========================= -->
 
-<h2 class="category-title">
-ALBUM
-</h2>
+<div id="album" class="category-content active">
 
+<h2 class="category-title">
+　ALBUM
+</h2>
 
 <div class="album-list">
 
@@ -222,7 +254,8 @@ alt="人生">
 </h3>
 
 <p>
-ファンクラブ盤(DVD音源を含む)
+ファンクラブ盤<br>
+(DVD音源を含む)
 </p>
 
 </a>
@@ -246,7 +279,8 @@ Acoustic Album 1
 </h3>
 
 <p>
-初回生産限定盤B(DVD音源を含む)
+初回生産限定盤B<br>
+(DVD音源を含む)
 </p>
 
 </a>
@@ -270,7 +304,8 @@ alt="音楽">
 </h3>
 
 <p>
-初回生産限定盤B(DVD音源を含む)
+初回生産限定盤B<br>
+(DVD音源を含む)
 </p>
 
 </a>
@@ -540,11 +575,12 @@ alt="幸福軌道">
 </h3>
 
 <p>
-初回生産限定盤(DVD音源を含む)
+初回生産限定盤<br>
+(DVD音源を含む)
 </p>
 
 <p>
-★激レア・シークレットトラック有
+※シークレットトラック有
 </p>
 
 </a>
@@ -599,15 +635,17 @@ alt="日常">
 
 </div>
 </div>
+</div>
 
 <!-- =========================
      SINGLE
      ========================= -->
 
+<div id="single" class="category-content">
+
 <h2 class="category-title">
 SINGLE
 </h2>
-
 
 <div class="album-list">
 
@@ -877,86 +915,95 @@ alt="深呼吸">
 
 </div>
 
-
 </div>
-
+  
+</div>
 
 <!-- =========================
      配信
      ========================= -->
 
-<h2 class="category-title">
-配信
-</h2>
+<div id="digital" class="category-content">
+
+  <h2 class="category-title">
+    配信
+  </h2>
+
+  <div class="album-list">
+
+    <!-- 現在地 -->
+
+    <div class="album">
+
+      <a href="genzai.html" class="album-link">
+
+        <img
+          src="genzaichi.jpg"
+          class="album-thumb"
+          alt="映画 現在地 オリジナルサウンドトラック">
+
+        <h3>
+          映画『SUPER BEAVER LIVE & DOCUMENTARY -現在地-』<br>
+          オリジナル・サウンドトラック
+        </h3>
+
+        <p>
+          配信限定
+        </p>
+
+      </a>
+
+    </div>
 
 
-<div class="album-list">
+    <!-- 値千金 -->
+
+    <div class="album">
+
+      <a href="atai.html" class="album-link">
+
+        <img
+          src="atechisenkin.jpg"
+          class="album-thumb"
+          alt="値千金">
+
+        <h3>
+          値千金
+        </h3>
+
+        <p>
+          2023.12.27
+        </p>
+
+      </a>
+
+    </div>
 
 
-<!-- 現在地 -->
+    <!-- 決心 -->
 
-<div class="album">
+    <div class="album">
 
-<a href="genzai.html" class="album-link">
+      <a href="kesshin.html" class="album-link">
 
-<img
-src="genzaichi.jpg"
-class="album-thumb"
-alt="映画 現在地 オリジナルサウンドトラック">
+        <img
+          src="kessin.jpg"
+          class="album-thumb"
+          alt="決心">
 
-<h3>
-映画『SUPER BEAVER LIVE & DOCUMENTARY -現在地-』<br>
-オリジナル・サウンドトラック
-</h3>
+        <h3>
+          決心
+        </h3>
 
-<p>
-配信限定(公式と本サイトのみ)
-</p>
+        <p>
+          2023.11.03
+        </p>
 
-</a>
+      </a>
 
-</div>
+    </div>
 
-
-<!-- 値千金 -->
-
-<div class="album">
-
-<img
-src="atechisenkin.jpg"
-class="album-thumb"
-alt="値千金">
-
-<h3>
-値千金
-</h3>
-
-<p>
-2023.12.27
-</p>
-
-</div>
-
-
-<!-- 決心 -->
-
-<div class="album">
-
-<img
-src="kessin.jpg"
-class="album-thumb"
-alt="決心">
-
-<h3>
-決心
-</h3>
-
-<p>
-2023.11.03
-</p>
-
-</div>
-
+  </div>
 
 </div>
 
@@ -964,6 +1011,8 @@ alt="決心">
 <!-- =========================
      非売品 / 未発表
      ========================= -->
+
+<div id="rare" class="category-content">
 
 <h2 class="category-title">
 未発表/非売品
@@ -1014,10 +1063,14 @@ alt="喝采">
 </h3>
 
 <p>
-希少・非売品(クアトロで限定配布CD)
+希少・非売品<br>
+(クアトロで限定配布CD)
 </p>
 
 </a>
+
+</div>
+
 
 </div>
 
@@ -1028,13 +1081,15 @@ alt="喝采">
      TV/その他
      ========================= -->
 
+<div id="other" class="category-content">
+
 <h2 class="category-title">
 TV/その他
 </h2>
-
-
+  
+<div id="other" class="category-content">
+  
 <div class="album-list">
-
 
 <div class="album coming-soon">
 
@@ -1053,6 +1108,7 @@ alt="Coming Soon">
 
 </div>
 
+</div>
 
 </div>
 
@@ -1061,56 +1117,64 @@ alt="Coming Soon">
      ラジオ
      ========================= -->
 
-<h2 class="category-title">
-ラジオ
-</h2>
+<div id="radio" class="category-content">
 
-<div class="album-list">
+  <h2 class="category-title">
+    ラジオ
+  </h2>
+
+  <div class="album-list">
+
 
     <!-- 山田裕貴のオールナイトニッポン -->
+
     <div class="album coming-soon">
 
-        <a href="yamadaall.html" class="album-link">
+      <a href="yamadaall.html" class="album-link">
 
-            <img
-                src="yamadaall.jpg"
-                class="album-thumb"
-                alt="山田裕貴のオールナイトニッポン">
+        <img
+          src="yamadaall.jpg"
+          class="album-thumb"
+          alt="山田裕貴のオールナイトニッポン">
 
-            <h3>
-                山田裕貴のオールナイトニッポン
-            </h3>
+        <h3>
+          山田裕貴のオールナイトニッポン
+        </h3>
 
-            <p>
-                ゲスト：渋谷龍太
-            </p>
+        <p>
+          ゲスト：渋谷龍太
+        </p>
 
-        </a>
+      </a>
 
     </div>
 
 
     <!-- ビーバーLOCKS! -->
+
     <div class="album coming-soon">
 
-    <a href="rocks.html" class="album-link">
+      <a href="rocks.html" class="album-link">
 
         <img
-            src="rocks.jpg"
-            class="album-thumb"
-            alt="ビーバーLOCKS!">
+          src="rocks.jpg"
+          class="album-thumb"
+          alt="ビーバーLOCKS!">
 
         <h3>
-            ビーバーLOCKS!
+          ビーバーLOCKS!
         </h3>
 
         <p>
-            2026.07.03 ~
+          2026.07.03 ～
         </p>
 
-    </a>
+      </a>
 
-</div>
+    </div>
+
+
+  </div>
 
 </div>
 
@@ -1118,13 +1182,13 @@ alt="Coming Soon">
      ビデオ
      ========================= -->
 
+<div id="video" class="category-content">
+
 <h2 class="category-title">
 ビデオ
 </h2>
 
-
 <div class="album-list">
-
 
 <div class="album coming-soon">
 
@@ -1143,17 +1207,75 @@ alt="ビデオ 準備中">
 
 </div>
 
+</div>
 
 </div>
 
 
-</div>
+<script>
+
+function showCategory(
+  category,
+  button
+) {
+
+  document
+    .querySelectorAll(
+      ".category-content"
+    )
+    .forEach(
+      function (content) {
+
+        content.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".category-tab"
+    )
+    .forEach(
+      function (tab) {
+
+        tab.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  const target =
+    document.getElementById(
+      category
+    );
+
+
+  if (target) {
+
+    target.classList.add(
+      "active"
+    );
+
+  }
+
+
+  button.classList.add(
+    "active"
+  );
+
+}
+
+</script>
 
 
 <!-- 共通システム -->
 
 <script src="script.js"></script>
-
 
 </body>
 
