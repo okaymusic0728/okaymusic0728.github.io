@@ -193,15 +193,47 @@ h1 {
 SUPER BEAVER
 </h1>
 
+<div class="category-tabs">
+
+  <button class="category-tab active" onclick="showCategory('album', this)">
+    ALBUM
+  </button>
+
+  <button class="category-tab" onclick="showCategory('single', this)">
+    SINGLE
+  </button>
+
+  <button class="category-tab" onclick="showCategory('digital', this)">
+    配信
+  </button>
+
+  <button class="category-tab" onclick="showCategory('rare', this)">
+    未発表/非売品
+  </button>
+
+  <button class="category-tab" onclick="showCategory('other', this)">
+    TV/その他
+  </button>
+
+  <button class="category-tab" onclick="showCategory('radio', this)">
+    ラジオ
+  </button>
+
+  <button class="category-tab" onclick="showCategory('video', this)">
+    ビデオ
+  </button>
+
+</div>
 
 <!-- =========================
      ALBUM
      ========================= -->
 
-<h2 class="category-title">
-ALBUM
-</h2>
+<div id="album" class="category-content active">
 
+<h2 class="category-title">
+　ALBUM
+</h2>
 
 <div class="album-list">
 
@@ -603,15 +635,17 @@ alt="日常">
 
 </div>
 </div>
+</div>
 
 <!-- =========================
      SINGLE
      ========================= -->
 
+<div id="single" class="category-content">
+
 <h2 class="category-title">
 SINGLE
 </h2>
-
 
 <div class="album-list">
 
@@ -881,13 +915,16 @@ alt="深呼吸">
 
 </div>
 
-
 </div>
-
+  
+</div>
 
 <!-- =========================
      配信
      ========================= -->
+
+
+<div id="digital" class="category-content">
 
 <h2 class="category-title">
 配信
@@ -961,6 +998,7 @@ alt="決心">
 
 </div>
 
+</div>
 
 </div>
 
@@ -969,6 +1007,8 @@ alt="決心">
      非売品 / 未発表
      ========================= -->
 
+<div id="rare" class="category-content">
+  
 <h2 class="category-title">
 未発表/非売品
 </h2>
@@ -1001,6 +1041,7 @@ alt="都会のラクダTOUR2020 ～ラクダの原点、ピーポーパーポー
 
 </div>
 
+</div>
 
 <!-- 喝采 -->
 
