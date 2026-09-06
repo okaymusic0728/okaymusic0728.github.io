@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>atai - SUPER BEAVER - Okay MUSIC</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+
+
+
+
+
+<div class="album">
+
+<h1>
+値千金
+</h1>
+
+
+
+<p>
+【完全非売品・激レア】
+</p>
+
+
+<p>
+2023.12.27 RELEASE
+</p>
+
+
+
+
+
+<img class="album-jacket" src="atechisenkin.jpg" alt="値千金 ジャケット">
+
+<div class="song" id="song0" onclick="playSong(0)">
+01. 値千金
+</div>
+  
+<div class="info">
+
+<h3>
+仕様
+</h3>
+
+<p>
+配信
+</p>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+  window.albumSongs = [
+
+{
+  title: "01. 値千金",
+  file: "https://pub-d45eab620ba14481a0f4c377b3fd4927.r2.dev/SUPER%20BEAVER/%E9%9F%B3%E6%A5%BD/05%20%E5%80%A4%E5%8D%83%E9%87%91.mp3"
+},
+];
+</script>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
