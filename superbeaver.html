@@ -1075,17 +1075,14 @@ alt="喝采">
 <!-- =========================
      TV/その他
      ========================= -->
-<!-- =========================
-     TV/その他
-     ========================= -->
+
+<div id="other" class="category-content">
 
 <h2 class="category-title">
 TV/その他
 </h2>
 
-
 <div class="album-list">
-
 
 <div class="album coming-soon">
 
@@ -1104,6 +1101,7 @@ alt="Coming Soon">
 
 </div>
 
+</div>
 
 </div>
 
@@ -1111,6 +1109,8 @@ alt="Coming Soon">
 <!-- =========================
      ラジオ
      ========================= -->
+
+<div id="radio" class="category-content">
 
 <h2 class="category-title">
 ラジオ
@@ -1144,22 +1144,24 @@ alt="Coming Soon">
     <!-- ビーバーLOCKS! -->
     <div class="album coming-soon">
 
-    <a href="rocks.html" class="album-link">
+        <a href="rocks.html" class="album-link">
 
-        <img
-            src="rocks.jpg"
-            class="album-thumb"
-            alt="ビーバーLOCKS!">
+            <img
+                src="rocks.jpg"
+                class="album-thumb"
+                alt="ビーバーLOCKS!">
 
-        <h3>
-            ビーバーLOCKS!
-        </h3>
+            <h3>
+                ビーバーLOCKS!
+            </h3>
 
-        <p>
-            2026.07.03 ~
-        </p>
+            <p>
+                2026.07.03 ~
+            </p>
 
-    </a>
+        </a>
+
+    </div>
 
 </div>
 
@@ -1169,13 +1171,13 @@ alt="Coming Soon">
      ビデオ
      ========================= -->
 
+<div id="video" class="category-content">
+
 <h2 class="category-title">
 ビデオ
 </h2>
 
-
 <div class="album-list">
-
 
 <div class="album coming-soon">
 
@@ -1194,17 +1196,77 @@ alt="ビデオ 準備中">
 
 </div>
 
+</div>
+
+</div>
 
 </div>
 
 
-</div>
+<script>
+
+function showCategory(
+  category,
+  button
+) {
+
+  document
+    .querySelectorAll(
+      ".category-content"
+    )
+    .forEach(
+      function (content) {
+
+        content.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      ".category-tab"
+    )
+    .forEach(
+      function (tab) {
+
+        tab.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  const target =
+    document.getElementById(
+      category
+    );
+
+
+  if (target) {
+
+    target.classList.add(
+      "active"
+    );
+
+  }
+
+
+  button.classList.add(
+    "active"
+  );
+
+}
+
+</script>
 
 
 <!-- 共通システム -->
 
 <script src="script.js"></script>
-
 
 </body>
 
