@@ -30,6 +30,25 @@ let activeSongs = [];
 
 
 /* =========================================================
+   自動再生監視・復旧
+   ========================================================= */
+
+let shouldBePlaying = false;
+
+let recoveryTimer = null;
+
+let recoveryAttempts = 0;
+
+let recoveryInProgress = false;
+
+let lastPlaybackTime = 0;
+
+let lastPlaybackCheck = Date.now();
+
+const MAX_RECOVERY_ATTEMPTS = 5;
+
+
+/* =========================================================
    共通UIを自動生成
    ========================================================= */
 
@@ -80,7 +99,7 @@ document.addEventListener(
        ページ内リンクを共通処理
        ========================= */
 
- setupPageNavigation();
+    setupPageNavigation();
 
   }
 );
@@ -231,6 +250,7 @@ function goBack() {
 
 }
 
+
 /* =========================================================
    下部4ボタン
    ========================================================= */
@@ -283,30 +303,30 @@ function createNavigation() {
       </a>
 
 
-<a
-  href="javascript:void(0)"
-  class="nav-btn">
+      <a
+        href="javascript:void(0)"
+        class="nav-btn">
 
-  <i class="fa-solid fa-radio"></i>
+        <i class="fa-solid fa-radio"></i>
 
-  <span>
-    RADIO
-  </span>
+        <span>
+          RADIO
+        </span>
 
-</a>
+      </a>
 
 
-<a
-  href="search.html"
-  class="nav-btn">
+      <a
+        href="search.html"
+        class="nav-btn">
 
-  <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-solid fa-magnifying-glass"></i>
 
-  <span>
-    SEARCH
-  </span>
+        <span>
+          SEARCH
+        </span>
 
-</a>
+      </a>
 
     </div>
     `
@@ -596,6 +616,7 @@ function setupPageNavigation() {
 
 }
 
+
 /* =========================================================
    ページ遷移アニメーション
    ========================================================= */
@@ -632,6 +653,7 @@ function pageTransitionIn() {
   );
 
 }
+
 
 /* =========================================================
    ページ読み込み
@@ -966,12 +988,13 @@ async function navigateTo(
       0,
       0
     );
-    
-    /*
- * 新しいページを明るく表示
- */
 
-pageTransitionIn();
+
+    /*
+     * 新しいページを明るく表示
+     */
+
+    pageTransitionIn();
 
 
   } catch (error) {
@@ -1179,6 +1202,24 @@ function playSong(
 
 
   /*
+   * ユーザーが再生を開始した
+   */
+
+  shouldBePlaying =
+    true;
+
+
+  recoveryAttempts =
+    0;
+
+  recoveryInProgress =
+    false;
+
+
+  clearRecoveryTimer();
+
+
+  /*
    * 先読み状態をリセット
    */
 
@@ -1265,17 +1306,7 @@ function playSong(
    * 再生
    */
 
-  player.play()
-    .catch(
-      function (error) {
-
-        console.log(
-          "再生できませんでした:",
-          error
-        );
-
-      }
-    );
+  startPlayback();
 
 }
 
@@ -1298,6 +1329,10 @@ function prevSong() {
     return;
 
   }
+
+
+  shouldBePlaying =
+    true;
 
 
   if (
@@ -1337,6 +1372,10 @@ function nextSong() {
     return;
 
   }
+
+
+  shouldBePlaying =
+    true;
 
 
   if (
@@ -1385,6 +1424,20 @@ function playStoredSong(
 
   currentSong =
     number;
+
+
+  shouldBePlaying =
+    true;
+
+
+  recoveryAttempts =
+    0;
+
+  recoveryInProgress =
+    false;
+
+
+  clearRecoveryTimer();
 
 
   /*
@@ -1470,14 +1523,61 @@ function playStoredSong(
    * 再生
    */
 
+  startPlayback();
+
+}
+
+
+/* =========================================================
+   再生開始
+   ========================================================= */
+
+function startPlayback() {
+
+
+  if (!shouldBePlaying) {
+
+    return;
+
+  }
+
+
+  clearRecoveryTimer();
+
+
   player.play()
+    .then(
+      function () {
+
+
+        recoveryAttempts =
+          0;
+
+        recoveryInProgress =
+          false;
+
+
+        lastPlaybackTime =
+          player.currentTime;
+
+
+        lastPlaybackCheck =
+          Date.now();
+
+
+      }
+    )
     .catch(
       function (error) {
 
+
         console.log(
-          "再生できませんでした:",
+          "再生開始失敗。自動復旧を試みます:",
           error
         );
+
+
+        scheduleRecovery();
 
       }
     );
@@ -1486,71 +1586,557 @@ function playStoredSong(
 
 
 /* =========================================================
-   再生・一時停止
+   自動復旧予約
    ========================================================= */
 
-function togglePlay() {
+function scheduleRecovery() {
 
 
-  const songs =
-    getSongs();
-
-
-  /*
-   * まだ曲を選択していない場合
-   */
-
-  if (
-    !player.src
-  ) {
-
-
-    if (
-      songs.length > 0
-    ) {
-
-      playStoredSong(
-        currentSong
-      );
-
-    }
-
+  if (!shouldBePlaying) {
 
     return;
 
   }
 
 
-  /*
-   * 一時停止中なら再生
-   */
+  if (recoveryTimer) {
+
+    return;
+
+  }
+
 
   if (
-    player.paused
+    recoveryInProgress
   ) {
 
+    return;
 
-    player.play()
-      .catch(
-        function (error) {
+  }
 
-          console.log(
-            "再生できませんでした:",
-            error
-          );
+
+  if (
+    recoveryAttempts >=
+    MAX_RECOVERY_ATTEMPTS
+  ) {
+
+    console.log(
+      "自動復旧を5回試しました。いったん待機します。"
+    );
+
+    recoveryAttempts =
+      0;
+
+    return;
+
+  }
+
+
+  recoveryTimer =
+    setTimeout(
+      function () {
+
+        recoveryTimer =
+          null;
+
+        recoverPlayback();
+
+      },
+      2000
+    );
+
+}
+
+
+/* =========================================================
+   再生復旧
+   ========================================================= */
+
+function recoverPlayback() {
+
+
+  if (!shouldBePlaying) {
+
+    return;
+
+  }
+
+
+  if (recoveryInProgress) {
+
+    return;
+
+  }
+
+
+  recoveryInProgress =
+    true;
+
+
+  recoveryAttempts++;
+
+
+  console.log(
+    "再生復旧を試行:",
+    recoveryAttempts
+  );
+
+
+  /*
+   * 現在位置を保存
+   */
+
+  const currentPosition =
+    player.currentTime;
+
+
+  /*
+   * まず通常のplay()
+   */
+
+  player.play()
+    .then(
+      function () {
+
+
+        console.log(
+          "再生復旧成功"
+        );
+
+
+        recoveryInProgress =
+          false;
+
+        recoveryAttempts =
+          0;
+
+
+        lastPlaybackTime =
+          player.currentTime;
+
+        lastPlaybackCheck =
+          Date.now();
+
+      }
+    )
+    .catch(
+      function () {
+
+
+        /*
+         * play()だけで駄目なら
+         * 音源を再読み込み
+         */
+
+        console.log(
+          "play()失敗。音源を再読み込みします"
+        );
+
+
+        const songs =
+          getSongs();
+
+
+        if (
+          !songs[currentSong]
+        ) {
+
+          recoveryInProgress =
+            false;
+
+          return;
 
         }
-      );
 
 
-  } else {
+        const source =
+          songs[currentSong].file;
 
 
-    player.pause();
+        /*
+         * 音源を再設定
+         */
+
+        player.src =
+          source;
+
+
+        player.preload =
+          "auto";
+
+
+        /*
+         * 再読み込み完了後
+         * 元の位置から再開
+         */
+
+        const restorePosition =
+          function () {
+
+
+            player.removeEventListener(
+              "loadedmetadata",
+              restorePosition
+            );
+
+
+            try {
+
+
+              if (
+
+                Number.isFinite(
+                  currentPosition
+                ) &&
+
+                currentPosition > 0 &&
+
+                Number.isFinite(
+                  player.duration
+                ) &&
+
+                currentPosition <
+                  player.duration
+
+              ) {
+
+                player.currentTime =
+                  currentPosition;
+
+              }
+
+            } catch (error) {
+
+              console.log(
+                "再生位置復元エラー:",
+                error
+              );
+
+            }
+
+
+            player.play()
+              .then(
+                function () {
+
+
+                  console.log(
+                    "音源再読み込み後の復旧成功"
+                  );
+
+
+                  recoveryInProgress =
+                    false;
+
+                  recoveryAttempts =
+                    0;
+
+
+                  lastPlaybackTime =
+                    player.currentTime;
+
+                  lastPlaybackCheck =
+                    Date.now();
+
+                }
+              )
+              .catch(
+                function (error) {
+
+
+                  console.log(
+                    "音源再読み込み後も再生失敗:",
+                    error
+                  );
+
+
+                  recoveryInProgress =
+                    false;
+
+
+                  scheduleRecovery();
+
+                }
+              );
+
+          };
+
+
+        player.addEventListener(
+          "loadedmetadata",
+          restorePosition
+        );
+
+
+        player.load();
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   復旧タイマー解除
+   ========================================================= */
+
+function clearRecoveryTimer() {
+
+
+  if (recoveryTimer) {
+
+
+    clearTimeout(
+      recoveryTimer
+    );
+
+
+    recoveryTimer =
+      null;
 
   }
 
 }
+
+
+/* =========================================================
+   再生状態監視
+   ========================================================= */
+
+setInterval(
+  function () {
+
+
+    /*
+     * ユーザーが停止している場合
+     * 何もしない
+     */
+
+    if (!shouldBePlaying) {
+
+      return;
+
+    }
+
+
+    if (!player.src) {
+
+      return;
+
+    }
+
+
+    /*
+     * 再生中のはずなのに
+     * pause状態になっている
+     */
+
+    if (player.paused) {
+
+
+      console.log(
+        "再生中のはずなのに停止しています。復旧します"
+      );
+
+
+      scheduleRecovery();
+
+
+      return;
+
+    }
+
+
+    const now =
+      Date.now();
+
+
+    const currentTime =
+      player.currentTime;
+
+
+    /*
+     * 10秒ごとに
+     * 再生位置が進んでいるか確認
+     */
+
+    if (
+
+      now -
+        lastPlaybackCheck >=
+      10000
+
+    ) {
+
+
+      /*
+       * 10秒経っているのに
+       * 再生位置がほぼ進んでいない
+       */
+
+      if (
+
+        Math.abs(
+          currentTime -
+            lastPlaybackTime
+        ) < 0.5
+
+      ) {
+
+
+        console.log(
+          "再生位置が進んでいません。自動復旧します"
+        );
+
+
+        scheduleRecovery();
+
+      }
+
+
+      lastPlaybackTime =
+        currentTime;
+
+
+      lastPlaybackCheck =
+        now;
+
+    }
+
+  },
+  3000
+);
+
+
+/* =========================================================
+   音声エラー・通信停止監視
+   ========================================================= */
+
+player.addEventListener(
+  "waiting",
+  function () {
+
+
+    if (!shouldBePlaying) {
+
+      return;
+
+    }
+
+
+    console.log(
+      "音声データ待ち。復旧を待機します"
+    );
+
+
+    scheduleRecovery();
+
+  }
+);
+
+
+player.addEventListener(
+  "stalled",
+  function () {
+
+
+    if (!shouldBePlaying) {
+
+      return;
+
+    }
+
+
+    console.log(
+      "音声データ取得停止。復旧を試みます"
+    );
+
+
+    scheduleRecovery();
+
+  }
+);
+
+
+player.addEventListener(
+  "error",
+  function () {
+
+
+    if (!shouldBePlaying) {
+
+      return;
+
+    }
+
+
+    console.log(
+      "音声エラー。復旧を試みます"
+    );
+
+
+    scheduleRecovery();
+
+  }
+);
+
+
+/* =========================================================
+   バックグラウンド復帰監視
+   ========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  function () {
+
+
+    if (
+      document.visibilityState ===
+      "visible"
+    ) {
+
+
+      if (
+
+        shouldBePlaying &&
+
+        player.src
+
+      ) {
+
+
+        console.log(
+          "ページ復帰。再生状態を確認します"
+        );
+
+
+        setTimeout(
+          function () {
+
+
+            if (
+
+              shouldBePlaying &&
+
+              player.paused
+
+            ) {
+
+
+              startPlayback();
+
+            }
+
+          },
+          500
+        );
+
+      }
+
+    }
+
+  }
+);
 
 
 /* =========================================================
@@ -1559,10 +2145,19 @@ function togglePlay() {
 
 player.addEventListener(
   "ended",
-
   function () {
 
-    nextSong();
+
+    /*
+     * 正常終了なので
+     * 次の曲へ進む
+     */
+
+    if (shouldBePlaying) {
+
+      nextSong();
+
+    }
 
   }
 );
@@ -1594,7 +2189,6 @@ function setupSeekBar() {
 
   player.addEventListener(
     "loadedmetadata",
-
     function () {
 
 
@@ -1636,7 +2230,6 @@ function setupSeekBar() {
 
   player.addEventListener(
     "timeupdate",
-
     function () {
 
 
@@ -1669,7 +2262,6 @@ function setupSeekBar() {
 
   seekBar.addEventListener(
     "input",
-
     function () {
 
 
@@ -1780,8 +2372,8 @@ function updatePlayIcon(
 
 player.addEventListener(
   "play",
-
   function () {
+
 
     updatePlayIcon(
       true
@@ -1793,8 +2385,8 @@ player.addEventListener(
 
 player.addEventListener(
   "pause",
-
   function () {
+
 
     updatePlayIcon(
       false
