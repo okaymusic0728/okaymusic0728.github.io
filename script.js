@@ -16,42 +16,30 @@ let currentSong = 0;
    共通ビデオプレーヤー
    ========================================================= */
 
-const videoPlayer =
-  document.createElement(
-    "video"
-  );
+const videoPlayer = document.createElement("video");
 
-videoPlayer.controls =
-  true;
+videoPlayer.controls = true;
+videoPlayer.preload = "auto";
+videoPlayer.playsInline = true;
+videoPlayer.setAttribute("playsinline", "");
+videoPlayer.setAttribute("webkit-playsinline", "");
 
-videoPlayer.preload =
-  "metadata";
-
-videoPlayer.playsInline =
-  true;
-
-videoPlayer.style.width =
-  "100%";
-
-videoPlayer.style.maxWidth =
-  "900px";
-
-videoPlayer.style.display =
-  "block";
-
-videoPlayer.style.margin =
-  "0 auto";
+videoPlayer.style.display = "block";
+videoPlayer.style.width = "100%";
+videoPlayer.style.maxWidth = "900px";
+videoPlayer.style.maxHeight = "80vh";
+videoPlayer.style.height = "auto";
+videoPlayer.style.margin = "0 auto";
+videoPlayer.style.background = "#000";
 
 
 /* =========================================================
    次の曲の先読み
    ========================================================= */
 
-const nextPlayer =
-  new Audio();
+const nextPlayer = new Audio();
 
-let preloadedSong =
-  -1;
+let preloadedSong = -1;
 
 
 /* =========================================================
@@ -59,34 +47,26 @@ let preloadedSong =
    ページ移動しても保持する
    ========================================================= */
 
-let activeSongs =
-  [];
+let activeSongs = [];
 
 
 /* =========================================================
    自動再生監視・復旧
    ========================================================= */
 
-let shouldBePlaying =
-  false;
+let shouldBePlaying = false;
 
-let recoveryTimer =
-  null;
+let recoveryTimer = null;
 
-let recoveryAttempts =
-  0;
+let recoveryAttempts = 0;
 
-let recoveryInProgress =
-  false;
+let recoveryInProgress = false;
 
-let lastPlaybackTime =
-  0;
+let lastPlaybackTime = 0;
 
-let lastPlaybackCheck =
-  Date.now();
+let lastPlaybackCheck = Date.now();
 
-const MAX_RECOVERY_ATTEMPTS =
-  5;
+const MAX_RECOVERY_ATTEMPTS = 5;
 
 
 /* =========================================================
@@ -97,48 +77,15 @@ document.addEventListener(
   "DOMContentLoaded",
   function () {
 
-
-    /* =========================
-       ページ内容を入れる共通領域
-       ========================= */
-
     setupPageRoot();
-
-
-    /* =========================
-       左上：戻る・更新
-       TOPページ以外に自動表示
-       ========================= */
 
     createPageTools();
 
-
-    /* =========================
-       下部4ボタン
-       全ページ共通
-       ========================= */
-
     createNavigation();
-
-
-    /* =========================
-       共通プレーヤー
-       全ページ共通
-       ========================= */
 
     createPlayer();
 
-
-    /* =========================
-       シークバー設定
-       ========================= */
-
     setupSeekBar();
-
-
-    /* =========================
-       ページ内リンクを共通処理
-       ========================= */
 
     setupPageNavigation();
 
@@ -152,11 +99,8 @@ document.addEventListener(
 
 function setupPageRoot() {
 
-
   if (
-    document.getElementById(
-      "page-content-root"
-    )
+    document.getElementById("page-content-root")
   ) {
 
     return;
@@ -165,9 +109,7 @@ function setupPageRoot() {
 
 
   const root =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
   root.id =
@@ -183,20 +125,15 @@ function setupPageRoot() {
   children.forEach(
     function (element) {
 
-
       if (
 
-        element.classList.contains(
-          "page-tools"
-        ) ||
+        element.classList.contains("page-tools") ||
 
-        element.classList.contains(
-          "nav"
-        ) ||
+        element.classList.contains("nav") ||
 
-        element.classList.contains(
-          "player-box"
-        )
+        element.classList.contains("player-box") ||
+
+        element.id === "video-player-box"
 
       ) {
 
@@ -205,9 +142,7 @@ function setupPageRoot() {
       }
 
 
-      root.appendChild(
-        element
-      );
+      root.appendChild(element);
 
     }
   );
@@ -219,18 +154,13 @@ function setupPageRoot() {
   );
 
 
-  /* 現在のページ専用CSSを識別 */
-
   document
     .head
-    .querySelectorAll(
-      "style"
-    )
+    .querySelectorAll("style")
     .forEach(
       function (style) {
 
-        style.dataset.spaPageStyle =
-          "true";
+        style.dataset.spaPageStyle = "true";
 
       }
     );
@@ -239,24 +169,18 @@ function setupPageRoot() {
 
 
 /* =========================================================
-   戻る・更新ボタン
+   戻るボタン
    ========================================================= */
 
 function createPageTools() {
 
-
   if (
 
-    !document.querySelector(
-      ".page-tools"
-    ) &&
+    !document.querySelector(".page-tools") &&
 
-    !document.body.classList.contains(
-      "home-page"
-    )
+    !document.body.classList.contains("home-page")
 
   ) {
-
 
     document.body.insertAdjacentHTML(
       "afterbegin",
@@ -274,7 +198,6 @@ function createPageTools() {
 
         </button>
 
-
       </div>
       `
     );
@@ -285,7 +208,6 @@ function createPageTools() {
 
 
 function goBack() {
-
 
   history.back();
 
@@ -298,11 +220,8 @@ function goBack() {
 
 function createNavigation() {
 
-
   if (
-    document.querySelector(
-      ".nav"
-    )
+    document.querySelector(".nav")
   ) {
 
     return;
@@ -382,11 +301,8 @@ function createNavigation() {
 
 function createPlayer() {
 
-
   if (
-    document.querySelector(
-      ".player-box"
-    )
+    document.querySelector(".player-box")
   ) {
 
     return;
@@ -402,20 +318,16 @@ function createPlayer() {
 
       <div class="player-main">
 
-
         <div class="now-playing-title">
 
           <span id="now-title">
-
             曲を選択してください
-
           </span>
 
         </div>
 
 
         <div class="controls">
-
 
           <button
             type="button"
@@ -436,7 +348,6 @@ function createPlayer() {
             <i
               id="play-icon"
               class="fa-solid fa-play">
-
             </i>
 
           </button>
@@ -457,36 +368,23 @@ function createPlayer() {
 
 
       <input
-
         type="range"
-
         id="seek-bar"
-
         min="0"
-
         max="100"
-
         value="0"
-
         step="0.1"
-
       >
 
 
       <div class="player-time">
 
-
         <span id="current-time">
-
           0:00
-
         </span>
 
-
         <span id="duration">
-
           0:00
-
         </span>
 
       </div>
@@ -504,7 +402,6 @@ function createPlayer() {
 
 function createVideoPlayer() {
 
-
   let videoBox =
     document.getElementById(
       "video-player-box"
@@ -519,9 +416,7 @@ function createVideoPlayer() {
 
 
   videoBox =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
 
   videoBox.id =
@@ -544,7 +439,7 @@ function createVideoPlayer() {
     "translateY(-50%)";
 
   videoBox.style.zIndex =
-    "9999";
+    "99999";
 
   videoBox.style.background =
     "#000";
@@ -555,12 +450,26 @@ function createVideoPlayer() {
   videoBox.style.boxSizing =
     "border-box";
 
+  videoBox.style.width =
+    "100%";
+
+  videoBox.style.maxHeight =
+    "100vh";
+
+  videoBox.style.overflow =
+    "auto";
+
+
+  /* =========================
+     閉じるボタン
+     ========================= */
 
   const closeButton =
-    document.createElement(
-      "button"
-    );
+    document.createElement("button");
 
+
+  closeButton.type =
+    "button";
 
   closeButton.textContent =
     "×";
@@ -576,22 +485,31 @@ function createVideoPlayer() {
     "5px";
 
   closeButton.style.zIndex =
-    "10000";
+    "100000";
+
+  closeButton.style.width =
+    "45px";
+
+  closeButton.style.height =
+    "45px";
 
   closeButton.style.fontSize =
     "32px";
 
   closeButton.style.lineHeight =
-    "1";
+    "40px";
 
   closeButton.style.color =
     "#fff";
 
   closeButton.style.background =
-    "transparent";
+    "rgba(0,0,0,0.7)";
 
   closeButton.style.border =
     "none";
+
+  closeButton.style.borderRadius =
+    "50%";
 
   closeButton.style.cursor =
     "pointer";
@@ -609,6 +527,10 @@ function createVideoPlayer() {
     closeButton
   );
 
+
+  /* =========================
+     動画本体
+     ========================= */
 
   videoBox.appendChild(
     videoPlayer
@@ -630,7 +552,6 @@ function createVideoPlayer() {
    ========================================================= */
 
 function closeVideoPlayer() {
-
 
   const videoBox =
     document.getElementById(
@@ -656,18 +577,7 @@ function closeVideoPlayer() {
   }
 
 
-  /*
-   * 動画を閉じたので
-   * 共通音声プレーヤーは停止状態
-   */
-
-  shouldBePlaying =
-    false;
-
-
-  updatePlayIcon(
-    false
-  );
+  updatePlayIcon(false);
 
 }
 
@@ -676,24 +586,30 @@ function closeVideoPlayer() {
    DISC2 DVD動画を再生
    ========================================================= */
 
-function playVideo(
-  number
-) {
+function playVideo(number) {
 
+  console.log(
+    "DISC2動画をクリック:",
+    number
+  );
+
+
+  /* =========================
+     動画データ確認
+     ========================= */
 
   const videos =
-    Array.isArray(
-      window.albumVideos
-    )
+    Array.isArray(window.albumVideos)
       ? window.albumVideos
       : [];
 
 
   if (!videos[number]) {
 
-    console.log(
+    console.error(
       "動画データがありません:",
-      number
+      number,
+      videos
     );
 
     return;
@@ -701,9 +617,25 @@ function playVideo(
   }
 
 
-  /*
-   * DISC1の音声再生を停止
-   */
+  const videoData =
+    videos[number];
+
+
+  console.log(
+    "動画タイトル:",
+    videoData.title
+  );
+
+
+  console.log(
+    "動画URL:",
+    videoData.file
+  );
+
+
+  /* =========================
+     DISC1音声を停止
+     ========================= */
 
   shouldBePlaying =
     false;
@@ -715,9 +647,9 @@ function playVideo(
   player.pause();
 
 
-  /*
-   * 次の曲の先読みを解除
-   */
+  /* =========================
+     次の曲の先読み停止
+     ========================= */
 
   nextPlayer.pause();
 
@@ -727,18 +659,17 @@ function playVideo(
 
   nextPlayer.load();
 
+
   preloadedSong =
     -1;
 
 
-  /*
-   * 再生中表示をリセット
-   */
+  /* =========================
+     DISC1の表示を解除
+     ========================= */
 
   document
-    .querySelectorAll(
-      ".song"
-    )
+    .querySelectorAll(".song")
     .forEach(
       function (song) {
 
@@ -750,10 +681,22 @@ function playVideo(
     );
 
 
-  /*
-   * 今クリックした
-   * DISC2の曲を表示
-   */
+  /* =========================
+     DISC2の表示
+     ========================= */
+
+  document
+    .querySelectorAll("[id^='disc2-song']")
+    .forEach(
+      function (song) {
+
+        song.classList.remove(
+          "playing"
+        );
+
+      }
+    );
+
 
   const songElement =
     document.getElementById(
@@ -770,17 +713,16 @@ function playVideo(
   }
 
 
-  /*
-   * 動画プレーヤーを作成
-   */
+  /* =========================
+     動画プレーヤーを作成
+     ========================= */
 
   createVideoPlayer();
 
 
-  /*
-   * 動画タイトルを
-   * 共通プレーヤーに表示
-   */
+  /* =========================
+     タイトル表示
+     ========================= */
 
   const nowTitle =
     document.getElementById(
@@ -791,49 +733,123 @@ function playVideo(
   if (nowTitle) {
 
     nowTitle.textContent =
-      videos[number].title;
+      videoData.title;
 
   }
 
 
-  /*
-   * 動画をセット
-   */
+  /* =========================
+     動画を完全にリセット
+     ========================= */
 
-  videoPlayer.src =
-    videos[number].file;
+  videoPlayer.pause();
+
+
+  videoPlayer.removeAttribute(
+    "src"
+  );
 
 
   videoPlayer.load();
 
 
+  /* =========================
+     動画URLを設定
+     ========================= */
+
+  videoPlayer.src =
+    videoData.file;
+
+
+  /* =========================
+     動画を読み込む
+     ========================= */
+
+  videoPlayer.load();
+
+
+  /* =========================
+     再生開始
+     ========================= */
+
+  const startVideo =
+    function () {
+
+      console.log(
+        "動画再生を開始します"
+      );
+
+
+      videoPlayer
+        .play()
+        .then(
+          function () {
+
+            console.log(
+              "動画再生成功:",
+              videoData.title
+            );
+
+          }
+        )
+        .catch(
+          function (error) {
+
+            console.error(
+              "動画再生エラー:",
+              error
+            );
+
+          }
+        );
+
+    };
+
+
   /*
-   * 再生
+   * すでに再生可能なら即再生
    */
 
-  videoPlayer.play()
-    .then(
-      function () {
+  if (
+    videoPlayer.readyState >= 3
+  ) {
 
-        console.log(
-          "動画再生開始:",
-          videos[number].title
-        );
+    startVideo();
 
-      }
-    )
-    .catch(
-      function (error) {
+  } else {
 
-        console.log(
-          "動画の自動再生を開始できませんでした:",
-          error
-        );
+    /*
+     * 読み込み完了後に再生
+     */
 
+    videoPlayer.addEventListener(
+      "canplay",
+      startVideo,
+      {
+        once: true
       }
     );
 
+  }
+
 }
+
+
+/* =========================================================
+   動画エラー表示
+   ========================================================= */
+
+videoPlayer.addEventListener(
+  "error",
+  function () {
+
+    console.error(
+      "VIDEO ERROR:",
+      videoPlayer.error
+    );
+
+  }
+);
 
 
 /* =========================================================
@@ -842,17 +858,12 @@ function playVideo(
 
 function setupPageNavigation() {
 
-
   document.addEventListener(
     "click",
-
     function (event) {
 
-
       const link =
-        event.target.closest(
-          "a"
-        );
+        event.target.closest("a");
 
 
       if (!link) {
@@ -861,8 +872,6 @@ function setupPageNavigation() {
 
       }
 
-
-      /* 新しいタブなどは通常動作 */
 
       if (
 
@@ -880,9 +889,7 @@ function setupPageNavigation() {
 
         link.target === "_blank" ||
 
-        link.hasAttribute(
-          "download"
-        )
+        link.hasAttribute("download")
 
       ) {
 
@@ -892,9 +899,7 @@ function setupPageNavigation() {
 
 
       const href =
-        link.getAttribute(
-          "href"
-        );
+        link.getAttribute("href");
 
 
       if (!href) {
@@ -903,8 +908,6 @@ function setupPageNavigation() {
 
       }
 
-
-      /* 外部リンクは通常動作 */
 
       const url =
         new URL(
@@ -923,8 +926,6 @@ function setupPageNavigation() {
       }
 
 
-      /* ページ内アンカーのみの場合 */
-
       if (
 
         url.pathname ===
@@ -942,19 +943,11 @@ function setupPageNavigation() {
       }
 
 
-      /*
-       * HTMLページだけSPA遷移
-       */
-
       const isHTML =
 
-        url.pathname.endsWith(
-          ".html"
-        ) ||
+        url.pathname.endsWith(".html") ||
 
-        url.pathname.endsWith(
-          "/"
-        ) ||
+        url.pathname.endsWith("/") ||
 
         url.pathname === "";
 
@@ -978,11 +971,8 @@ function setupPageNavigation() {
   );
 
 
-  /* 戻る・進む */
-
   window.addEventListener(
     "popstate",
-
     function () {
 
       navigateTo(
@@ -1043,24 +1033,15 @@ async function navigateTo(
   pushHistory
 ) {
 
-
-  /*
-   * ページを一瞬暗くする
-   */
-
   pageTransitionOut();
 
 
-  /*
-   * 動画が開いていたら閉じる
-   */
+  /* =========================
+     動画を閉じる
+     ========================= */
 
   closeVideoPlayer();
 
-
-  /*
-   * 0.18秒待つ
-   */
 
   await new Promise(
     function (resolve) {
@@ -1076,11 +1057,8 @@ async function navigateTo(
 
   try {
 
-
     const response =
-      await fetch(
-        url
-      );
+      await fetch(url);
 
 
     if (!response.ok) {
@@ -1107,12 +1085,11 @@ async function navigateTo(
       );
 
 
-    /*
-     * 履歴を追加
-     */
+    /* =========================
+       履歴
+       ========================= */
 
     if (pushHistory) {
-
 
       history.pushState(
         {},
@@ -1123,25 +1100,25 @@ async function navigateTo(
     }
 
 
-    /*
-     * タイトル変更
-     */
+    /* =========================
+       タイトル
+       ========================= */
 
     document.title =
       newDocument.title;
 
 
-    /*
-     * body class変更
-     */
+    /* =========================
+       body class
+       ========================= */
 
     document.body.className =
       newDocument.body.className;
 
 
-    /*
-     * 現在ページ用CSSを交換
-     */
+    /* =========================
+       ページ専用CSS
+       ========================= */
 
     document
       .head
@@ -1159,17 +1136,12 @@ async function navigateTo(
 
     newDocument
       .head
-      .querySelectorAll(
-        "style"
-      )
+      .querySelectorAll("style")
       .forEach(
         function (style) {
 
-
           const newStyle =
-            document.createElement(
-              "style"
-            );
+            document.createElement("style");
 
 
           newStyle.dataset.spaPageStyle =
@@ -1188,19 +1160,18 @@ async function navigateTo(
       );
 
 
-    /*
-     * albumSongs / albumVideosを
-     * 一度リセット
-     */
+    /* =========================
+       アルバム情報リセット
+       ========================= */
 
     delete window.albumSongs;
 
     delete window.albumVideos;
 
 
-    /*
-     * 新しいページ本文を取得
-     */
+    /* =========================
+       ページ内容
+       ========================= */
 
     const root =
       document.getElementById(
@@ -1224,27 +1195,19 @@ async function navigateTo(
       );
 
 
-    let contentHTML =
-      "";
+    let contentHTML = "";
 
 
     contentNodes.forEach(
       function (element) {
 
-
         if (
 
-          element.classList.contains(
-            "page-tools"
-          ) ||
+          element.classList.contains("page-tools") ||
 
-          element.classList.contains(
-            "nav"
-          ) ||
+          element.classList.contains("nav") ||
 
-          element.classList.contains(
-            "player-box"
-          )
+          element.classList.contains("player-box")
 
         ) {
 
@@ -1253,14 +1216,9 @@ async function navigateTo(
         }
 
 
-        /*
-         * script.js本体は入れない
-         */
-
         if (
 
-          element.tagName ===
-          "SCRIPT" &&
+          element.tagName === "SCRIPT" &&
 
           element.src
 
@@ -1282,10 +1240,9 @@ async function navigateTo(
       contentHTML;
 
 
-    /*
-     * ページ固有の
-     * インラインJavaScriptを実行
-     */
+    /* =========================
+       ページ固有JavaScript
+       ========================= */
 
     const scripts =
       Array.from(
@@ -1297,7 +1254,6 @@ async function navigateTo(
 
     scripts.forEach(
       function (script) {
-
 
         const code =
           script.textContent.trim();
@@ -1312,14 +1268,9 @@ async function navigateTo(
 
         try {
 
-
-          window.eval(
-            code
-          );
-
+          window.eval(code);
 
         } catch (error) {
-
 
           console.error(
             "ページ固有スクリプトエラー:",
@@ -1332,9 +1283,9 @@ async function navigateTo(
     );
 
 
-    /*
-     * 新しいページの戻るボタンを調整
-     */
+    /* =========================
+       戻るボタン
+       ========================= */
 
     const oldTools =
       document.querySelector(
@@ -1352,15 +1303,12 @@ async function navigateTo(
     createPageTools();
 
 
-    /*
-     * アルバムページなら
-     * 現在位置を初期化
-     */
+    /* =========================
+       アルバムなら先頭曲
+       ========================= */
 
     if (
-      Array.isArray(
-        window.albumSongs
-      )
+      Array.isArray(window.albumSongs)
     ) {
 
       currentSong =
@@ -1369,36 +1317,22 @@ async function navigateTo(
     }
 
 
-    /*
-     * スクロール位置
-     */
-
     window.scrollTo(
       0,
       0
     );
 
 
-    /*
-     * 新しいページを明るく表示
-     */
-
     pageTransitionIn();
 
 
   } catch (error) {
-
 
     console.error(
       "ページ遷移エラー:",
       error
     );
 
-
-    /*
-     * 失敗した場合は
-     * 通常のページ移動
-     */
 
     location.href =
       url;
@@ -1414,17 +1348,9 @@ async function navigateTo(
 
 function getSongs() {
 
-
-  /*
-   * 現在再生中の
-   * アルバム情報を優先
-   */
-
   if (
 
-    Array.isArray(
-      activeSongs
-    ) &&
+    Array.isArray(activeSongs) &&
 
     activeSongs.length > 0
 
@@ -1435,14 +1361,8 @@ function getSongs() {
   }
 
 
-  /*
-   * 現在のページの曲情報
-   */
-
   if (
-    Array.isArray(
-      window.albumSongs
-    )
+    Array.isArray(window.albumSongs)
   ) {
 
     return window.albumSongs;
@@ -1461,7 +1381,6 @@ function getSongs() {
 
 function preloadNextSong() {
 
-
   const songs =
     getSongs();
 
@@ -1475,18 +1394,9 @@ function preloadNextSong() {
   }
 
 
-  /*
-   * 次の曲番号
-   */
-
   let nextSongNumber =
     currentSong + 1;
 
-
-  /*
-   * 最後の曲なら
-   * 最初の曲を先読み
-   */
 
   if (
     nextSongNumber >=
@@ -1508,12 +1418,6 @@ function preloadNextSong() {
   }
 
 
-  /*
-   * 同じ曲を
-   * すでに先読み済みなら
-   * 再読み込みしない
-   */
-
   if (
 
     preloadedSong ===
@@ -1528,10 +1432,6 @@ function preloadNextSong() {
 
   }
 
-
-  /*
-   * 次の曲を読み込み
-   */
 
   nextPlayer.src =
     songs[nextSongNumber].file;
@@ -1554,37 +1454,22 @@ function preloadNextSong() {
    曲を再生
    ========================================================= */
 
-function playSong(
-  number
-) {
-
+function playSong(number) {
 
   const pageSongs =
-    Array.isArray(
-      window.albumSongs
-    )
+    Array.isArray(window.albumSongs)
       ? window.albumSongs
       : [];
 
 
-  /*
-   * 現在ページの曲をクリックした場合
-   * そのアルバムを
-   * 新しい再生リストにする
-   */
-
-  if (
-    !pageSongs[number]
-  ) {
+  if (!pageSongs[number]) {
 
     return;
 
   }
 
 
-  /*
-   * 動画が開いていたら閉じる
-   */
+  /* 動画を閉じる */
 
   closeVideoPlayer();
 
@@ -1596,10 +1481,6 @@ function playSong(
   currentSong =
     number;
 
-
-  /*
-   * ユーザーが再生を開始した
-   */
 
   shouldBePlaying =
     true;
@@ -1615,22 +1496,16 @@ function playSong(
   clearRecoveryTimer();
 
 
-  /*
-   * 先読み状態をリセット
-   */
-
   preloadedSong =
     -1;
 
 
-  /*
-   * 曲一覧の再生中表示
-   */
+  /* =========================
+     再生表示
+     ========================= */
 
   document
-    .querySelectorAll(
-      ".song"
-    )
+    .querySelectorAll(".song")
     .forEach(
       function (song) {
 
@@ -1657,9 +1532,9 @@ function playSong(
   }
 
 
-  /*
-   * 曲名表示
-   */
+  /* =========================
+     曲名
+     ========================= */
 
   const nowTitle =
     document.getElementById(
@@ -1675,9 +1550,12 @@ function playSong(
   }
 
 
-  /*
-   * 音源設定
-   */
+  /* =========================
+     音源
+     ========================= */
+
+  player.pause();
+
 
   player.src =
     activeSongs[number].file;
@@ -1691,16 +1569,8 @@ function playSong(
     0;
 
 
-  /*
-   * 次の曲を先読み
-   */
-
   preloadNextSong();
 
-
-  /*
-   * 再生
-   */
 
   startPlayback();
 
@@ -1712,7 +1582,6 @@ function playSong(
    ========================================================= */
 
 function prevSong() {
-
 
   const songs =
     getSongs();
@@ -1756,7 +1625,6 @@ function prevSong() {
 
 function nextSong() {
 
-
   const songs =
     getSongs();
 
@@ -1775,10 +1643,8 @@ function nextSong() {
 
 
   if (
-
     currentSong <
     songs.length - 1
-
   ) {
 
     playStoredSong(
@@ -1800,27 +1666,18 @@ function nextSong() {
    保持している再生リストから再生
    ========================================================= */
 
-function playStoredSong(
-  number
-) {
-
+function playStoredSong(number) {
 
   const songs =
     getSongs();
 
 
-  if (
-    !songs[number]
-  ) {
+  if (!songs[number]) {
 
     return;
 
   }
 
-
-  /*
-   * 動画が開いていたら閉じる
-   */
 
   closeVideoPlayer();
 
@@ -1843,14 +1700,8 @@ function playStoredSong(
   clearRecoveryTimer();
 
 
-  /*
-   * 曲一覧の再生中表示
-   */
-
   document
-    .querySelectorAll(
-      ".song"
-    )
+    .querySelectorAll(".song")
     .forEach(
       function (song) {
 
@@ -1877,10 +1728,6 @@ function playStoredSong(
   }
 
 
-  /*
-   * 曲名表示
-   */
-
   const nowTitle =
     document.getElementById(
       "now-title"
@@ -1895,9 +1742,8 @@ function playStoredSong(
   }
 
 
-  /*
-   * 音源設定
-   */
+  player.pause();
+
 
   player.src =
     songs[number].file;
@@ -1911,10 +1757,6 @@ function playStoredSong(
     0;
 
 
-  /*
-   * 次の曲を先読み
-   */
-
   preloadedSong =
     -1;
 
@@ -1922,11 +1764,78 @@ function playStoredSong(
   preloadNextSong();
 
 
-  /*
-   * 再生
-   */
-
   startPlayback();
+
+}
+
+
+/* =========================================================
+   再生・一時停止ボタン
+   ========================================================= */
+
+function togglePlay() {
+
+  /* 動画が表示されている場合 */
+
+  const videoBox =
+    document.getElementById(
+      "video-player-box"
+    );
+
+
+  if (videoBox) {
+
+    if (videoPlayer.paused) {
+
+      videoPlayer.play()
+        .catch(
+          function (error) {
+
+            console.error(
+              "動画再生エラー:",
+              error
+            );
+
+          }
+        );
+
+    } else {
+
+      videoPlayer.pause();
+
+    }
+
+    return;
+
+  }
+
+
+  /* 音声 */
+
+  if (!player.src) {
+
+    return;
+
+  }
+
+
+  if (player.paused) {
+
+    shouldBePlaying =
+      true;
+
+    startPlayback();
+
+  } else {
+
+    shouldBePlaying =
+      false;
+
+    clearRecoveryTimer();
+
+    player.pause();
+
+  }
 
 }
 
@@ -1936,7 +1845,6 @@ function playStoredSong(
    ========================================================= */
 
 function startPlayback() {
-
 
   if (!shouldBePlaying) {
 
@@ -1952,7 +1860,6 @@ function startPlayback() {
     .then(
       function () {
 
-
         recoveryAttempts =
           0;
 
@@ -1967,15 +1874,13 @@ function startPlayback() {
         lastPlaybackCheck =
           Date.now();
 
-
       }
     )
     .catch(
       function (error) {
 
-
         console.log(
-          "再生開始失敗。自動復旧を試みます:",
+          "再生開始失敗:",
           error
         );
 
@@ -1994,7 +1899,6 @@ function startPlayback() {
 
 function scheduleRecovery() {
 
-
   if (!shouldBePlaying) {
 
     return;
@@ -2009,9 +1913,7 @@ function scheduleRecovery() {
   }
 
 
-  if (
-    recoveryInProgress
-  ) {
+  if (recoveryInProgress) {
 
     return;
 
@@ -2024,11 +1926,13 @@ function scheduleRecovery() {
   ) {
 
     console.log(
-      "自動復旧を5回試しました。いったん待機します。"
+      "自動復旧を5回試しました。"
     );
+
 
     recoveryAttempts =
       0;
+
 
     return;
 
@@ -2057,7 +1961,6 @@ function scheduleRecovery() {
 
 function recoverPlayback() {
 
-
   if (!shouldBePlaying) {
 
     return;
@@ -2079,40 +1982,19 @@ function recoverPlayback() {
   recoveryAttempts++;
 
 
-  console.log(
-    "再生復旧を試行:",
-    recoveryAttempts
-  );
-
-
-  /*
-   * 現在位置を保存
-   */
-
   const currentPosition =
     player.currentTime;
 
 
-  /*
-   * まず通常のplay()
-   */
-
   player.play()
     .then(
       function () {
-
-
-        console.log(
-          "再生復旧成功"
-        );
-
 
         recoveryInProgress =
           false;
 
         recoveryAttempts =
           0;
-
 
         lastPlaybackTime =
           player.currentTime;
@@ -2125,24 +2007,11 @@ function recoverPlayback() {
     .catch(
       function () {
 
-
-        /*
-         * play()だけで駄目なら
-         * 音源を再読み込み
-         */
-
-        console.log(
-          "play()失敗。音源を再読み込みします"
-        );
-
-
         const songs =
           getSongs();
 
 
-        if (
-          !songs[currentSong]
-        ) {
+        if (!songs[currentSong]) {
 
           recoveryInProgress =
             false;
@@ -2156,10 +2025,6 @@ function recoverPlayback() {
           songs[currentSong].file;
 
 
-        /*
-         * 音源を再設定
-         */
-
         player.src =
           source;
 
@@ -2168,14 +2033,8 @@ function recoverPlayback() {
           "auto";
 
 
-        /*
-         * 再読み込み完了後
-         * 元の位置から再開
-         */
-
         const restorePosition =
           function () {
-
 
             player.removeEventListener(
               "loadedmetadata",
@@ -2184,7 +2043,6 @@ function recoverPlayback() {
 
 
             try {
-
 
               if (
 
@@ -2199,7 +2057,7 @@ function recoverPlayback() {
                 ) &&
 
                 currentPosition <
-                  player.duration
+                player.duration
 
               ) {
 
@@ -2222,18 +2080,11 @@ function recoverPlayback() {
               .then(
                 function () {
 
-
-                  console.log(
-                    "音源再読み込み後の復旧成功"
-                  );
-
-
                   recoveryInProgress =
                     false;
 
                   recoveryAttempts =
                     0;
-
 
                   lastPlaybackTime =
                     player.currentTime;
@@ -2246,16 +2097,13 @@ function recoverPlayback() {
               .catch(
                 function (error) {
 
-
                   console.log(
-                    "音源再読み込み後も再生失敗:",
+                    "復旧失敗:",
                     error
                   );
 
-
                   recoveryInProgress =
                     false;
-
 
                   scheduleRecovery();
 
@@ -2285,14 +2133,11 @@ function recoverPlayback() {
 
 function clearRecoveryTimer() {
 
-
   if (recoveryTimer) {
-
 
     clearTimeout(
       recoveryTimer
     );
-
 
     recoveryTimer =
       null;
@@ -2309,12 +2154,6 @@ function clearRecoveryTimer() {
 setInterval(
   function () {
 
-
-    /*
-     * ユーザーが停止している場合
-     * 何もしない
-     */
-
     if (!shouldBePlaying) {
 
       return;
@@ -2329,21 +2168,9 @@ setInterval(
     }
 
 
-    /*
-     * 再生中のはずなのに
-     * pause状態になっている
-     */
-
     if (player.paused) {
 
-
-      console.log(
-        "再生中のはずなのに停止しています。復旧します"
-      );
-
-
       scheduleRecovery();
-
 
       return;
 
@@ -2358,39 +2185,18 @@ setInterval(
       player.currentTime;
 
 
-    /*
-     * 10秒ごとに
-     * 再生位置が進んでいるか確認
-     */
-
     if (
-
       now -
-        lastPlaybackCheck >=
+      lastPlaybackCheck >=
       10000
-
     ) {
 
-
-      /*
-       * 10秒経っているのに
-       * 再生位置がほぼ進んでいない
-       */
-
       if (
-
         Math.abs(
           currentTime -
-            lastPlaybackTime
+          lastPlaybackTime
         ) < 0.5
-
       ) {
-
-
-        console.log(
-          "再生位置が進んでいません。自動復旧します"
-        );
-
 
         scheduleRecovery();
 
@@ -2412,25 +2218,18 @@ setInterval(
 
 
 /* =========================================================
-   音声エラー・通信停止監視
+   音声エラー監視
    ========================================================= */
 
 player.addEventListener(
   "waiting",
   function () {
 
-
     if (!shouldBePlaying) {
 
       return;
 
     }
-
-
-    console.log(
-      "音声データ待ち。復旧を待機します"
-    );
-
 
     scheduleRecovery();
 
@@ -2442,18 +2241,11 @@ player.addEventListener(
   "stalled",
   function () {
 
-
     if (!shouldBePlaying) {
 
       return;
 
     }
-
-
-    console.log(
-      "音声データ取得停止。復旧を試みます"
-    );
-
 
     scheduleRecovery();
 
@@ -2465,18 +2257,11 @@ player.addEventListener(
   "error",
   function () {
 
-
     if (!shouldBePlaying) {
 
       return;
 
     }
-
-
-    console.log(
-      "音声エラー。復旧を試みます"
-    );
-
 
     scheduleRecovery();
 
@@ -2485,56 +2270,49 @@ player.addEventListener(
 
 
 /* =========================================================
-   バックグラウンド復帰監視
+   バックグラウンド復帰
    ========================================================= */
 
 document.addEventListener(
   "visibilitychange",
   function () {
 
-
     if (
-      document.visibilityState ===
+      document.visibilityState !==
       "visible"
     ) {
 
+      return;
 
-      if (
-
-        shouldBePlaying &&
-
-        player.src
-
-      ) {
+    }
 
 
-        console.log(
-          "ページ復帰。再生状態を確認します"
-        );
+    if (
 
+      shouldBePlaying &&
 
-        setTimeout(
-          function () {
+      player.src
 
+    ) {
 
-            if (
+      setTimeout(
+        function () {
 
-              shouldBePlaying &&
+          if (
 
-              player.paused
+            shouldBePlaying &&
 
-            ) {
+            player.paused
 
+          ) {
 
-              startPlayback();
+            startPlayback();
 
-            }
+          }
 
-          },
-          500
-        );
-
-      }
+        },
+        500
+      );
 
     }
 
@@ -2549,12 +2327,6 @@ document.addEventListener(
 player.addEventListener(
   "ended",
   function () {
-
-
-    /*
-     * 正常終了なので
-     * 次の曲へ進む
-     */
 
     if (shouldBePlaying) {
 
@@ -2572,7 +2344,6 @@ player.addEventListener(
 
 function setupSeekBar() {
 
-
   const seekBar =
     document.getElementById(
       "seek-bar"
@@ -2586,21 +2357,15 @@ function setupSeekBar() {
   }
 
 
-  /*
-   * 曲の長さ取得
-   */
-
   player.addEventListener(
     "loadedmetadata",
     function () {
-
 
       if (
         Number.isFinite(
           player.duration
         )
       ) {
-
 
         seekBar.max =
           player.duration;
@@ -2627,14 +2392,9 @@ function setupSeekBar() {
   );
 
 
-  /*
-   * 再生時間更新
-   */
-
   player.addEventListener(
     "timeupdate",
     function () {
-
 
       seekBar.value =
         player.currentTime;
@@ -2659,14 +2419,9 @@ function setupSeekBar() {
   );
 
 
-  /*
-   * シークバー操作
-   */
-
   seekBar.addEventListener(
     "input",
     function () {
-
 
       player.currentTime =
         Number(
@@ -2683,15 +2438,10 @@ function setupSeekBar() {
    時間表示
    ========================================================= */
 
-function formatTime(
-  seconds
-) {
-
+function formatTime(seconds) {
 
   if (
-    !Number.isFinite(
-      seconds
-    )
+    !Number.isFinite(seconds)
   ) {
 
     return "0:00";
@@ -2717,13 +2467,9 @@ function formatTime(
 
 
   return (
-
     minutes +
-
     ":" +
-
     remainingSeconds
-
   );
 
 }
@@ -2733,10 +2479,7 @@ function formatTime(
    再生アイコン変更
    ========================================================= */
 
-function updatePlayIcon(
-  isPlaying
-) {
-
+function updatePlayIcon(isPlaying) {
 
   const playIcon =
     document.getElementById(
@@ -2753,13 +2496,10 @@ function updatePlayIcon(
 
   if (isPlaying) {
 
-
     playIcon.className =
       "fa-solid fa-pause";
 
-
   } else {
-
 
     playIcon.className =
       "fa-solid fa-play";
@@ -2770,17 +2510,14 @@ function updatePlayIcon(
 
 
 /* =========================================================
-   再生状態をボタンに反映
+   音声プレーヤー状態
    ========================================================= */
 
 player.addEventListener(
   "play",
   function () {
 
-
-    updatePlayIcon(
-      true
-    );
+    updatePlayIcon(true);
 
   }
 );
@@ -2790,10 +2527,31 @@ player.addEventListener(
   "pause",
   function () {
 
+    updatePlayIcon(false);
 
-    updatePlayIcon(
-      false
-    );
+  }
+);
+
+
+/* =========================================================
+   動画プレーヤー状態
+   ========================================================= */
+
+videoPlayer.addEventListener(
+  "play",
+  function () {
+
+    updatePlayIcon(true);
+
+  }
+);
+
+
+videoPlayer.addEventListener(
+  "pause",
+  function () {
+
+    updatePlayIcon(false);
 
   }
 );
