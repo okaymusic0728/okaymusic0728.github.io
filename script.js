@@ -1,3 +1,4 @@
+```javascript
 /* =========================================================
    Okay MUSIC 共通システム
    ========================================================= */
@@ -21,16 +22,29 @@ const videoPlayer = document.createElement("video");
 videoPlayer.controls = true;
 videoPlayer.preload = "auto";
 videoPlayer.playsInline = true;
+
 videoPlayer.setAttribute("playsinline", "");
 videoPlayer.setAttribute("webkit-playsinline", "");
 
 videoPlayer.style.display = "block";
 videoPlayer.style.width = "100%";
-videoPlayer.style.maxWidth = "900px";
-videoPlayer.style.maxHeight = "80vh";
+videoPlayer.style.maxWidth = "100%";
+videoPlayer.style.maxHeight = "72vh";
 videoPlayer.style.height = "auto";
 videoPlayer.style.margin = "0 auto";
 videoPlayer.style.background = "#000";
+videoPlayer.style.objectFit = "contain";
+
+
+/* =========================================================
+   動画状態
+   ========================================================= */
+
+let currentVideo = -1;
+
+let videoIsPlaying = false;
+
+let videoMiniMode = false;
 
 
 /* =========================================================
@@ -44,7 +58,6 @@ let preloadedSong = -1;
 
 /* =========================================================
    再生中のアルバム情報
-   ページ移動しても保持する
    ========================================================= */
 
 let activeSongs = [];
@@ -70,7 +83,7 @@ const MAX_RECOVERY_ATTEMPTS = 5;
 
 
 /* =========================================================
-   共通UIを自動生成
+   共通UI
    ========================================================= */
 
 document.addEventListener(
@@ -397,7 +410,7 @@ function createPlayer() {
 
 
 /* =========================================================
-   DVD動画プレーヤー表示
+   DVD動画プレーヤー作成
    ========================================================= */
 
 function createVideoPlayer() {
@@ -445,7 +458,7 @@ function createVideoPlayer() {
     "#000";
 
   videoBox.style.padding =
-    "20px";
+    "10px";
 
   videoBox.style.boxSizing =
     "border-box";
@@ -457,12 +470,51 @@ function createVideoPlayer() {
     "100vh";
 
   videoBox.style.overflow =
-    "auto";
+    "hidden";
 
 
-  /* =========================
+  /* =====================================================
+     動画タイトル
+     ===================================================== */
+
+  const title =
+    document.createElement("div");
+
+
+  title.id =
+    "video-player-title";
+
+
+  title.style.color =
+    "#fff";
+
+  title.style.fontSize =
+    "15px";
+
+  title.style.fontWeight =
+    "bold";
+
+  title.style.padding =
+    "4px 50px 8px 5px";
+
+  title.style.whiteSpace =
+    "nowrap";
+
+  title.style.overflow =
+    "hidden";
+
+  title.style.textOverflow =
+    "ellipsis";
+
+
+  videoBox.appendChild(
+    title
+  );
+
+
+  /* =====================================================
      閉じるボタン
-     ========================= */
+     ===================================================== */
 
   const closeButton =
     document.createElement("button");
@@ -479,25 +531,25 @@ function createVideoPlayer() {
     "absolute";
 
   closeButton.style.right =
-    "10px";
+    "8px";
 
   closeButton.style.top =
     "5px";
 
   closeButton.style.zIndex =
-    "100000";
+    "100001";
 
   closeButton.style.width =
-    "45px";
+    "42px";
 
   closeButton.style.height =
-    "45px";
+    "42px";
 
   closeButton.style.fontSize =
-    "32px";
+    "30px";
 
   closeButton.style.lineHeight =
-    "40px";
+    "38px";
 
   closeButton.style.color =
     "#fff";
@@ -518,7 +570,7 @@ function createVideoPlayer() {
   closeButton.onclick =
     function () {
 
-      closeVideoPlayer();
+      minimizeVideoPlayer();
 
     };
 
@@ -528,18 +580,198 @@ function createVideoPlayer() {
   );
 
 
-  /* =========================
+  /* =====================================================
      動画本体
-     ========================= */
+     ===================================================== */
 
   videoBox.appendChild(
     videoPlayer
   );
 
 
+  /* =====================================================
+     独自動画ボタン
+     ===================================================== */
+
+  const controls =
+    document.createElement("div");
+
+
+  controls.id =
+    "video-extra-controls";
+
+
+  controls.style.display =
+    "flex";
+
+  controls.style.alignItems =
+    "center";
+
+  controls.style.justifyContent =
+    "center";
+
+  controls.style.gap =
+    "8px";
+
+  controls.style.padding =
+    "8px 0 3px";
+
+  controls.style.background =
+    "#000";
+
+
+  controls.innerHTML = `
+
+    <button
+      type="button"
+      id="video-prev-button"
+      title="前のチャプター">
+
+      ⏮
+
+    </button>
+
+
+    <button
+      type="button"
+      id="video-play-button"
+      title="再生・一時停止">
+
+      ▶
+
+    </button>
+
+
+    <button
+      type="button"
+      id="video-next-button"
+      title="次のチャプター">
+
+      ⏭
+
+    </button>
+
+
+    <button
+      type="button"
+      id="video-pip-button"
+      title="小窓再生">
+
+      ▣
+
+    </button>
+
+
+    <button
+      type="button"
+      id="video-fullscreen-button"
+      title="フルスクリーン">
+
+      ⛶
+
+    </button>
+
+  `;
+
+
+  Array.from(
+    controls.querySelectorAll("button")
+  ).forEach(
+    function (button) {
+
+      button.style.color =
+        "#fff";
+
+      button.style.background =
+        "#222";
+
+      button.style.border =
+        "1px solid #555";
+
+      button.style.borderRadius =
+        "6px";
+
+      button.style.fontSize =
+        "20px";
+
+      button.style.minWidth =
+        "48px";
+
+      button.style.height =
+        "42px";
+
+      button.style.cursor =
+        "pointer";
+
+    }
+  );
+
+
+  videoBox.appendChild(
+    controls
+  );
+
+
+  /* =====================================================
+     ボタンイベント
+     ===================================================== */
+
+  document
+    .getElementById("video-prev-button")
+    .onclick =
+    function () {
+
+      previousVideo();
+
+    };
+
+
+  document
+    .getElementById("video-next-button")
+    .onclick =
+    function () {
+
+      nextVideo();
+
+    };
+
+
+  document
+    .getElementById("video-play-button")
+    .onclick =
+    function () {
+
+      toggleVideoPlay();
+
+    };
+
+
+  document
+    .getElementById("video-fullscreen-button")
+    .onclick =
+    function () {
+
+      toggleVideoFullscreen();
+
+    };
+
+
+  document
+    .getElementById("video-pip-button")
+    .onclick =
+    function () {
+
+      toggleVideoPiP();
+
+    };
+
+
   document.body.appendChild(
     videoBox
   );
+
+
+  updateVideoControls();
 
 
   return videoBox;
@@ -548,42 +780,113 @@ function createVideoPlayer() {
 
 
 /* =========================================================
-   DVD動画プレーヤーを閉じる
+   動画タイトル更新
    ========================================================= */
 
-function closeVideoPlayer() {
+function updateVideoTitle(titleText) {
 
-  const videoBox =
+  const title =
     document.getElementById(
-      "video-player-box"
+      "video-player-title"
     );
 
 
-  videoPlayer.pause();
+  if (title) {
 
-
-  videoPlayer.removeAttribute(
-    "src"
-  );
-
-
-  videoPlayer.load();
-
-
-  if (videoBox) {
-
-    videoBox.remove();
+    title.textContent =
+      titleText || "";
 
   }
-
-
-  updatePlayIcon(false);
 
 }
 
 
 /* =========================================================
-   DISC2 DVD動画を再生
+   動画コントロール更新
+   ========================================================= */
+
+function updateVideoControls() {
+
+  const videos =
+    getVideos();
+
+
+  const prevButton =
+    document.getElementById(
+      "video-prev-button"
+    );
+
+
+  const nextButton =
+    document.getElementById(
+      "video-next-button"
+    );
+
+
+  const playButton =
+    document.getElementById(
+      "video-play-button"
+    );
+
+
+  if (prevButton) {
+
+    prevButton.disabled =
+      currentVideo <= 0;
+
+    prevButton.style.opacity =
+      currentVideo <= 0 ? "0.35" : "1";
+
+  }
+
+
+  if (nextButton) {
+
+    nextButton.disabled =
+      currentVideo >= videos.length - 1;
+
+    nextButton.style.opacity =
+      currentVideo >= videos.length - 1
+        ? "0.35"
+        : "1";
+
+  }
+
+
+  if (playButton) {
+
+    playButton.textContent =
+      videoPlayer.paused
+        ? "▶"
+        : "⏸";
+
+  }
+
+}
+
+
+/* =========================================================
+   動画データ取得
+   ========================================================= */
+
+function getVideos() {
+
+  if (
+    Array.isArray(window.albumVideos)
+  ) {
+
+    return window.albumVideos;
+
+  }
+
+
+  return [];
+
+}
+
+
+/* =========================================================
+   DISC2動画再生
    ========================================================= */
 
 function playVideo(number) {
@@ -594,14 +897,8 @@ function playVideo(number) {
   );
 
 
-  /* =========================
-     動画データ確認
-     ========================= */
-
   const videos =
-    Array.isArray(window.albumVideos)
-      ? window.albumVideos
-      : [];
+    getVideos();
 
 
   if (!videos[number]) {
@@ -617,25 +914,17 @@ function playVideo(number) {
   }
 
 
-  const videoData =
-    videos[number];
+  currentVideo =
+    number;
 
 
-  console.log(
-    "動画タイトル:",
-    videoData.title
-  );
+  videoMiniMode =
+    false;
 
 
-  console.log(
-    "動画URL:",
-    videoData.file
-  );
-
-
-  /* =========================
-     DISC1音声を停止
-     ========================= */
+  /* =====================================================
+     音楽停止
+     ===================================================== */
 
   shouldBePlaying =
     false;
@@ -643,13 +932,8 @@ function playVideo(number) {
 
   clearRecoveryTimer();
 
-
   player.pause();
 
-
-  /* =========================
-     次の曲の先読み停止
-     ========================= */
 
   nextPlayer.pause();
 
@@ -664,9 +948,9 @@ function playVideo(number) {
     -1;
 
 
-  /* =========================
-     DISC1の表示を解除
-     ========================= */
+  /* =====================================================
+     再生表示
+     ===================================================== */
 
   document
     .querySelectorAll(".song")
@@ -680,10 +964,6 @@ function playVideo(number) {
       }
     );
 
-
-  /* =========================
-     DISC2の表示
-     ========================= */
 
   document
     .querySelectorAll("[id^='disc2-song']")
@@ -713,16 +993,21 @@ function playVideo(number) {
   }
 
 
-  /* =========================
-     動画プレーヤーを作成
-     ========================= */
+  /* =====================================================
+     プレーヤー表示
+     ===================================================== */
 
   createVideoPlayer();
 
 
-  /* =========================
-     タイトル表示
-     ========================= */
+  const videoData =
+    videos[number];
+
+
+  updateVideoTitle(
+    videoData.title
+  );
+
 
   const nowTitle =
     document.getElementById(
@@ -738,57 +1023,47 @@ function playVideo(number) {
   }
 
 
-  /* =========================
-     動画を完全にリセット
-     ========================= */
+  /* =====================================================
+     動画セット
+     ===================================================== */
 
   videoPlayer.pause();
-
 
   videoPlayer.removeAttribute(
     "src"
   );
 
-
   videoPlayer.load();
 
-
-  /* =========================
-     動画URLを設定
-     ========================= */
 
   videoPlayer.src =
     videoData.file;
 
 
-  /* =========================
-     動画を読み込む
-     ========================= */
-
   videoPlayer.load();
 
 
-  /* =========================
-     再生開始
-     ========================= */
+  updateVideoControls();
+
+
+  /* =====================================================
+     再生
+     ===================================================== */
 
   const startVideo =
     function () {
-
-      console.log(
-        "動画再生を開始します"
-      );
-
 
       videoPlayer
         .play()
         .then(
           function () {
 
-            console.log(
-              "動画再生成功:",
-              videoData.title
-            );
+            videoIsPlaying =
+              true;
+
+            updateVideoControls();
+
+            updatePlayIcon(true);
 
           }
         )
@@ -800,15 +1075,13 @@ function playVideo(number) {
               error
             );
 
+            updateVideoControls();
+
           }
         );
 
     };
 
-
-  /*
-   * すでに再生可能なら即再生
-   */
 
   if (
     videoPlayer.readyState >= 3
@@ -817,10 +1090,6 @@ function playVideo(number) {
     startVideo();
 
   } else {
-
-    /*
-     * 読み込み完了後に再生
-     */
 
     videoPlayer.addEventListener(
       "canplay",
@@ -836,7 +1105,503 @@ function playVideo(number) {
 
 
 /* =========================================================
-   動画エラー表示
+   次の動画
+   ========================================================= */
+
+function nextVideo() {
+
+  const videos =
+    getVideos();
+
+
+  if (
+    videos.length === 0
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    currentVideo >=
+    videos.length - 1
+  ) {
+
+    videoPlayer.pause();
+
+    videoIsPlaying =
+      false;
+
+    updateVideoControls();
+
+    return;
+
+  }
+
+
+  playVideo(
+    currentVideo + 1
+  );
+
+}
+
+
+/* =========================================================
+   前の動画
+   ========================================================= */
+
+function previousVideo() {
+
+  const videos =
+    getVideos();
+
+
+  if (
+    videos.length === 0
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    currentVideo <= 0
+  ) {
+
+    videoPlayer.currentTime =
+      0;
+
+    return;
+
+  }
+
+
+  playVideo(
+    currentVideo - 1
+  );
+
+}
+
+
+/* =========================================================
+   動画終了 → 自動で次へ
+   ========================================================= */
+
+videoPlayer.addEventListener(
+  "ended",
+  function () {
+
+    console.log(
+      "動画終了。次のチャプターへ"
+    );
+
+
+    const videos =
+      getVideos();
+
+
+    if (
+      currentVideo <
+      videos.length - 1
+    ) {
+
+      nextVideo();
+
+    } else {
+
+      videoIsPlaying =
+        false;
+
+      updateVideoControls();
+
+      updatePlayIcon(false);
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   動画再生・一時停止
+   ========================================================= */
+
+function toggleVideoPlay() {
+
+  if (
+    videoPlayer.paused
+  ) {
+
+    videoPlayer
+      .play()
+      .catch(
+        function (error) {
+
+          console.error(
+            "動画再生エラー:",
+            error
+          );
+
+        }
+      );
+
+  } else {
+
+    videoPlayer.pause();
+
+  }
+
+}
+
+
+/* =========================================================
+   動画フルスクリーン
+   ========================================================= */
+
+async function toggleVideoFullscreen() {
+
+  try {
+
+    if (
+      document.fullscreenElement
+    ) {
+
+      await document.exitFullscreen();
+
+      return;
+
+    }
+
+
+    const target =
+      document.getElementById(
+        "video-player-box"
+      );
+
+
+    if (!target) {
+
+      return;
+
+    }
+
+
+    if (
+      target.requestFullscreen
+    ) {
+
+      await target.requestFullscreen();
+
+    }
+
+
+    /*
+     * スマホなどで横向きを要求
+     */
+
+    if (
+      screen.orientation &&
+      screen.orientation.lock
+    ) {
+
+      try {
+
+        await screen.orientation.lock(
+          "landscape"
+        );
+
+      } catch (error) {
+
+        console.log(
+          "画面回転ロック非対応:",
+          error
+        );
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "フルスクリーンエラー:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   フルスクリーン終了時
+   ========================================================= */
+
+document.addEventListener(
+  "fullscreenchange",
+  function () {
+
+    if (
+      !document.fullscreenElement
+    ) {
+
+      if (
+        screen.orientation &&
+        screen.orientation.unlock
+      ) {
+
+        try {
+
+          screen.orientation.unlock();
+
+        } catch (error) {
+
+        }
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   Picture-in-Picture
+   ========================================================= */
+
+async function toggleVideoPiP() {
+
+  try {
+
+    if (
+      document.pictureInPictureElement
+    ) {
+
+      await document.exitPictureInPicture();
+
+      return;
+
+    }
+
+
+    if (
+      document.pictureInPictureEnabled &&
+      !videoPlayer.disablePictureInPicture
+    ) {
+
+      await videoPlayer.requestPictureInPicture();
+
+    } else {
+
+      console.log(
+        "Picture-in-Picture非対応"
+      );
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "PiPエラー:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   動画を小型プレイヤー化
+   ========================================================= */
+
+function minimizeVideoPlayer() {
+
+  const videoBox =
+    document.getElementById(
+      "video-player-box"
+    );
+
+
+  if (!videoBox) {
+
+    return;
+
+  }
+
+
+  videoMiniMode =
+    true;
+
+
+  videoBox.style.top =
+    "auto";
+
+  videoBox.style.left =
+    "auto";
+
+  videoBox.style.right =
+    "12px";
+
+  videoBox.style.bottom =
+    "80px";
+
+  videoBox.style.transform =
+    "none";
+
+  videoBox.style.width =
+    "360px";
+
+  videoBox.style.maxWidth =
+    "calc(100vw - 24px)";
+
+  videoBox.style.padding =
+    "6px";
+
+  videoBox.style.borderRadius =
+    "10px";
+
+  videoBox.style.boxShadow =
+    "0 4px 25px rgba(0,0,0,0.5)";
+
+
+  videoPlayer.style.maxHeight =
+    "200px";
+
+
+  const controls =
+    document.getElementById(
+      "video-extra-controls"
+    );
+
+
+  if (controls) {
+
+    controls.style.padding =
+      "3px 0";
+
+  }
+
+}
+
+
+/* =========================================================
+   動画を通常サイズに戻す
+   ========================================================= */
+
+function restoreVideoPlayer() {
+
+  const videoBox =
+    document.getElementById(
+      "video-player-box"
+    );
+
+
+  if (!videoBox) {
+
+    return;
+
+  }
+
+
+  videoMiniMode =
+    false;
+
+
+  videoBox.style.top =
+    "50%";
+
+  videoBox.style.left =
+    "0";
+
+  videoBox.style.right =
+    "0";
+
+  videoBox.style.bottom =
+    "auto";
+
+  videoBox.style.transform =
+    "translateY(-50%)";
+
+  videoBox.style.width =
+    "100%";
+
+  videoBox.style.maxWidth =
+    "none";
+
+  videoBox.style.padding =
+    "10px";
+
+  videoBox.style.borderRadius =
+    "0";
+
+  videoBox.style.boxShadow =
+    "none";
+
+
+  videoPlayer.style.maxHeight =
+    "72vh";
+
+}
+
+
+/* =========================================================
+   動画クリックで通常サイズに戻す
+   ========================================================= */
+
+videoPlayer.addEventListener(
+  "click",
+  function () {
+
+    if (videoMiniMode) {
+
+      restoreVideoPlayer();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   動画再生状態
+   ========================================================= */
+
+videoPlayer.addEventListener(
+  "play",
+  function () {
+
+    videoIsPlaying =
+      true;
+
+    updateVideoControls();
+
+    updatePlayIcon(true);
+
+  }
+);
+
+
+videoPlayer.addEventListener(
+  "pause",
+  function () {
+
+    videoIsPlaying =
+      false;
+
+    updateVideoControls();
+
+    updatePlayIcon(false);
+
+  }
+);
+
+
+/* =========================================================
+   動画エラー
    ========================================================= */
 
 videoPlayer.addEventListener(
@@ -1036,13 +1801,6 @@ async function navigateTo(
   pageTransitionOut();
 
 
-  /* =========================
-     動画を閉じる
-     ========================= */
-
-  closeVideoPlayer();
-
-
   await new Promise(
     function (resolve) {
 
@@ -1085,10 +1843,6 @@ async function navigateTo(
       );
 
 
-    /* =========================
-       履歴
-       ========================= */
-
     if (pushHistory) {
 
       history.pushState(
@@ -1100,25 +1854,13 @@ async function navigateTo(
     }
 
 
-    /* =========================
-       タイトル
-       ========================= */
-
     document.title =
       newDocument.title;
 
 
-    /* =========================
-       body class
-       ========================= */
-
     document.body.className =
       newDocument.body.className;
 
-
-    /* =========================
-       ページ専用CSS
-       ========================= */
 
     document
       .head
@@ -1160,18 +1902,24 @@ async function navigateTo(
       );
 
 
-    /* =========================
-       アルバム情報リセット
-       ========================= */
+    /*
+     * 動画を再生中の場合は
+     * albumVideosを消さない。
+     */
+
+    if (
+      !document.getElementById(
+        "video-player-box"
+      )
+    ) {
+
+      delete window.albumVideos;
+
+    }
+
 
     delete window.albumSongs;
 
-    delete window.albumVideos;
-
-
-    /* =========================
-       ページ内容
-       ========================= */
 
     const root =
       document.getElementById(
@@ -1207,7 +1955,9 @@ async function navigateTo(
 
           element.classList.contains("nav") ||
 
-          element.classList.contains("player-box")
+          element.classList.contains("player-box") ||
+
+          element.id === "video-player-box"
 
         ) {
 
@@ -1240,9 +1990,9 @@ async function navigateTo(
       contentHTML;
 
 
-    /* =========================
-       ページ固有JavaScript
-       ========================= */
+    /*
+     * ページ固有JavaScript
+     */
 
     const scripts =
       Array.from(
@@ -1283,10 +2033,6 @@ async function navigateTo(
     );
 
 
-    /* =========================
-       戻るボタン
-       ========================= */
-
     const oldTools =
       document.querySelector(
         ".page-tools"
@@ -1303,16 +2049,31 @@ async function navigateTo(
     createPageTools();
 
 
-    /* =========================
-       アルバムなら先頭曲
-       ========================= */
-
     if (
       Array.isArray(window.albumSongs)
     ) {
 
       currentSong =
         0;
+
+    }
+
+
+    /*
+     * 動画プレイヤーが存在する場合
+     * ページ移動しても残す。
+     */
+
+    const existingVideoBox =
+      document.getElementById(
+        "video-player-box"
+      );
+
+
+    if (existingVideoBox) {
+
+      existingVideoBox.style.zIndex =
+        "99999";
 
     }
 
@@ -1469,7 +2230,9 @@ function playSong(number) {
   }
 
 
-  /* 動画を閉じる */
+  /*
+   * 動画を停止
+   */
 
   closeVideoPlayer();
 
@@ -1500,10 +2263,6 @@ function playSong(number) {
     -1;
 
 
-  /* =========================
-     再生表示
-     ========================= */
-
   document
     .querySelectorAll(".song")
     .forEach(
@@ -1532,10 +2291,6 @@ function playSong(number) {
   }
 
 
-  /* =========================
-     曲名
-     ========================= */
-
   const nowTitle =
     document.getElementById(
       "now-title"
@@ -1549,10 +2304,6 @@ function playSong(number) {
 
   }
 
-
-  /* =========================
-     音源
-     ========================= */
 
   player.pause();
 
@@ -1770,12 +2521,10 @@ function playStoredSong(number) {
 
 
 /* =========================================================
-   再生・一時停止ボタン
+   再生・一時停止
    ========================================================= */
 
 function togglePlay() {
-
-  /* 動画が表示されている場合 */
 
   const videoBox =
     document.getElementById(
@@ -1785,32 +2534,12 @@ function togglePlay() {
 
   if (videoBox) {
 
-    if (videoPlayer.paused) {
-
-      videoPlayer.play()
-        .catch(
-          function (error) {
-
-            console.error(
-              "動画再生エラー:",
-              error
-            );
-
-          }
-        );
-
-    } else {
-
-      videoPlayer.pause();
-
-    }
+    toggleVideoPlay();
 
     return;
 
   }
 
-
-  /* 音声 */
 
   if (!player.src) {
 
@@ -1925,14 +2654,8 @@ function scheduleRecovery() {
     MAX_RECOVERY_ATTEMPTS
   ) {
 
-    console.log(
-      "自動復旧を5回試しました。"
-    );
-
-
     recoveryAttempts =
       0;
-
 
     return;
 
@@ -1996,12 +2719,6 @@ function recoverPlayback() {
         recoveryAttempts =
           0;
 
-        lastPlaybackTime =
-          player.currentTime;
-
-        lastPlaybackCheck =
-          Date.now();
-
       }
     )
     .catch(
@@ -2021,12 +2738,8 @@ function recoverPlayback() {
         }
 
 
-        const source =
-          songs[currentSong].file;
-
-
         player.src =
-          source;
+          songs[currentSong].file;
 
 
         player.preload =
@@ -2068,11 +2781,6 @@ function recoverPlayback() {
 
             } catch (error) {
 
-              console.log(
-                "再生位置復元エラー:",
-                error
-              );
-
             }
 
 
@@ -2086,21 +2794,10 @@ function recoverPlayback() {
                   recoveryAttempts =
                     0;
 
-                  lastPlaybackTime =
-                    player.currentTime;
-
-                  lastPlaybackCheck =
-                    Date.now();
-
                 }
               )
               .catch(
-                function (error) {
-
-                  console.log(
-                    "復旧失敗:",
-                    error
-                  );
+                function () {
 
                   recoveryInProgress =
                     false;
@@ -2476,7 +3173,7 @@ function formatTime(seconds) {
 
 
 /* =========================================================
-   再生アイコン変更
+   再生アイコン
    ========================================================= */
 
 function updatePlayIcon(isPlaying) {
@@ -2527,31 +3224,16 @@ player.addEventListener(
   "pause",
   function () {
 
-    updatePlayIcon(false);
+    if (
+      !document.getElementById(
+        "video-player-box"
+      )
+    ) {
+
+      updatePlayIcon(false);
+
+    }
 
   }
 );
-
-
-/* =========================================================
-   動画プレーヤー状態
-   ========================================================= */
-
-videoPlayer.addEventListener(
-  "play",
-  function () {
-
-    updatePlayIcon(true);
-
-  }
-);
-
-
-videoPlayer.addEventListener(
-  "pause",
-  function () {
-
-    updatePlayIcon(false);
-
-  }
-);
+```
