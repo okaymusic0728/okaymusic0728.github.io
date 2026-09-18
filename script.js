@@ -13,12 +13,45 @@ let currentSong = 0;
 
 
 /* =========================================================
+   共通ビデオプレーヤー
+   ========================================================= */
+
+const videoPlayer =
+  document.createElement(
+    "video"
+  );
+
+videoPlayer.controls =
+  true;
+
+videoPlayer.preload =
+  "metadata";
+
+videoPlayer.playsInline =
+  true;
+
+videoPlayer.style.width =
+  "100%";
+
+videoPlayer.style.maxWidth =
+  "900px";
+
+videoPlayer.style.display =
+  "block";
+
+videoPlayer.style.margin =
+  "0 auto";
+
+
+/* =========================================================
    次の曲の先読み
    ========================================================= */
 
-const nextPlayer = new Audio();
+const nextPlayer =
+  new Audio();
 
-let preloadedSong = -1;
+let preloadedSong =
+  -1;
 
 
 /* =========================================================
@@ -26,26 +59,34 @@ let preloadedSong = -1;
    ページ移動しても保持する
    ========================================================= */
 
-let activeSongs = [];
+let activeSongs =
+  [];
 
 
 /* =========================================================
    自動再生監視・復旧
    ========================================================= */
 
-let shouldBePlaying = false;
+let shouldBePlaying =
+  false;
 
-let recoveryTimer = null;
+let recoveryTimer =
+  null;
 
-let recoveryAttempts = 0;
+let recoveryAttempts =
+  0;
 
-let recoveryInProgress = false;
+let recoveryInProgress =
+  false;
 
-let lastPlaybackTime = 0;
+let lastPlaybackTime =
+  0;
 
-let lastPlaybackCheck = Date.now();
+let lastPlaybackCheck =
+  Date.now();
 
-const MAX_RECOVERY_ATTEMPTS = 5;
+const MAX_RECOVERY_ATTEMPTS =
+  5;
 
 
 /* =========================================================
@@ -458,6 +499,344 @@ function createPlayer() {
 
 
 /* =========================================================
+   DVD動画プレーヤー表示
+   ========================================================= */
+
+function createVideoPlayer() {
+
+
+  let videoBox =
+    document.getElementById(
+      "video-player-box"
+    );
+
+
+  if (videoBox) {
+
+    return videoBox;
+
+  }
+
+
+  videoBox =
+    document.createElement(
+      "div"
+    );
+
+
+  videoBox.id =
+    "video-player-box";
+
+
+  videoBox.style.position =
+    "fixed";
+
+  videoBox.style.left =
+    "0";
+
+  videoBox.style.right =
+    "0";
+
+  videoBox.style.top =
+    "50%";
+
+  videoBox.style.transform =
+    "translateY(-50%)";
+
+  videoBox.style.zIndex =
+    "9999";
+
+  videoBox.style.background =
+    "#000";
+
+  videoBox.style.padding =
+    "20px";
+
+  videoBox.style.boxSizing =
+    "border-box";
+
+
+  const closeButton =
+    document.createElement(
+      "button"
+    );
+
+
+  closeButton.textContent =
+    "×";
+
+
+  closeButton.style.position =
+    "absolute";
+
+  closeButton.style.right =
+    "10px";
+
+  closeButton.style.top =
+    "5px";
+
+  closeButton.style.zIndex =
+    "10000";
+
+  closeButton.style.fontSize =
+    "32px";
+
+  closeButton.style.lineHeight =
+    "1";
+
+  closeButton.style.color =
+    "#fff";
+
+  closeButton.style.background =
+    "transparent";
+
+  closeButton.style.border =
+    "none";
+
+  closeButton.style.cursor =
+    "pointer";
+
+
+  closeButton.onclick =
+    function () {
+
+      closeVideoPlayer();
+
+    };
+
+
+  videoBox.appendChild(
+    closeButton
+  );
+
+
+  videoBox.appendChild(
+    videoPlayer
+  );
+
+
+  document.body.appendChild(
+    videoBox
+  );
+
+
+  return videoBox;
+
+}
+
+
+/* =========================================================
+   DVD動画プレーヤーを閉じる
+   ========================================================= */
+
+function closeVideoPlayer() {
+
+
+  const videoBox =
+    document.getElementById(
+      "video-player-box"
+    );
+
+
+  videoPlayer.pause();
+
+
+  videoPlayer.removeAttribute(
+    "src"
+  );
+
+
+  videoPlayer.load();
+
+
+  if (videoBox) {
+
+    videoBox.remove();
+
+  }
+
+
+  /*
+   * 動画を閉じたので
+   * 共通音声プレーヤーは停止状態
+   */
+
+  shouldBePlaying =
+    false;
+
+
+  updatePlayIcon(
+    false
+  );
+
+}
+
+
+/* =========================================================
+   DISC2 DVD動画を再生
+   ========================================================= */
+
+function playVideo(
+  number
+) {
+
+
+  const videos =
+    Array.isArray(
+      window.albumVideos
+    )
+      ? window.albumVideos
+      : [];
+
+
+  if (!videos[number]) {
+
+    console.log(
+      "動画データがありません:",
+      number
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * DISC1の音声再生を停止
+   */
+
+  shouldBePlaying =
+    false;
+
+
+  clearRecoveryTimer();
+
+
+  player.pause();
+
+
+  /*
+   * 次の曲の先読みを解除
+   */
+
+  nextPlayer.pause();
+
+  nextPlayer.removeAttribute(
+    "src"
+  );
+
+  nextPlayer.load();
+
+  preloadedSong =
+    -1;
+
+
+  /*
+   * 再生中表示をリセット
+   */
+
+  document
+    .querySelectorAll(
+      ".song"
+    )
+    .forEach(
+      function (song) {
+
+        song.classList.remove(
+          "playing"
+        );
+
+      }
+    );
+
+
+  /*
+   * 今クリックした
+   * DISC2の曲を表示
+   */
+
+  const songElement =
+    document.getElementById(
+      "disc2-song" + number
+    );
+
+
+  if (songElement) {
+
+    songElement.classList.add(
+      "playing"
+    );
+
+  }
+
+
+  /*
+   * 動画プレーヤーを作成
+   */
+
+  createVideoPlayer();
+
+
+  /*
+   * 動画タイトルを
+   * 共通プレーヤーに表示
+   */
+
+  const nowTitle =
+    document.getElementById(
+      "now-title"
+    );
+
+
+  if (nowTitle) {
+
+    nowTitle.textContent =
+      videos[number].title;
+
+  }
+
+
+  /*
+   * 動画をセット
+   */
+
+  videoPlayer.src =
+    videos[number].file;
+
+
+  videoPlayer.load();
+
+
+  /*
+   * 再生
+   */
+
+  videoPlayer.play()
+    .then(
+      function () {
+
+        console.log(
+          "動画再生開始:",
+          videos[number].title
+        );
+
+      }
+    )
+    .catch(
+      function (error) {
+
+        console.log(
+          "動画の自動再生を開始できませんでした:",
+          error
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================================
    ページ移動処理
    ========================================================= */
 
@@ -673,6 +1052,13 @@ async function navigateTo(
 
 
   /*
+   * 動画が開いていたら閉じる
+   */
+
+  closeVideoPlayer();
+
+
+  /*
    * 0.18秒待つ
    */
 
@@ -803,10 +1189,13 @@ async function navigateTo(
 
 
     /*
-     * albumSongsを一度リセット
+     * albumSongs / albumVideosを
+     * 一度リセット
      */
 
     delete window.albumSongs;
+
+    delete window.albumVideos;
 
 
     /*
@@ -1193,6 +1582,13 @@ function playSong(
   }
 
 
+  /*
+   * 動画が開いていたら閉じる
+   */
+
+  closeVideoPlayer();
+
+
   activeSongs =
     pageSongs;
 
@@ -1420,6 +1816,13 @@ function playStoredSong(
     return;
 
   }
+
+
+  /*
+   * 動画が開いていたら閉じる
+   */
+
+  closeVideoPlayer();
 
 
   currentSong =
