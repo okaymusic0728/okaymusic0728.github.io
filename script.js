@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    Okay MUSIC 共通システム
    ========================================================= */
@@ -19,8 +18,8 @@ let currentSong = 0;
 
 const videoPlayer = document.createElement("video");
 
-videoPlayer.controls = true;
-videoPlayer.preload = "auto";
+videoPlayer.controls = false;
+videoPlayer.preload = "metadata";
 videoPlayer.playsInline = true;
 
 videoPlayer.setAttribute("playsinline", "");
@@ -45,6 +44,8 @@ let currentVideo = -1;
 let videoIsPlaying = false;
 
 let videoMiniMode = false;
+
+let videoAutoMiniMode = false;
 
 
 /* =========================================================
@@ -80,6 +81,13 @@ let lastPlaybackTime = 0;
 let lastPlaybackCheck = Date.now();
 
 const MAX_RECOVERY_ATTEMPTS = 5;
+
+
+/* =========================================================
+   動画スクロール監視
+   ========================================================= */
+
+let videoIntersectionObserver = null;
 
 
 /* =========================================================
@@ -423,6 +431,10 @@ function createVideoPlayer() {
 
   if (videoBox) {
 
+    videoBox.style.display = "block";
+
+    setupVideoIntersectionObserver();
+
     return videoBox;
 
   }
@@ -526,6 +538,11 @@ function createVideoPlayer() {
   closeButton.textContent =
     "×";
 
+  closeButton.setAttribute(
+    "aria-label",
+    "動画プレーヤーを閉じる"
+  );
+
 
   closeButton.style.position =
     "absolute";
@@ -570,7 +587,7 @@ function createVideoPlayer() {
   closeButton.onclick =
     function () {
 
-      minimizeVideoPlayer();
+      closeVideoPlayer();
 
     };
 
@@ -586,6 +603,96 @@ function createVideoPlayer() {
 
   videoBox.appendChild(
     videoPlayer
+  );
+
+
+  /* =====================================================
+     動画シークバー
+     ===================================================== */
+
+  const videoSeek =
+    document.createElement("input");
+
+
+  videoSeek.type =
+    "range";
+
+  videoSeek.id =
+    "video-seek-bar";
+
+  videoSeek.min =
+    "0";
+
+  videoSeek.max =
+    "100";
+
+  videoSeek.value =
+    "0";
+
+  videoSeek.step =
+    "0.1";
+
+  videoSeek.style.display =
+    "block";
+
+  videoSeek.style.width =
+    "calc(100% - 10px)";
+
+  videoSeek.style.margin =
+    "4px 5px";
+
+  videoSeek.style.cursor =
+    "pointer";
+
+
+  videoBox.appendChild(
+    videoSeek
+  );
+
+
+  /* =====================================================
+     動画時間
+     ===================================================== */
+
+  const videoTime =
+    document.createElement("div");
+
+
+  videoTime.id =
+    "video-time";
+
+
+  videoTime.style.display =
+    "flex";
+
+  videoTime.style.justifyContent =
+    "space-between";
+
+  videoTime.style.color =
+    "#fff";
+
+  videoTime.style.fontSize =
+    "12px";
+
+  videoTime.style.padding =
+    "0 5px 4px";
+
+
+  videoTime.innerHTML = `
+
+    <span id="video-current-time">
+      0:00
+    </span>
+
+    <span id="video-duration">
+      0:00
+    </span>
+
+  `;
+
+
+  videoBox.appendChild(
+    videoTime
   );
 
 
@@ -610,6 +717,9 @@ function createVideoPlayer() {
   controls.style.justifyContent =
     "center";
 
+  controls.style.flexWrap =
+    "wrap";
+
   controls.style.gap =
     "8px";
 
@@ -625,7 +735,8 @@ function createVideoPlayer() {
     <button
       type="button"
       id="video-prev-button"
-      title="前のチャプター">
+      title="前の動画"
+      aria-label="前の動画">
 
       ⏮
 
@@ -635,7 +746,8 @@ function createVideoPlayer() {
     <button
       type="button"
       id="video-play-button"
-      title="再生・一時停止">
+      title="再生・一時停止"
+      aria-label="再生・一時停止">
 
       ▶
 
@@ -645,7 +757,8 @@ function createVideoPlayer() {
     <button
       type="button"
       id="video-next-button"
-      title="次のチャプター">
+      title="次の動画"
+      aria-label="次の動画">
 
       ⏭
 
@@ -654,8 +767,33 @@ function createVideoPlayer() {
 
     <button
       type="button"
+      id="video-volume-button"
+      title="ミュート"
+      aria-label="ミュート">
+
+      🔊
+
+    </button>
+
+
+    <input
+      type="range"
+      id="video-volume-bar"
+      min="0"
+      max="1"
+      value="1"
+      step="0.01"
+      title="音量"
+      aria-label="音量"
+      style="width:100px;"
+    >
+
+
+    <button
+      type="button"
       id="video-pip-button"
-      title="小窓再生">
+      title="小窓再生"
+      aria-label="小窓再生">
 
       ▣
 
@@ -665,7 +803,8 @@ function createVideoPlayer() {
     <button
       type="button"
       id="video-fullscreen-button"
-      title="フルスクリーン">
+      title="フルスクリーン"
+      aria-label="フルスクリーン">
 
       ⛶
 
@@ -766,6 +905,79 @@ function createVideoPlayer() {
     };
 
 
+  document
+    .getElementById("video-volume-button")
+    .onclick =
+    function () {
+
+      if (videoPlayer.muted) {
+
+        videoPlayer.muted =
+          false;
+
+      } else {
+
+        videoPlayer.muted =
+          true;
+
+      }
+
+      updateVideoVolumeControls();
+
+    };
+
+
+  const videoVolumeBar =
+    document.getElementById(
+      "video-volume-bar"
+    );
+
+
+  if (videoVolumeBar) {
+
+    videoVolumeBar.addEventListener(
+      "input",
+      function () {
+
+        videoPlayer.volume =
+          Number(
+            videoVolumeBar.value
+          );
+
+        videoPlayer.muted =
+          videoPlayer.volume === 0;
+
+        updateVideoVolumeControls();
+
+      }
+    );
+
+  }
+
+
+  const videoSeekBar =
+    document.getElementById(
+      "video-seek-bar"
+    );
+
+
+  if (videoSeekBar) {
+
+    videoSeekBar.addEventListener(
+      "input",
+      function () {
+
+        videoPlayer.currentTime =
+          Number(
+            videoSeekBar.value
+          );
+
+      }
+    );
+
+  }
+
+
   document.body.appendChild(
     videoBox
   );
@@ -773,8 +985,78 @@ function createVideoPlayer() {
 
   updateVideoControls();
 
+  updateVideoVolumeControls();
+
+  updateVideoPiPButton();
+
+  setupVideoIntersectionObserver();
+
 
   return videoBox;
+
+}
+
+
+/* =========================================================
+   動画データを共通形式に変換
+   ========================================================= */
+
+function normalizeVideoData(videoData, index) {
+
+  if (
+    typeof videoData === "string"
+  ) {
+
+    return {
+
+      title:
+        String(index + 1).padStart(2, "0") +
+        ". VIDEO",
+
+      file:
+        videoData
+
+    };
+
+  }
+
+
+  if (
+    videoData &&
+    typeof videoData === "object"
+  ) {
+
+    return {
+
+      title:
+        videoData.title ||
+        videoData.name ||
+        (
+          String(index + 1).padStart(2, "0") +
+          ". VIDEO"
+        ),
+
+      file:
+        videoData.file ||
+        videoData.url ||
+        videoData.src ||
+        ""
+
+    };
+
+  }
+
+
+  return {
+
+    title:
+      String(index + 1).padStart(2, "0") +
+      ". VIDEO",
+
+    file:
+      ""
+
+  };
 
 }
 
@@ -862,6 +1144,9 @@ function updateVideoControls() {
 
   }
 
+
+  updateVideoPiPButton();
+
 }
 
 
@@ -886,27 +1171,42 @@ function getVideos() {
 
 
 /* =========================================================
-   DISC2動画再生
+   動画再生
    ========================================================= */
 
 function playVideo(number) {
-
-  console.log(
-    "DISC2動画をクリック:",
-    number
-  );
-
 
   const videos =
     getVideos();
 
 
-  if (!videos[number]) {
+  if (
+    !videos[number]
+  ) {
 
     console.error(
       "動画データがありません:",
       number,
       videos
+    );
+
+    return;
+
+  }
+
+
+  const videoData =
+    normalizeVideoData(
+      videos[number],
+      number
+    );
+
+
+  if (!videoData.file) {
+
+    console.error(
+      "動画URLがありません:",
+      videoData
     );
 
     return;
@@ -921,6 +1221,9 @@ function playVideo(number) {
   videoMiniMode =
     false;
 
+  videoAutoMiniMode =
+    false;
+
 
   /* =====================================================
      音楽停止
@@ -931,6 +1234,7 @@ function playVideo(number) {
 
 
   clearRecoveryTimer();
+
 
   player.pause();
 
@@ -949,7 +1253,7 @@ function playVideo(number) {
 
 
   /* =====================================================
-     再生表示
+     曲表示解除
      ===================================================== */
 
   document
@@ -964,6 +1268,10 @@ function playVideo(number) {
       }
     );
 
+
+  /* =====================================================
+     動画表示
+     ===================================================== */
 
   document
     .querySelectorAll("[id^='disc2-song']")
@@ -993,15 +1301,23 @@ function playVideo(number) {
   }
 
 
-  /* =====================================================
-     プレーヤー表示
-     ===================================================== */
-
   createVideoPlayer();
 
 
-  const videoData =
-    videos[number];
+  const videoBox =
+    document.getElementById(
+      "video-player-box"
+    );
+
+
+  if (videoBox) {
+
+    videoBox.style.display =
+      "block";
+
+    restoreVideoPlayer();
+
+  }
 
 
   updateVideoTitle(
@@ -1043,7 +1359,21 @@ function playVideo(number) {
   videoPlayer.load();
 
 
+  videoPlayer.currentTime =
+    0;
+
+
   updateVideoControls();
+
+
+  updateVideoTime();
+
+
+  /* =====================================================
+     Media Session
+     ===================================================== */
+
+  updateMediaSession();
 
 
   /* =====================================================
@@ -1064,6 +1394,8 @@ function playVideo(number) {
             updateVideoControls();
 
             updatePlayIcon(true);
+
+            updateMediaSession();
 
           }
         )
@@ -1135,6 +1467,10 @@ function nextVideo() {
 
     updateVideoControls();
 
+    updatePlayIcon(false);
+
+    updateMediaSession();
+
     return;
 
   }
@@ -1193,11 +1529,6 @@ videoPlayer.addEventListener(
   "ended",
   function () {
 
-    console.log(
-      "動画終了。次のチャプターへ"
-    );
-
-
     const videos =
       getVideos();
 
@@ -1217,6 +1548,8 @@ videoPlayer.addEventListener(
       updateVideoControls();
 
       updatePlayIcon(false);
+
+      updateMediaSession();
 
     }
 
@@ -1297,10 +1630,6 @@ async function toggleVideoFullscreen() {
     }
 
 
-    /*
-     * スマホなどで横向きを要求
-     */
-
     if (
       screen.orientation &&
       screen.orientation.lock
@@ -1336,12 +1665,28 @@ async function toggleVideoFullscreen() {
 
 
 /* =========================================================
-   フルスクリーン終了時
+   フルスクリーン状態更新
    ========================================================= */
 
 document.addEventListener(
   "fullscreenchange",
   function () {
+
+    const button =
+      document.getElementById(
+        "video-fullscreen-button"
+      );
+
+
+    if (button) {
+
+      button.textContent =
+        document.fullscreenElement
+          ? "⛶"
+          : "⛶";
+
+    }
+
 
     if (
       !document.fullscreenElement
@@ -1389,7 +1734,7 @@ async function toggleVideoPiP() {
 
     if (
       document.pictureInPictureEnabled &&
-      !videoPlayer.disablePictureInPicture
+      videoPlayer.requestPictureInPicture
     ) {
 
       await videoPlayer.requestPictureInPicture();
@@ -1415,10 +1760,263 @@ async function toggleVideoPiP() {
 
 
 /* =========================================================
+   PiPボタン表示状態
+   ========================================================= */
+
+function updateVideoPiPButton() {
+
+  const button =
+    document.getElementById(
+      "video-pip-button"
+    );
+
+
+  if (!button) {
+
+    return;
+
+  }
+
+
+  if (
+    document.pictureInPictureEnabled &&
+    videoPlayer.requestPictureInPicture
+  ) {
+
+    button.style.display =
+      "inline-block";
+
+  } else {
+
+    button.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =========================================================
+   動画音量表示更新
+   ========================================================= */
+
+function updateVideoVolumeControls() {
+
+  const button =
+    document.getElementById(
+      "video-volume-button"
+    );
+
+
+  const volumeBar =
+    document.getElementById(
+      "video-volume-bar"
+    );
+
+
+  if (volumeBar) {
+
+    volumeBar.value =
+      videoPlayer.muted
+        ? 0
+        : videoPlayer.volume;
+
+  }
+
+
+  if (button) {
+
+    if (
+      videoPlayer.muted ||
+      videoPlayer.volume === 0
+    ) {
+
+      button.textContent =
+        "🔇";
+
+    } else if (
+      videoPlayer.volume < 0.5
+    ) {
+
+      button.textContent =
+        "🔉";
+
+    } else {
+
+      button.textContent =
+        "🔊";
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   動画時間更新
+   ========================================================= */
+
+function updateVideoTime() {
+
+  const seekBar =
+    document.getElementById(
+      "video-seek-bar"
+    );
+
+
+  const currentTime =
+    document.getElementById(
+      "video-current-time"
+    );
+
+
+  const duration =
+    document.getElementById(
+      "video-duration"
+    );
+
+
+  if (seekBar) {
+
+    if (
+      Number.isFinite(
+        videoPlayer.duration
+      )
+    ) {
+
+      seekBar.max =
+        videoPlayer.duration;
+
+      seekBar.value =
+        videoPlayer.currentTime;
+
+    } else {
+
+      seekBar.value =
+        0;
+
+    }
+
+  }
+
+
+  if (currentTime) {
+
+    currentTime.textContent =
+      formatTime(
+        videoPlayer.currentTime
+      );
+
+  }
+
+
+  if (duration) {
+
+    duration.textContent =
+      formatTime(
+        videoPlayer.duration
+      );
+
+  }
+
+}
+
+
+/* =========================================================
+   動画時間イベント
+   ========================================================= */
+
+videoPlayer.addEventListener(
+  "loadedmetadata",
+  function () {
+
+    updateVideoTime();
+
+  }
+);
+
+
+videoPlayer.addEventListener(
+  "durationchange",
+  function () {
+
+    updateVideoTime();
+
+  }
+);
+
+
+videoPlayer.addEventListener(
+  "timeupdate",
+  function () {
+
+    updateVideoTime();
+
+  }
+);
+
+
+/* =========================================================
+   動画再生状態
+   ========================================================= */
+
+videoPlayer.addEventListener(
+  "play",
+  function () {
+
+    videoIsPlaying =
+      true;
+
+    updateVideoControls();
+
+    updatePlayIcon(true);
+
+    updateMediaSession();
+
+  }
+);
+
+
+videoPlayer.addEventListener(
+  "pause",
+  function () {
+
+    videoIsPlaying =
+      false;
+
+    updateVideoControls();
+
+    updatePlayIcon(false);
+
+    updateMediaSession();
+
+  }
+);
+
+
+/* =========================================================
+   動画エラー
+   ========================================================= */
+
+videoPlayer.addEventListener(
+  "error",
+  function () {
+
+    console.error(
+      "VIDEO ERROR:",
+      videoPlayer.error
+    );
+
+  }
+);
+
+
+/* =========================================================
    動画を小型プレイヤー化
    ========================================================= */
 
-function minimizeVideoPlayer() {
+function minimizeVideoPlayer(autoMode) {
 
   const videoBox =
     document.getElementById(
@@ -1433,8 +2031,21 @@ function minimizeVideoPlayer() {
   }
 
 
+  if (
+    document.fullscreenElement
+  ) {
+
+    return;
+
+  }
+
+
   videoMiniMode =
     true;
+
+
+  videoAutoMiniMode =
+    autoMode === true;
 
 
   videoBox.style.top =
@@ -1510,6 +2121,9 @@ function restoreVideoPlayer() {
   videoMiniMode =
     false;
 
+  videoAutoMiniMode =
+    false;
+
 
   videoBox.style.top =
     "50%";
@@ -1545,6 +2159,90 @@ function restoreVideoPlayer() {
   videoPlayer.style.maxHeight =
     "72vh";
 
+
+  const controls =
+    document.getElementById(
+      "video-extra-controls"
+    );
+
+
+  if (controls) {
+
+    controls.style.padding =
+      "8px 0 3px";
+
+  }
+
+}
+
+
+/* =========================================================
+   動画を閉じる
+   ========================================================= */
+
+function closeVideoPlayer() {
+
+  const videoBox =
+    document.getElementById(
+      "video-player-box"
+    );
+
+
+  if (!videoBox) {
+
+    return;
+
+  }
+
+
+  videoPlayer.pause();
+
+
+  videoIsPlaying =
+    false;
+
+
+  videoMiniMode =
+    false;
+
+  videoAutoMiniMode =
+    false;
+
+
+  if (
+    document.pictureInPictureElement
+  ) {
+
+    document
+      .exitPictureInPicture()
+      .catch(
+        function () {}
+      );
+
+  }
+
+
+  if (
+    document.fullscreenElement
+  ) {
+
+    document
+      .exitFullscreen()
+      .catch(
+        function () {}
+      );
+
+  }
+
+
+  videoBox.style.display =
+    "none";
+
+
+  updateVideoControls();
+
+  updatePlayIcon(false);
+
 }
 
 
@@ -1556,7 +2254,10 @@ videoPlayer.addEventListener(
   "click",
   function () {
 
-    if (videoMiniMode) {
+    if (
+      videoMiniMode &&
+      !document.pictureInPictureElement
+    ) {
 
       restoreVideoPlayer();
 
@@ -1567,54 +2268,317 @@ videoPlayer.addEventListener(
 
 
 /* =========================================================
-   動画再生状態
+   スクロール時の自動ミニプレーヤー
+   ========================================================= */
+
+function setupVideoIntersectionObserver() {
+
+  const videoBox =
+    document.getElementById(
+      "video-player-box"
+    );
+
+
+  if (!videoBox) {
+
+    return;
+
+  }
+
+
+  if (
+    videoIntersectionObserver
+  ) {
+
+    videoIntersectionObserver.disconnect();
+
+  }
+
+
+  videoIntersectionObserver =
+    new IntersectionObserver(
+      function (entries) {
+
+        entries.forEach(
+          function (entry) {
+
+            if (
+              !videoIsPlaying
+            ) {
+
+              return;
+
+            }
+
+
+            if (
+              document.fullscreenElement
+            ) {
+
+              return;
+
+            }
+
+
+            if (
+              document.pictureInPictureElement
+            ) {
+
+              return;
+
+            }
+
+
+            if (
+              entry.isIntersecting
+            ) {
+
+              if (
+                videoAutoMiniMode
+              ) {
+
+                restoreVideoPlayer();
+
+              }
+
+            } else {
+
+              if (
+                !videoMiniMode
+              ) {
+
+                minimizeVideoPlayer(
+                  true
+                );
+
+              }
+
+            }
+
+          }
+        );
+
+      },
+      {
+        threshold: 0.1
+      }
+    );
+
+
+  videoIntersectionObserver.observe(
+    videoBox
+  );
+
+}
+
+
+/* =========================================================
+   PiP終了
    ========================================================= */
 
 videoPlayer.addEventListener(
-  "play",
+  "leavepictureinpicture",
   function () {
 
-    videoIsPlaying =
-      true;
-
     updateVideoControls();
-
-    updatePlayIcon(true);
-
-  }
-);
-
-
-videoPlayer.addEventListener(
-  "pause",
-  function () {
-
-    videoIsPlaying =
-      false;
-
-    updateVideoControls();
-
-    updatePlayIcon(false);
 
   }
 );
 
 
 /* =========================================================
-   動画エラー
+   Media Session
    ========================================================= */
 
-videoPlayer.addEventListener(
-  "error",
-  function () {
+function updateMediaSession() {
 
-    console.error(
-      "VIDEO ERROR:",
-      videoPlayer.error
-    );
+  if (
+    !("mediaSession" in navigator)
+  ) {
+
+    return;
 
   }
-);
+
+
+  const videos =
+    getVideos();
+
+
+  const videoData =
+    videos[currentVideo]
+      ? normalizeVideoData(
+          videos[currentVideo],
+          currentVideo
+        )
+      : null;
+
+
+  if (videoData) {
+
+    try {
+
+      navigator.mediaSession.metadata =
+        new MediaMetadata({
+
+          title:
+            videoData.title,
+
+          artist:
+            "SUPER BEAVER",
+
+          album:
+            document.title
+              .replace(
+                " - Okay MUSIC",
+                ""
+              )
+
+        });
+
+    } catch (error) {
+
+    }
+
+  }
+
+
+  try {
+
+    navigator.mediaSession.playbackState =
+      videoPlayer.paused
+        ? "paused"
+        : "playing";
+
+  } catch (error) {
+
+  }
+
+}
+
+
+/* =========================================================
+   Media Session 操作設定
+   ========================================================= */
+
+if (
+  "mediaSession" in navigator
+) {
+
+  try {
+
+    navigator.mediaSession.setActionHandler(
+      "play",
+      function () {
+
+        videoPlayer
+          .play()
+          .catch(
+            function () {}
+          );
+
+      }
+    );
+
+  } catch (error) {
+
+  }
+
+
+  try {
+
+    navigator.mediaSession.setActionHandler(
+      "pause",
+      function () {
+
+        videoPlayer.pause();
+
+      }
+    );
+
+  } catch (error) {
+
+  }
+
+
+  try {
+
+    navigator.mediaSession.setActionHandler(
+      "nexttrack",
+      function () {
+
+        nextVideo();
+
+      }
+    );
+
+  } catch (error) {
+
+  }
+
+
+  try {
+
+    navigator.mediaSession.setActionHandler(
+      "previoustrack",
+      function () {
+
+        previousVideo();
+
+      }
+    );
+
+  } catch (error) {
+
+  }
+
+
+  try {
+
+    navigator.mediaSession.setActionHandler(
+      "seekbackward",
+      function (details) {
+
+        const offset =
+          details.seekOffset || 10;
+
+        videoPlayer.currentTime =
+          Math.max(
+            0,
+            videoPlayer.currentTime - offset
+          );
+
+      }
+    );
+
+  } catch (error) {
+
+  }
+
+
+  try {
+
+    navigator.mediaSession.setActionHandler(
+      "seekforward",
+      function (details) {
+
+        const offset =
+          details.seekOffset || 10;
+
+        videoPlayer.currentTime =
+          Math.min(
+            videoPlayer.duration || Infinity,
+            videoPlayer.currentTime + offset
+          );
+
+      }
+    );
+
+  } catch (error) {
+
+  }
+
+}
 
 
 /* =========================================================
@@ -1903,7 +2867,7 @@ async function navigateTo(
 
 
     /*
-     * 動画を再生中の場合は
+     * 動画再生中の場合は
      * albumVideosを消さない。
      */
 
@@ -2074,6 +3038,8 @@ async function navigateTo(
 
       existingVideoBox.style.zIndex =
         "99999";
+
+      setupVideoIntersectionObserver();
 
     }
 
@@ -2532,7 +3498,15 @@ function togglePlay() {
     );
 
 
-  if (videoBox) {
+  if (
+
+    videoBox &&
+
+    videoBox.style.display !== "none" &&
+
+    currentVideo >= 0
+
+  ) {
 
     toggleVideoPlay();
 
@@ -3227,7 +4201,10 @@ player.addEventListener(
     if (
       !document.getElementById(
         "video-player-box"
-      )
+      ) ||
+      document.getElementById(
+        "video-player-box"
+      ).style.display === "none"
     ) {
 
       updatePlayIcon(false);
@@ -3236,4 +4213,3 @@ player.addEventListener(
 
   }
 );
-```
