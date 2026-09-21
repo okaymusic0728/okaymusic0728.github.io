@@ -44,6 +44,106 @@ let lastPlaybackCheck = Date.now();
 const MAX_RECOVERY_ATTEMPTS = 5;
 
 /* =========================================================
+   音楽・動画の同時再生を禁止
+   共通ルール
+   ========================================================= */
+
+/*
+ * ページ内の動画をすべて停止
+ */
+
+function stopVideoPlayback() {
+
+  document
+    .querySelectorAll(
+      "video"
+    )
+    .forEach(
+      function (video) {
+
+        if (!video.paused) {
+
+          video.pause();
+
+        }
+
+      }
+    );
+
+}
+
+/*
+ * 動画が再生されたら
+ * 音楽プレーヤーを停止する
+ *
+ * capture:true にすることで
+ * ページ内に後から追加されたvideoにも対応
+ */
+
+document.addEventListener(
+  "play",
+  function (event) {
+
+    if (
+      !event.target ||
+      event.target.tagName !== "VIDEO"
+    ) {
+
+      return;
+
+    }
+
+    /*
+     * 自動復旧を止める
+     */
+
+    shouldBePlaying =
+      false;
+
+    clearRecoveryTimer();
+
+    recoveryInProgress =
+      false;
+
+    /*
+     * 音楽を停止
+     */
+
+    if (!player.paused) {
+
+      player.pause();
+
+    }
+
+    /*
+     * 念のため他の動画も停止
+     * 同時に複数動画が再生されるのを防止
+     */
+
+    document
+      .querySelectorAll(
+        "video"
+      )
+      .forEach(
+        function (video) {
+
+          if (
+            video !== event.target &&
+            !video.paused
+          ) {
+
+            video.pause();
+
+          }
+
+        }
+      );
+
+  },
+  true
+);
+
+/* =========================================================
    共通UIを自動生成
    ========================================================= */
 
@@ -1367,6 +1467,13 @@ function startPlayback() {
     return;
 
   }
+
+  /*
+   * 音楽を再生する前に
+   * 動画を停止
+   */
+
+  stopVideoPlayback();
 
   clearRecoveryTimer();
 
