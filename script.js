@@ -2214,3 +2214,39 @@ player.addEventListener(
 
   }
 );
+
+/* =========================================================
+   再生・一時停止
+   ========================================================= */
+
+function togglePlay() {
+
+  if (!player.src) {
+    return;
+  }
+
+  if (player.paused) {
+
+    shouldBePlaying = true;
+
+    recoveryAttempts = 0;
+    recoveryInProgress = false;
+
+    clearRecoveryTimer();
+
+    startPlayback();
+
+  } else {
+
+    shouldBePlaying = false;
+
+    recoveryAttempts = 0;
+    recoveryInProgress = false;
+
+    clearRecoveryTimer();
+
+    player.pause();
+
+  }
+
+}
