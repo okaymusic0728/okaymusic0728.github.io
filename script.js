@@ -1681,13 +1681,14 @@ function startPlayback() {
 
   /*
    * 音楽を再生する前に
-   * 動画を停止
+   * HTML5動画とYouTube動画を停止
    */
 
   stopVideoPlayback();
 
-  clearRecoveryTimer();
+  stopYouTubePlayback();
 
+  clearRecoveryTimer();
   player.play()
     .then(
       function () {
