@@ -164,7 +164,6 @@ function initializeYouTubePlayers() {
     window.YT.Player
   ) {
 
-    initializeYouTubePlayers();
 
     return;
 
@@ -1100,7 +1099,9 @@ async function navigateTo(
 
       }
     );
-
+     
+　　destroyYouTubePlayers();
+     
     root.innerHTML =
       contentHTML;
 
@@ -1109,14 +1110,14 @@ async function navigateTo(
      * インラインJavaScriptを実行
      */
 
-    const scripts =
+        const scripts =
       Array.from(
         newDocument.querySelectorAll(
           "body script:not([src])"
         )
       );
 
-    scripts.forEach(
+        scripts.forEach(
       function (script) {
 
         const code =
@@ -1145,6 +1146,12 @@ async function navigateTo(
 
       }
     );
+
+    /*
+     * 新しいページのYouTube動画を初期化
+     */
+
+    initializeYouTubePlayers();
 
     /*
      * 新しいページの戻るボタンを調整
