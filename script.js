@@ -17,7 +17,211 @@ let currentSong = 0;
 const nextPlayer = new Audio();
 
 let preloadedSong = -1;
+/* =========================================================
+   YouTube動画プレーヤー
+   全ページ共通
+   ========================================================= */
 
+let youtubePlayers = [];
+
+
+/* YouTube動画をすべて停止 */
+
+function stopYouTubePlayback() {
+
+  youtubePlayers.forEach(function (youtubePlayer) {
+
+    try {
+
+      youtubePlayer.pauseVideo();
+
+    } catch (error) {}
+
+  });
+
+}
+
+
+/* YouTubeプレーヤーを破棄 */
+
+function destroyYouTubePlayers() {
+
+  youtubePlayers.forEach(function (youtubePlayer) {
+
+    try {
+
+      youtubePlayer.destroy();
+
+    } catch (error) {}
+
+  });
+
+  youtubePlayers = [];
+
+}
+
+
+/* YouTube動画を初期化 */
+
+function initializeYouTubePlayers() {
+
+  if (!window.YT || !window.YT.Player) {
+
+    return;
+
+  }
+
+  document
+    .querySelectorAll(
+      "iframe.youtube-player[data-youtube-id]"
+    )
+    .forEach(function (iframe) {
+
+      if (
+        iframe.dataset.youtubeInitialized === "true"
+      ) {
+
+        return;
+
+      }
+
+      iframe.dataset.youtubeInitialized = "true";
+
+      const youtubePlayer = new YT.Player(
+        iframe,
+        {
+
+          events: {
+
+            onStateChange: function (event) {
+
+              if (
+                event.data !== YT.PlayerState.PLAYING
+              ) {
+
+                return;
+
+              }
+
+              /* 音楽の自動復旧を停止 */
+
+              shouldBePlaying = false;
+
+              clearRecoveryTimer();
+
+              recoveryInProgress = false;
+
+              recoveryAttempts = 0;
+
+
+              /* 音楽を停止 */
+
+              if (!player.paused) {
+
+                player.pause();
+
+              }
+
+
+              /* 他のYouTube動画を停止 */
+
+              youtubePlayers.forEach(
+                function (otherPlayer) {
+
+                  if (otherPlayer !== event.target) {
+
+                    try {
+
+                      otherPlayer.pauseVideo();
+
+                    } catch (error) {}
+
+                  }
+
+                }
+              );
+
+            }
+
+          }
+
+        }
+      );
+
+      youtubePlayers.push(youtubePlayer);
+
+    });
+
+}
+
+
+/* YouTube APIを読み込む */
+
+(function loadYouTubeIframeAPI() {
+
+  if (
+    window.YT &&
+    window.YT.Player
+  ) {
+
+    initializeYouTubePlayers();
+
+    return;
+
+  }
+
+  if (
+    document.querySelector(
+      'script[src="https://www.youtube.com/iframe_api"]'
+    )
+  ) {
+
+    return;
+
+  }
+
+  const script = document.createElement("script");
+
+  script.src =
+    "https://www.youtube.com/iframe_api";
+
+  const firstScript =
+    document.getElementsByTagName("script")[0];
+
+  if (
+    firstScript &&
+    firstScript.parentNode
+  ) {
+
+    firstScript.parentNode.insertBefore(
+      script,
+      firstScript
+    );
+
+  } else {
+
+    document.head.appendChild(script);
+
+  }
+
+  const previousCallback =
+    window.onYouTubeIframeAPIReady;
+
+  window.onYouTubeIframeAPIReady = function () {
+
+    if (
+      typeof previousCallback === "function"
+    ) {
+
+      previousCallback();
+
+    }
+
+    initializeYouTubePlayers();
+
+  };
+
+})();
 /* =========================================================
    再生中のアルバム情報
    ページ移動しても保持する
